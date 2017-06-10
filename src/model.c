@@ -1,11 +1,17 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "model.h"
 #include "sim_elf.h"
 #include "sim_gdb.h"
 
-char *mcu_name = "atmega328p";
+#define WRAP2(X) #X
+#define WRAP1(X) WRAP2(X)
+#define WRAP(X) WRAP1(X)
+ 
+#define WRAPPEDFIRMWAREMCU WRAP(FIRMWAREMCU)
+#define WRAPPEDFIRMWARENAME WRAP(FIRMWARENAME)
 
 uint32_t noConnection= 0b0000000100000000000000000001;
 uint32_t powerPins  =  0b0000001010000000000011000000;
@@ -138,14 +144,22 @@ uint32_t get_negative_inputs() {
 
 void setupSimulator() {
 
+
+  int len = snprintf(NULL, 0, "../%s.elf", WRAPPEDFIRMWARENAME);
+  char *st = (char *)malloc(len+1);
+  snprintf(st, len+1, "../%s.elf", WRAPPEDFIRMWARENAME);
+
   elf_firmware_t f;
-  elf_read_firmware ( "../memorymodule.elf", &f );
+  elf_read_firmware ( st, &f );
 
-  //mcu_name = f.mmcu;
+  free(st);
 
-  avr = avr_make_mcu_by_name ( mcu_name );
+
+
+  avr = avr_make_mcu_by_name ( WRAPPEDFIRMWAREMCU );
   avr_init ( avr );
   avr_load_firmware ( avr, &f );
+
 
   ////////////////////////////////
   // GDB setup

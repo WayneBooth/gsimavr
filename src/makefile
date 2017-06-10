@@ -6,9 +6,14 @@ LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lm -lpthread
 
 #######################################
 
+FIRMWARENAME:=$(shell grep -i '^PROJECTNAME=' ../makefile | sed -e 's/PROJECTNAME=//')
+FIRMWAREMCU:=$(shell grep -i '^MCU=' ../makefile | sed -e 's/MCU=//')
+
 CC=gcc
 CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/
 CFLAGS+=-O2 -g
+CFLAGS+=-DFIRMWARENAME=${FIRMWARENAME}
+CFLAGS+=-DFIRMWAREMCU="${FIRMWAREMCU}"
 OBJ=$(PRJSRC:.c=.o)
 
 run: ${PROJECTNAME}
@@ -22,3 +27,4 @@ ${PROJECTNAME}: ${OBJ}
 
 clean:
 	rm -f ${PROJECTNAME} ${OBJ}
+
