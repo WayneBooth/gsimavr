@@ -30,6 +30,7 @@ void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
 			), 
 	( value & ( 1 << x ) ) >= 1 
 	);
+	//printf("PIN%s%d = %d\n", (char *)closure, x, ( value & ( 1 << x ) ) >= 1 );
   }
   renderScene();
 }
@@ -55,29 +56,22 @@ void changeInput( int pin, int newState ) {
 end:
 
 	printf( "state = %d\n", newState );
-	avr_unconnect_irq(
-        	ac_input.irq + IRQ_AC_OUT,
-		avr_io_getirq(
-        	        	avr,
-                		AVR_IOCTL_IOPORT_GETIRQ(port[0]),
-		                element)
-		);
+//	avr_unconnect_irq(
+//        	ac_input.irq + IRQ_AC_OUT,
+//		avr_io_getirq(
+//        	        	avr,
+//                		AVR_IOCTL_IOPORT_GETIRQ(port[0]),
+//		                element)
+//		);
 
 	if( newState == BUTTON_ON ) {
-		printf( "Pin %d POrt %c%d ON\n", pin, port[0], element );
+		printf( "Pin %d Port %c%d ON\n", pin, port[0], element );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
 	                        AVR_IOCTL_IOPORT_GETIRQ(port[0]), 
          	                element ),
                 	1 );
-		set_ioState( 
-			reg_pin_to_location( 
-					port, 
-					element
-				), 
-			1 );
-
 	}
 
 	else if( newState == BUTTON_OFF ) {
@@ -88,12 +82,6 @@ end:
 	                        AVR_IOCTL_IOPORT_GETIRQ(port[0]), 
          	                element ),
                 	0 );
-		set_ioState( 
-			reg_pin_to_location( 
-					port, 
-					element
-				), 
-			0 );
 	}
 
 	else if( newState == BUTTON_AC ) {
@@ -105,12 +93,6 @@ end:
                 		   AVR_IOCTL_IOPORT_GETIRQ(port[0]),
 		                   element)
 	        	);
-		set_ioState( 
-			reg_pin_to_location( 
-					port, 
-					element
-				), 
-			0 );
 	}
 }
 
@@ -153,15 +135,26 @@ void setupConnectivity() {
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_DIRECTION_ALL ),
 		watcher_ddr, "D" );
 
-  // Check for State changes
+  // Check for State changes on (input)
   avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_PIN_ALL ),
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_REG_PIN ),
 		watcher_state, "B" );
   avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'C' ), IOPORT_IRQ_PIN_ALL ),
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'C' ), IOPORT_IRQ_REG_PIN ),
 		watcher_state, "C" );
   avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_PIN_ALL ),
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_REG_PIN ),
+		watcher_state, "D" );
+
+  // Check for State changes on (output)
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_REG_PORT ),
+		watcher_state, "B" );
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'C' ), IOPORT_IRQ_REG_PORT ),
+		watcher_state, "C" );
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_REG_PORT ),
 		watcher_state, "D" );
 
 
