@@ -26,7 +26,7 @@
 #include "ac_input.h"
 
 #define USECS_PER_SECOND (1000 * 1000)
-#define HZ (1)
+#define HZ (0.1)
 
 static avr_cycle_count_t switch_auto( struct avr_t * avr, avr_cycle_count_t when, void * param) {
 	ac_input_t * b = (ac_input_t *) param;

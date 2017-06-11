@@ -159,6 +159,7 @@ void setupSimulator( int waitForGdb ) {
   avr = avr_make_mcu_by_name ( WRAPPEDFIRMWAREMCU );
   avr_init ( avr );
   avr_load_firmware ( avr, &f );
+  avr->frequency = 8000000UL;
 
 
   ////////////////////////////////
