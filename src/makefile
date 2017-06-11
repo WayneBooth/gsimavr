@@ -1,7 +1,6 @@
 
 PROJECTNAME=app
 PRJSRC=${PROJECTNAME}.c ac_input.c controller.c model.c view.c
-DEPS=$(PRJSRC:.c=.h)
 LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lm -lpthread
 
 #######################################
@@ -16,15 +15,18 @@ CFLAGS+=-DFIRMWARENAME=${FIRMWARENAME}
 CFLAGS+=-DFIRMWAREMCU="${FIRMWAREMCU}"
 OBJ=$(PRJSRC:.c=.o)
 
+-include $(OBJS:.o=.d)
+
 run: ${PROJECTNAME}
 	./${PROJECTNAME}
 
-%.o: %.c $(DEPS)
+%.o: %.c
 	$(CC) ${CFLAGS} -o $@ $<
+	$(CC) -MM $(CFLAGS) $*.c > $*.d
 
 ${PROJECTNAME}: ${OBJ}
 	$(CC) -o $@ ${OBJ} ${LIBS}
 
 clean:
-	rm -f ${PROJECTNAME} ${OBJ}
+	rm -f ${PROJECTNAME} ${OBJ} *.d
 
