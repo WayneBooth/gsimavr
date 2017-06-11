@@ -4,6 +4,8 @@ gsimavr is a gui wrapper around @buserror excellent [simavr](https://github.com/
 It uses GLUT to draw a representation of a uController, update outputs pins from simulator triggers, and prods the simulator when input pins are toggeled from the UI.
 The GUI code has been specifically designed to be as low impact to your firmware as possible.
 
+![ScreenShot](screenshot.png)
+
 ## Install and Requirements
 
 Users should simply git clone this repo and copy the 'src' directory into a sub directory of their firmware. See [gsimavr-example](../gsimavr-example/) for an example use. Finally add a single line to their makefile and install the supporting libraries:
