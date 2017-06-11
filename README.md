@@ -11,6 +11,19 @@ Users should simply git clone this repo and copy the 'src' directory into a sub 
 * [simavr](https://github.com/buserror/simavr)
 * GLUT
 
+## How to use
+
+* Clone this repository and copy the src directory into a sub directory of your firmware (we're assuming a directory of 'gui').
+* Check your dependencies.
+* run ```make```, to build the avr firmware.
+* enter the 'gui' directory and run ```make```. This will compile and start the gui app.
+  * The app will load the firmware from the parent directory as defined in the makefile *PROJECTNAME* variable.
+  * The app will automatically configure input/output pins as defined by the firmware.
+* How to use the gui:
+  * Left click on an input to turn it on,
+  * Right click on an input to turn it off,
+  * Middle click on an input to connect it to a clock signal
+  
 ## TODO
 
 This first version has a lot of caveats:
