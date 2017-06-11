@@ -25,6 +25,7 @@ Users should simply git clone this repo and copy the 'src' directory into a sub 
   * Left click on an input to turn it on,
   * Right click on an input to turn it off,
   * Middle click on an input to connect it to a clock signal
+* If you started the gui app with the ```-d``` parameter, it will wait for a gdb connection to localhost:1234
   
 ## TODO
 

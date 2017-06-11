@@ -1,11 +1,28 @@
 
+#include <unistd.h>
+#include <stdio.h>
+
 #include "view.h"
 #include "model.h"
 #include "controller.h"
 
 int main(int argc, char **argv) {
 
-	setupSimulator(); // Model
+	int opt;
+	int useGdb = 0;
+
+	while ((opt = getopt(argc, argv, "dh")) != -1) {
+     	   switch (opt) {
+        	case 'd': 
+		    useGdb = 1; 
+		    break;
+        	case 'h':
+	            printf("Usage: %s [-dh] [glut params]\n", argv[0]);
+	            exit(EXIT_FAILURE);
+	   }
+	}
+
+	setupSimulator( useGdb ); // Model
 
 	setupInterface( argc, argv ); // View
 

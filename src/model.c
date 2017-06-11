@@ -142,7 +142,7 @@ uint32_t get_negative_inputs() {
 	return ~noConnection & ~powerPins & ~ddrPins & ~inputState;
 }
 
-void setupSimulator() {
+void setupSimulator( int waitForGdb ) {
 
 
   int len = snprintf(NULL, 0, "../%s.elf", WRAPPEDFIRMWARENAME);
@@ -163,15 +163,15 @@ void setupSimulator() {
 
   ////////////////////////////////
   // GDB setup
-//  avr->gdb_port = 1234;
-//  avr->state = cpu_Stopped;
-//  avr_gdb_init(avr);
+  if( waitForGdb == 1 ) {
+    printf("Connect GD to localhost:1234\n");
+    avr->gdb_port = 1234;
+    avr->state = cpu_Stopped;
+    avr_gdb_init(avr);
+  }
 
   ////////////////////////////////
   // VCD Setup
 
-  ////////////////////////////////
-  // Setup periferals
-  
 }
 

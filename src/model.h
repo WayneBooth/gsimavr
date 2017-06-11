@@ -16,6 +16,6 @@ uint32_t get_positive_outputs();
 uint32_t get_negative_outputs();
 uint32_t get_positive_inputs();
 uint32_t get_negative_inputs();
-void setupSimulator(void);
+void setupSimulator( int );
 
 #endif
