@@ -11,6 +11,13 @@ float t = 200;
 int ww = VP_X;
 int hh = VP_Y;
 
+
+
+
+//############################################
+//############################################
+//############################################
+
 void drawPin( int pin, float x, float y, int colour ) {
 	if( y > t ) {
 		y -= 2;
@@ -142,12 +149,6 @@ void drawInputs( int pin, float x, float y, int colour ) {
 }
 
 
-
-
-
-
-
-
 //############################################
 //############################################
 //############################################
@@ -207,28 +208,10 @@ void drawChip(void) {
 
 }
 
-
 // #####################################################
 // #####################################################
 // #####################################################
 
-void processNormalKeys(unsigned char key, int x, int y) {
-
-	if (key == 27)
-		exit(0);
-}
-
-void processSpecialKeys(int key, int x, int y) {
-
-	switch(key) {
-		case GLUT_KEY_F1 :
-			break;
-		case GLUT_KEY_F2 :
-			break;
-		case GLUT_KEY_F3 :
-			break;
-	}
-}
 
 void updateCamera(void) {
 	glMatrixMode(GL_PROJECTION);
@@ -296,13 +279,10 @@ void setupInterface( int argc, char **argv ) {
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
 	glutMouseFunc(mouseFunc);
-	//glutKeyboardFunc(processNormalKeys);
-	//glutSpecialFunc(processSpecialKeys);
 }
 
 void mainLoop( void ) {
 
 	glutMainLoop();
-
 }
 
