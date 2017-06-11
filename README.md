@@ -8,7 +8,7 @@ The GUI code has been specifically designed to be as low impact to your firmware
 
 ## Install and Requirements
 
-Users should simply git clone this repo and copy the 'src' directory into a sub directory of their firmware. See [gsimavr-example](../gsimavr-example/) for an example use. Finally add a single line to their makefile and install the supporting libraries:
+Users should simply git clone this repo and copy the 'src' directory into a sub directory of their firmware. See [gsimavr-example](https://github.com/WayneBooth/gsimavr) for an example use. Finally add a single line to their makefile and install the supporting libraries:
 
 * [simavr](https://github.com/buserror/simavr)
 * GLUT
