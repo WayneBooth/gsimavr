@@ -1,17 +1,18 @@
 
-#include "view.h"
-#include "model.h"
-#include "controller.h"
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
-#include <avr_ioport.h>
-#include "ac_input.h"
-#include "avr_ioport.h"
 #include <pthread.h>
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+
+#include <avr_ioport.h>
+
+#include "ac_input.h"
+#include "view.h"
+#include "model.h"
+#include "controller.h"
 
 ac_input_t ac_input;
 

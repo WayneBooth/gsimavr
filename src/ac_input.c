@@ -21,6 +21,7 @@
  */
 
 #include <stdio.h>
+
 #include "sim_avr.h"
 #include "sim_time.h"
 #include "ac_input.h"
@@ -43,7 +44,7 @@ void ac_input_init(avr_t *avr, ac_input_t *b) {
 	b->avr = avr;
 	b->value = 0;
 	avr_cycle_timer_register_usec(avr, USECS_PER_SECOND / HZ, switch_auto, b);
-	printf("ac_input_init period %duS or %d cycles\n",
+	printf("ac_input_init period %fuS or %d cycles\n",
 			USECS_PER_SECOND / HZ,
 			(int)avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ));
 }

@@ -1,7 +1,13 @@
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <GL/glut.h>
+
 #include "view.h"
 #include "model.h"
 #include "controller.h"
-#include <stdio.h>
 
 int buttonState[GLUT_RIGHT_BUTTON];
 float pins[PINS][4];
