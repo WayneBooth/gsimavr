@@ -2,9 +2,19 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
-#include "sim_avr.h"
+#include <stdint.h>
+#include <sim_avr.h>
+
+#define WRAP2(X) #X
+#define WRAP1(X) WRAP2(X)
+#define WRAP(X) WRAP1(X)
+
+#define WRAPPEDFIRMWAREMCU WRAP(FIRMWAREMCU)
+#define WRAPPEDFIRMWARENAME WRAP(FIRMWARENAME)
 
 avr_t * avr;
+
+int PINS;
 
 int reg_pin_to_location ( char *, int );
 void set_ddr( int , int );

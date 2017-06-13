@@ -8,8 +8,6 @@
 #define	H 150
 #define RATIO 3.5
 
-#define PINS 28
-
 void renderScene(void);
 void setupInterface( int, char **);
 void mainLoop(void);

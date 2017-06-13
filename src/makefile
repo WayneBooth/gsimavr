@@ -1,7 +1,7 @@
 
 PROJECTNAME=app
 PRJSRC=${PROJECTNAME}.c ac_input.c controller.c model.c view.c
-LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lm -lpthread
+LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lm -lpthread -ldl
 
 #######################################
 
@@ -17,7 +17,7 @@ OBJ=$(PRJSRC:.c=.o)
 
 -include $(OBJS:.o=.d)
 
-run: ${PROJECTNAME}
+run: core ${PROJECTNAME}
 	./${PROJECTNAME}
 
 %.o: %.c
@@ -27,6 +27,10 @@ run: ${PROJECTNAME}
 ${PROJECTNAME}: ${OBJ}
 	$(CC) -o $@ ${OBJ} ${LIBS}
 
+core:
+	echo MAKING CORES
+	make -C cores
+
 clean:
 	rm -f ${PROJECTNAME} ${OBJ} *.d
-
+	make -C cores clean

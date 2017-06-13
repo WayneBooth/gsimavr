@@ -10,7 +10,7 @@
 #include "controller.h"
 
 int buttonState[GLUT_RIGHT_BUTTON];
-float pins[PINS][4];
+float pins[28][4]; // PINS
 float w = (RATIO * H);
 float l = 50;
 float t = 200;
