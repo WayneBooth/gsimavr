@@ -23,7 +23,8 @@ enum {
 };
 
 void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
-  for ( int x = 0; x < 8 ; x++ ) {
+  int x = 0;
+  for ( x = 0; x < 8 ; x++ ) {
     set_ioState( 
 	reg_pin_to_location( 
 			(char *)closure, 
@@ -43,7 +44,8 @@ void changeInput( int pin, int newState ) {
 	port[1] = '\0';
 
 	char *ports = "BCD";
-	for( int p = 0 ; p < 3 ; p++ ) {
+	int p = 0;
+	for( p = 0 ; p < 3 ; p++ ) {
 		memcpy( port, &ports[p], 1);
 		for( int e = 0 ; e < 8 ; e++ ) {
 			element = e;
@@ -98,7 +100,8 @@ end:
 }
 
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
-  for ( int x = 0; x < 8 ; x++ ) {
+  int x = 0;
+  for ( x = 0; x < 8 ; x++ ) {
     set_ddr( 
 	reg_pin_to_location( 
 			(char *)closure, 
