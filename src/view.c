@@ -53,7 +53,8 @@ void drawPin( int pin, float x, float y, int colour ) {
 	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef(0.08, -0.08, 0.08);
-	for( int i = 0; i < len; i++ ) {
+	int i = 0;
+	for( i = 0; i < len; i++ ) {
 		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, st[i]); // Print a character on the screen
 	}
 	glPopMatrix();
@@ -161,14 +162,16 @@ void drawInputs( int pin, float x, float y, int colour ) {
 
 void drawElements( void (*f)(int, float, float, int), uint32_t elements, int colour ) {
 
-	for( int i = 0 ; i < (PINS / 2) ; i++ ) {
+	int i;
+
+	for( i = 0 ; i < (PINS / 2) ; i++ ) {
 		if( elements & ( 1 << i ) ) {
 			float x = l + ( i * ( w / (PINS/2) ) );
 			(*f)( i, x+20, t+H, colour );
 		}
 	}
 
-	for( int i = (PINS / 2) ; i < PINS ; i++ ) {
+	for( i = (PINS / 2) ; i < PINS ; i++ ) {
 		if( elements & ( 1 << i ) ) {
 			float x = l + ( (PINS - i) * ( w / (PINS/2) ) );
 			(*f)( i, x-20, t, colour );
@@ -177,6 +180,9 @@ void drawElements( void (*f)(int, float, float, int), uint32_t elements, int col
 }
 
 void drawChip(void) {
+
+	float r;
+	int i;
 
         glColor3f(0.3f,0.3f,0.3f);
         glBegin(GL_POLYGON);
@@ -188,13 +194,13 @@ void drawChip(void) {
 
         glColor3f(0.4f,0.4f,0.4f);
 	glBegin(GL_POLYGON);
-		for( float r = 0 ; r <= PI ; r += PI/10 ) {
+		for( r = 0 ; r <= PI ; r += PI/10 ) {
 			glVertex2f( l + ( 14 * sin( r ) ), (t + (0.5 * H) + ( 14 * cos( r ) ) ) );
 		}
 	glEnd();
         glColor3f(0.35f,0.35f,0.35f);
 	glBegin(GL_POLYGON);
-		for( float r = 0 ; r <= 2*PI ; r += PI/10 ) {
+		for( r = 0 ; r <= 2*PI ; r += PI/10 ) {
 			glVertex2f( l + (H * 0.15) + ( 6 * sin( r ) ), (t + (0.85 * H) + ( 6 * cos( r ) ) ) );
 		}
 	glEnd();
@@ -205,7 +211,7 @@ void drawChip(void) {
 	glPushMatrix();
 	glTranslatef( l + (w / 4) , t + (H / 1.8), 0 );
 	glScalef(0.15, -0.15, 0.15);
-	for( int i = 0; i < len; i++ ) {
+	for( i = 0; i < len; i++ ) {
 		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, st[i]); // Print a character on the screen
 	}
 	glPopMatrix();
@@ -254,7 +260,8 @@ void renderScene(void) {
 }
 
 void mouseFunc( int button, int state, int x, int y ) {
-	for( int i = 1 ; i < PINS ; i++ ) {
+	int i;
+	for( i = 1 ; i < PINS ; i++ ) {
 		if( pins[i][0] < x && pins[i][1] < y && pins[i][2] > x && pins[i][3] > y ) {
 
 			if( state == GLUT_DOWN ) {
