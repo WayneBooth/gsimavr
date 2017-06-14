@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/WayneBooth/gsimavr.png)](https://travis-ci.org/WayneBooth/gsimavr)
+[![Coverage Status](https://coveralls.io/repos/WayneBooth/gsimavr/badge.png?branch=master)](https://coveralls.io/r/WayneBooth/gsimavr?branch=master)
+
 # gsimavr - A glut based simavr generic frontend
 
 gsimavr is a gui wrapper around @buserror excellent [simavr](https://github.com/buserror/simavr). 
