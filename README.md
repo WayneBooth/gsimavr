@@ -29,12 +29,12 @@ Users should simply git clone this repo and copy the 'src' directory into a sub 
   * Right click on an input to turn it off,
   * Middle click on an input to connect it to a clock signal
 * If you started the gui app with the ```-d``` parameter, it will wait for a gdb connection to localhost:1234
-  
+* it currently only supports the layout of an atmega328p, but it's super easy to add more MCUs.
+
 ## TODO
 
 This first version has a lot of caveats:
 
-* it currently only supports the layout of an atmega328p, but it's super easy to add more MCUs.
 * there is no analog represntation.
 * pullup resistors are not considered.
 * The GLUT implementation has a lot to be desired.
