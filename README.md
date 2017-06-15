@@ -1,5 +1,5 @@
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b39eba961f9a474e97eefa2741aef92d)](https://www.codacy.com/app/WayneBooth/gsimavr?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=WayneBooth/gsimavr&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b39eba961f9a474e97eefa2741aef92d)](https://www.codacy.com/app/WayneBooth/gsimavr?utm_source=github.com&utm_medium=referral&utm_content=WayneBooth/gsimavr&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/WayneBooth/gsimavr.png)](https://travis-ci.org/WayneBooth/gsimavr)
 [![Coverage Status](https://coveralls.io/repos/WayneBooth/gsimavr/badge.png?branch=master)](https://coveralls.io/r/WayneBooth/gsimavr?branch=master)
 
