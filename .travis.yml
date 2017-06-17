@@ -10,4 +10,4 @@ install:
 - pushd simavr-1.5 && make && sudo make install RELEASE=1 V=1 && popd
 - sudo ldconfig
 
-script: make -C src core app
+script: make 
