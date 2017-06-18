@@ -9,13 +9,16 @@ CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/ -g
 CFLAGS+=${CFLAGSBUILD}
 OBJ=$(PRJSRC:.c=.o) main.o
 OBJECT_UNDER_TEST=$(PRJSRC:test_%.c=../src/%.o)
+ifneq ($(CLIBSBUILD),-lgcov)
+	RUN=./build
+endif
 
 ###############################
 
 all: test
 
 test: build
-	./build
+	$(RUN)
 
 build: ${OBJ} ${MAIN}.o
 	$(CC) ${OBJ} ${OBJECT_UNDER_TEST} ${LIBS} ${CLIBSBUILD} -o $@
