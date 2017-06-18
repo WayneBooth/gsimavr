@@ -116,10 +116,10 @@ static void (*minunit_teardown)(void) = NULL;
 	if (minunit_setup) {(*minunit_setup)();}\
 	minunit_status = 0;\
 	MU_PRINTF("\n");\
-	MU_PRINTF("[%s.%s]\n" , __func__, #test);\
+	MU_PRINTF("\e[4m\e[95m%s.%s\e[0m\n" , __func__, #test);\
 	(test)();\
 	minunit_run++;\
-	if (!minunit_status) { MU_PRINTF("pass = true\n"); }\
+	if (!minunit_status) { MU_PRINTF("\e[92mpass = true\e[0m\n"); }\
 	if (minunit_teardown) { (*minunit_teardown)(); }\
 )
 
@@ -128,10 +128,11 @@ static void (*minunit_teardown)(void) = NULL;
  */
 #define MU_REPORT() MU__SAFE_BLOCK(\
 	MU_PRINTF("\n\n");\
-	MU_PRINTF("[report]\n");\
-	MU_PRINTF("tests = %d\n", minunit_run);\
-	MU_PRINTF("assertions = %d\n", minunit_assert);\
-	MU_PRINTF("failures = %d\n", minunit_fail);\
+	MU_PRINTF("\e[4m\e[95mreport\e[0m\n");\
+	MU_PRINTF("\e[33mtests = %d\e[0m\n", minunit_run);\
+	MU_PRINTF("\e[33massertions = %d\e[0m\n", minunit_assert);\
+	MU_PRINTF("\e[33mfailures = %d\e[0m\n", minunit_fail);\
+	MU_PRINTF("\n\n");\
 )
 
 /**
@@ -144,9 +145,9 @@ static void (*minunit_teardown)(void) = NULL;
 #define __MU_ASSERT(name, test, message, ...)  MU__SAFE_BLOCK(\
 	minunit_assert++;\
 	if (!(test)) {\
-		MU_PRINTF("pass = false\n");\
-		MU_PRINTF("fail = \"%s at %s:%d\"\n", name, __FILE__, __LINE__);\
-		MU_PRINTF("reason = \""message"\"\n", __VA_ARGS__);\
+		MU_PRINTF("\e[101mpass = false\e[0m\n");\
+		MU_PRINTF("\e[101mfail = \"%s at %s:%d\"\e[0m\n", name, __FILE__, __LINE__);\
+		MU_PRINTF("\e[101mreason = \""message"\"\e[0m\n", __VA_ARGS__);\
 		minunit_status = 1;\
 		minunit_fail++;\
 		return;\
