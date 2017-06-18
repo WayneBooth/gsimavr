@@ -24,4 +24,4 @@ build: ${OBJ} ${MAIN}.o
 	$(CC) ${CFLAGS} -o $@ $<
 
 clean:
-	rm -f ${MAIN} *.o *.gcda *.gcno
+	rm -f build ${MAIN} *.o *.gcda *.gcno
