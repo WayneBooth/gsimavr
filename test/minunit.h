@@ -50,7 +50,7 @@ static void (*minunit_teardown)(void) = NULL;
  * @brief      Helper for defining test function
  * @param      method_name  The method name
  */
-#define MU_TEST(method_name) static void method_name(void)
+#define MU_TEST(method_name) void method_name(void)
 
 /**
  * @brief      Helper for defining a suite

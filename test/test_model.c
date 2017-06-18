@@ -3,6 +3,7 @@
 
 void set_state( uint32_t *, int , int );
 void set_ioState( int, int );
+int voidPtr_to_int( void * );
 
 uint32_t expected;
 
