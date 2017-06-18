@@ -6,7 +6,9 @@ PRJSRC=atmega328p.c
 
 CC=gcc
 LIBS=-lc
-CFLAGS=-fPIC -c -Wall -I. -I/usr/local/include/simavr/ -O2 -g
+CFLAGSBUILD?=-O2
+CFLAGS=-fPIC -c -Wall -I. -I/usr/local/include/simavr/ -g
+CFLAGS+=${CFLAGSBUILD}
 OBJ=$(PRJSRC:.c=.o)
 SO=$(PRJSRC:.c=.so)
 
@@ -22,4 +24,4 @@ all: ${SO}
 	$(CC) -fPIC -shared ${LIBS} -o $@ $<
 
 clean:
-	rm -f ${OBJ} *.so *.d
+	rm -f ${OBJ} *.so *.d *.gcda *.gcno

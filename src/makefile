@@ -9,8 +9,10 @@ FIRMWARENAME:=$(shell grep -i '^PROJECTNAME=' ../makefile | sed -e 's/PROJECTNAM
 FIRMWAREMCU:=$(shell grep -i '^MCU=' ../makefile | sed -e 's/MCU=//')
 
 CC=gcc
-CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/
-CFLAGS+=-O2 -g
+CLIBSBUILD?= 
+CFLAGSBUILD?=-O2 
+CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/ -g
+CFLAGS+=${CFLAGSBUILD}
 CFLAGS+=-DFIRMWARENAME=${FIRMWARENAME}
 CFLAGS+=-DFIRMWAREMCU="${FIRMWAREMCU}"
 OBJ=$(PRJSRC:.c=.o)
@@ -27,11 +29,12 @@ build: ${PROJECTNAME}
 	$(CC) -MM $(CFLAGS) $*.c > $*.d
 
 ${PROJECTNAME}: core ${OBJ}
-	$(CC) -o $@ ${OBJ} ${LIBS}
+	$(CC) -o $@ ${OBJ} ${LIBS} ${CLIBSBUILD}
 
 core:
+	export CFLAGSBUILD='${CFLAGSBUILD}'
 	make -C cores
 
 clean:
-	rm -f ${PROJECTNAME} ${OBJ} *.d
+	rm -f ${PROJECTNAME} ${OBJ} *.d *.gcda *.gcno
 	make -C cores clean
