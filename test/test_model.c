@@ -68,7 +68,7 @@ MU_TEST( set_ioState___input___setOfftoOn ) {
 	mu_assert_uint32_eq( 0b0000000000000000000000000110, outputState );
 }
 
-MU_TEST_SUITE(test_model) {
+MU_TEST_SUITE( test_model ) {
 
 	MU_RUN_TEST( set_state___setOfftoOn );
 	MU_RUN_TEST( set_state___setOntoOff );
