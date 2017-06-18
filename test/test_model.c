@@ -28,6 +28,20 @@ MU_TEST( set_state___setOntoOff ) {
 	mu_assert_uint32_eq( expected, test_val );
 }
 
+MU_TEST( set_ddr___setOfftoOn ) {
+	expected = 0b0000000000000000000000001110;
+	ddrPins =  0b0000000000000000000000001100; // 1=output 0=input
+	set_ddr( 2, 1 );
+	mu_assert_uint32_eq( expected, ddrPins );
+}
+
+MU_TEST( set_ddr___setOntoOff ) {
+	expected = 0b0000000000000000000000000100;
+	ddrPins =  0b0000000000000000000000001100; // 1=output 0=input
+	set_ddr( 4, 0 );
+	mu_assert_uint32_eq( expected, ddrPins );
+}
+
 MU_TEST( set_ioState___output___setOntoOff ) {
 	expected =    0b0000000000000000000000000010;
 	ddrPins =     0b0000000000000000000000001100; // 1=output 0=input
@@ -68,13 +82,42 @@ MU_TEST( set_ioState___input___setOfftoOn ) {
 	mu_assert_uint32_eq( 0b0000000000000000000000000110, outputState );
 }
 
+MU_TEST( voidPtr_to_int___undef ) {
+	int input = '\0';
+	void *ptr = &input;
+	int output = voidPtr_to_int( ptr );
+	mu_assert( output == 0, "Output incorrectly is not zero" );
+}
+
+MU_TEST( voidPtr_to_int___string ) {
+	char *input = "Some string\0";
+	void *ptr = input;
+	int output = voidPtr_to_int( ptr );
+	mu_assert( output == 1701670739, "Output incorrectly is not int int value of the string" );
+}
+
+MU_TEST( voidPtr_to_int___int ) {
+	int input = 12345;
+	void *ptr = &input;
+	int output = voidPtr_to_int( ptr );
+	mu_assert( output == 12345, "Output incorrectly is not 12345" );
+}
+
 MU_TEST_SUITE( test_model ) {
 
 	MU_RUN_TEST( set_state___setOfftoOn );
 	MU_RUN_TEST( set_state___setOntoOff );
 
+	MU_RUN_TEST( set_ddr___setOfftoOn );
+	MU_RUN_TEST( set_ddr___setOntoOff );
+
 	MU_RUN_TEST( set_ioState___output___setOntoOff );
 	MU_RUN_TEST( set_ioState___output___setOfftoOn );
 	MU_RUN_TEST( set_ioState___input___setOntoOff );
 	MU_RUN_TEST( set_ioState___input___setOfftoOn );
+
+	MU_RUN_TEST( voidPtr_to_int___undef );
+	MU_RUN_TEST( voidPtr_to_int___string );
+	MU_RUN_TEST( voidPtr_to_int___int );
+
 }
