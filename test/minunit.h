@@ -80,7 +80,7 @@ static void (*minunit_teardown)(void) = NULL;
  * @param      suite_name  The suite name (should be void f(void))
  */
 #define MU_RUN_SUITE(suite_name) MU__SAFE_BLOCK(\
-	MU_PRINTF("\r\n");\
+	MU_PRINTF("\n");\
 	(suite_name)();\
 	minunit_setup = NULL;\
 	minunit_teardown = NULL;\
@@ -115,11 +115,11 @@ static void (*minunit_teardown)(void) = NULL;
 #define MU_RUN_TEST(test) MU__SAFE_BLOCK(\
 	if (minunit_setup) {(*minunit_setup)();}\
 	minunit_status = 0;\
-	MU_PRINTF("\r\n");\
-	MU_PRINTF("[%s.%s]\r\n" , __func__, #test);\
+	MU_PRINTF("\n");\
+	MU_PRINTF("[%s.%s]\n" , __func__, #test);\
 	(test)();\
 	minunit_run++;\
-	if (!minunit_status) { MU_PRINTF("pass = true\r\n"); }\
+	if (!minunit_status) { MU_PRINTF("pass = true\n"); }\
 	if (minunit_teardown) { (*minunit_teardown)(); }\
 )
 
@@ -127,11 +127,11 @@ static void (*minunit_teardown)(void) = NULL;
  * @brief      Print summary statistics about the test
  */
 #define MU_REPORT() MU__SAFE_BLOCK(\
-	MU_PRINTF("\r\n\r\n");\
-	MU_PRINTF("[report]\r\n");\
-	MU_PRINTF("tests = %d\r\n", minunit_run);\
-	MU_PRINTF("assertions = %d\r\n", minunit_assert);\
-	MU_PRINTF("failures = %d\r\n", minunit_fail);\
+	MU_PRINTF("\n\n");\
+	MU_PRINTF("[report]\n");\
+	MU_PRINTF("tests = %d\n", minunit_run);\
+	MU_PRINTF("assertions = %d\n", minunit_assert);\
+	MU_PRINTF("failures = %d\n", minunit_fail);\
 )
 
 /**
@@ -144,9 +144,9 @@ static void (*minunit_teardown)(void) = NULL;
 #define __MU_ASSERT(name, test, message, ...)  MU__SAFE_BLOCK(\
 	minunit_assert++;\
 	if (!(test)) {\
-		MU_PRINTF("pass = false\r\n");\
-		MU_PRINTF("fail = \"%s at %s:%d\"\r\n", name, __FILE__, __LINE__);\
-		MU_PRINTF("reason = \""message"\"\r\n", __VA_ARGS__);\
+		MU_PRINTF("pass = false\n");\
+		MU_PRINTF("fail = \"%s at %s:%d\"\n", name, __FILE__, __LINE__);\
+		MU_PRINTF("reason = \""message"\"\n", __VA_ARGS__);\
 		minunit_status = 1;\
 		minunit_fail++;\
 		return;\
@@ -253,13 +253,13 @@ static void (*minunit_teardown)(void) = NULL;
  * @param      message  The message to be showed to a user (generally a question)
  */
 #define mu_confirm(message) MU__SAFE_BLOCK(\
-	MU_PRINTF("prompt = \"%s\"\r\n", (message));\
-	MU_PRINTF("# 'y' for yes, 'n' for no:\r\n");\
+	MU_PRINTF("prompt = \"%s\"\n", (message));\
+	MU_PRINTF("# 'y' for yes, 'n' for no:\n");\
 	fflush(stdout);\
 	fflush(stdin);\
 	char mu_input;\
 	do { mu_input = MU_GETCHAR(); } while(mu_input != 'y' && mu_input != 'n');\
-	MU_PRINTF("\r\n");\
+	MU_PRINTF("\n");\
 	__MU_ASSERT("mu_confirm", mu_input == 'y', "%s", (message));\
 )
 
