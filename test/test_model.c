@@ -104,6 +104,11 @@ MU_TEST( voidPtr_to_int___int ) {
 	mu_assert( output == 12345, "Output incorrectly is not 12345" );
 }
 
+MU_TEST( setupSimulator___completes ) {
+	setupSimulator( 1 );
+	mu_assert( 1 == 1, "Output incorrectly is not 12345" );
+}
+
 MU_TEST_SUITE( test_model ) {
 
 	MU_RUN_TEST( set_state___setOfftoOn );
@@ -120,5 +125,7 @@ MU_TEST_SUITE( test_model ) {
 	MU_RUN_TEST( voidPtr_to_int___undef );
 	MU_RUN_TEST( voidPtr_to_int___string );
 	MU_RUN_TEST( voidPtr_to_int___int );
+
+	MU_RUN_TEST( setupSimulator___completes );
 
 }
