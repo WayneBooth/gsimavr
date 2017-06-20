@@ -1,4 +1,5 @@
 #include <sim_avr.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 avr_t * avr_make_mcu_by_name( const char *name) {

@@ -6,6 +6,7 @@ PRJSRC=atmega328p.c
 
 CC=gcc
 LIBS=-lc
+CLIBSBUILD?=
 CFLAGSBUILD?=-O2
 CFLAGS=-fPIC -c -Wall -I. -I/usr/local/include/simavr/ -g
 CFLAGS+=${CFLAGSBUILD}
@@ -21,7 +22,7 @@ all: ${SO}
 	$(CC) -MM $(CFLAGS) $*.c > $*.d
 
 %.so: %.o
-	$(CC) -fPIC -shared ${LIBS} -o $@ $<
+	$(CC) -fPIC -shared -o $@ $< ${LIBS} ${CLIBSBUILD}
 
 clean:
 	rm -f ${OBJ} *.so *.d *.gcda *.gcno
