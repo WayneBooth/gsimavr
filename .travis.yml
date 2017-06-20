@@ -16,7 +16,7 @@ before-script:
 
 script: 
 - make coverage
-- cd test ; ./build
+- cd test ; ./build && cd ../
 
 after_success:
 - lcov --directory . --capture --output-file coverage.info # capture coverage info
