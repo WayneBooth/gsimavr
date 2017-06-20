@@ -18,6 +18,7 @@ endif
 all: test
 
 test: build
+	ln -srf ../src/cores cores
 	$(RUN)
 
 build: mock ${OBJ} ${MAIN}.o
