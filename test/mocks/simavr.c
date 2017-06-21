@@ -14,7 +14,7 @@ int avr_init( avr_t * avr ) {
 
 struct avr_irq_t * avr_io_getirq( avr_t * avr, uint32_t ctl, int index) {
 	printf("Simulating 'avr_make_mcu_by_name'\n");
-	return '\0';
+	return NULL;
 }
 
 void avr_connect_irq( avr_irq_t * src, avr_irq_t * dst) {

@@ -85,37 +85,34 @@ uint32_t voidPtr_to_int( void * ptr ) {
   return *ptr_ptr;
 }
 
-int setupSimulator( int waitForGdb ) {
 
+void createAvr( char *firmwareName, char *firmwareMcu ) {
 
-  int len = snprintf(NULL, 0, "../%s.elf", WRAPPEDFIRMWARENAME);
+  int len = snprintf(NULL, 0, "../%s.elf", firmwareName );
   char *st = (char *)malloc(len+1);
-  snprintf(st, len+1, "../%s.elf", WRAPPEDFIRMWARENAME);
+  snprintf(st, len+1, "../%s.elf", firmwareName );
   elf_firmware_t f;
   elf_read_firmware ( st, &f );
   free(st);
 
+  avr = avr_make_mcu_by_name ( firmwareMcu );
+  avr_init ( avr );
+  avr_load_firmware ( avr, &f );
+  avr->frequency = 8000000UL;
+}
 
+int loadGsimavrCore( char *coreName ) {
 
-  len = snprintf(NULL, 0, "./cores/%s.so", WRAPPEDFIRMWAREMCU );
-  st = (char *)malloc(len+1);
-  snprintf(st, len+1, "./cores/%s.so", WRAPPEDFIRMWAREMCU );
+  int len = snprintf(NULL, 0, "./cores/%s.so", coreName );
+  char *st = (char *)malloc(len+1);
+  snprintf(st, len+1, "./cores/%s.so", coreName );
   lib = dlopen( st, RTLD_NOW );
   if(lib == NULL) {
-    printf("ERROR: The core '%s' is not supported : %s\n", WRAPPEDFIRMWAREMCU, dlerror() );
+    printf("ERROR: The core '%s' is not supported : %s\n", coreName, dlerror() );
     free(st);
     return 1;
   }
   free(st);
-
-
-
-  avr = avr_make_mcu_by_name ( WRAPPEDFIRMWAREMCU );
-  avr_init ( avr );
-  avr_load_firmware ( avr, &f );
-  avr->frequency = 8000000UL;
-
-
 
   ConfigureDevice configureDevice = dlsym(lib, "configureDevice");
   configureDevice();
@@ -132,8 +129,11 @@ int setupSimulator( int waitForGdb ) {
 
   printf("We have %d PINS\n", PINS );
 //  dlclose(lib);
+  return 0;
+}
 
 
+void setupGdb( int waitForGdb ) {
 
   ////////////////////////////////
   // GDB setup
@@ -144,9 +144,17 @@ int setupSimulator( int waitForGdb ) {
     avr_gdb_init(avr);
   }
 
+}
+
+int setupSimulator( int waitForGdb ) {
+
+  createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+
+  setupGdb( waitForGdb );
+
   ////////////////////////////////
   // VCD Setup
 
-  return 0;
+  return loadGsimavrCore( WRAPPEDFIRMWAREMCU );
 }
 

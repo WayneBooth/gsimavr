@@ -17,5 +17,6 @@ build:
 	make -C src build
 
 clean:
+	rm -f coverage.info
 	make -C src clean
 	make -C test clean

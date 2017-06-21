@@ -4,6 +4,9 @@
 void set_state( uint32_t *, int , int );
 void set_ioState( int, int );
 int voidPtr_to_int( void * );
+void createAvr( char *, char *);
+void setupGdb( int );
+int loadGsimavrCore( char * );
 
 uint32_t expected;
 
@@ -104,9 +107,29 @@ MU_TEST( voidPtr_to_int___int ) {
 	mu_assert( output == 12345, "Output incorrectly is not 12345" );
 }
 
-MU_TEST( setupSimulator___completes ) {
+MU_TEST( setupSimulator___fails ) {
 	int ret = setupSimulator( 1 );
-	mu_assert( ret == 0, "setupSimulator did not return '0'" );
+	mu_assert( ret == 1, "setupSimulator expected to fail with '1'" );
+}
+
+MU_TEST( createAvr___completes ) {
+	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+	mu_assert( 1 == 1, "createAvr did not complete" );
+}
+
+MU_TEST( setupGdb___completes ) {
+	setupGdb( 1 );
+	mu_assert( 1 == 1, "setupGdn did not complete" );
+}
+
+MU_TEST( loadGsimavrCore___fails ) {
+	int ret = loadGsimavrCore( "UNKNOWN" );
+	mu_assert( ret == 1, "loadGsimavrCore did not fail as expected" );
+}
+
+MU_TEST( loadGsimavrCore___completes ) {
+	int ret = loadGsimavrCore( "atmega328p" );
+	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 }
 
 MU_TEST_SUITE( test_model ) {
@@ -126,6 +149,9 @@ MU_TEST_SUITE( test_model ) {
 	MU_RUN_TEST( voidPtr_to_int___string );
 	MU_RUN_TEST( voidPtr_to_int___int );
 
-	MU_RUN_TEST( setupSimulator___completes );
-
+	MU_RUN_TEST( setupSimulator___fails );
+	MU_RUN_TEST( createAvr___completes );
+	MU_RUN_TEST( setupGdb___completes );
+	MU_RUN_TEST( loadGsimavrCore___fails );
+	MU_RUN_TEST( loadGsimavrCore___completes );
 }
