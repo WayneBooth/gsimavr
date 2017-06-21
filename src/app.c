@@ -23,7 +23,9 @@ int main(int argc, char **argv) {
 	   }
 	}
 
-	setupSimulator( useGdb ); // Model
+	if( setupSimulator( useGdb ) ) { // Model
+		return 1;
+	}
 
 	setupInterface( argc, argv ); // View
 

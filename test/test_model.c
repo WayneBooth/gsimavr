@@ -105,8 +105,8 @@ MU_TEST( voidPtr_to_int___int ) {
 }
 
 MU_TEST( setupSimulator___completes ) {
-	setupSimulator( 1 );
-	mu_assert( 1 == 1, "Output incorrectly is not 12345" );
+	int ret = setupSimulator( 1 );
+	mu_assert( ret == 0, "setupSimulator did not return '0'" );
 }
 
 MU_TEST_SUITE( test_model ) {

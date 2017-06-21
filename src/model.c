@@ -85,16 +85,27 @@ uint32_t voidPtr_to_int( void * ptr ) {
   return *ptr_ptr;
 }
 
-void setupSimulator( int waitForGdb ) {
+int setupSimulator( int waitForGdb ) {
 
 
   int len = snprintf(NULL, 0, "../%s.elf", WRAPPEDFIRMWARENAME);
   char *st = (char *)malloc(len+1);
   snprintf(st, len+1, "../%s.elf", WRAPPEDFIRMWARENAME);
-
   elf_firmware_t f;
   elf_read_firmware ( st, &f );
+  free(st);
 
+
+
+  len = snprintf(NULL, 0, "./cores/%s.so", WRAPPEDFIRMWAREMCU );
+  st = (char *)malloc(len+1);
+  snprintf(st, len+1, "./cores/%s.so", WRAPPEDFIRMWAREMCU );
+  lib = dlopen( st, RTLD_NOW );
+  if(lib == NULL) {
+    printf("ERROR: The core '%s' is not supported : %s\n", WRAPPEDFIRMWAREMCU, dlerror() );
+    free(st);
+    return 1;
+  }
   free(st);
 
 
@@ -105,12 +116,6 @@ void setupSimulator( int waitForGdb ) {
   avr->frequency = 8000000UL;
 
 
-
-  lib = dlopen("./cores/atmega328p.so", RTLD_NOW);
-  if(lib == NULL) {
-    printf("ERROR: Cannot load library: %s\n", dlerror() );
-    exit(1);
-  }
 
   ConfigureDevice configureDevice = dlsym(lib, "configureDevice");
   configureDevice();
@@ -142,5 +147,6 @@ void setupSimulator( int waitForGdb ) {
   ////////////////////////////////
   // VCD Setup
 
+  return 0;
 }
 
