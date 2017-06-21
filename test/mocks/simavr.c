@@ -40,7 +40,7 @@ int avr_run( avr_t * avr) {
 
 avr_irq_t * avr_alloc_irq( avr_irq_pool_t * pool, uint32_t base, uint32_t count, const char ** names /* optional */) {
 	printf("Simulating 'avr_alloc_irq'\n");
-	return '\0';
+	return NULL;
 }
 
 void avr_cycle_timer_register_usec( struct avr_t * avr, uint32_t when, avr_cycle_timer_t timer, void * param) {
