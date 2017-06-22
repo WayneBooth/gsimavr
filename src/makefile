@@ -11,7 +11,7 @@ FIRMWAREMCU:=$(shell grep -i '^MCU=' ../makefile | sed -e 's/MCU=//')
 CC=gcc
 CLIBSBUILD?= 
 CFLAGSBUILD?=-O2 
-CFLAGS=-c -Wall -I. -I/usr/local/include/simavr/ -g
+CFLAGS=-c -Wall -Wunreachable-code -I. -I/usr/local/include/simavr/ -g
 CFLAGS+=${CFLAGSBUILD}
 CFLAGS+=-DFIRMWARENAME=${FIRMWARENAME}
 CFLAGS+=-DFIRMWAREMCU="${FIRMWAREMCU}"
