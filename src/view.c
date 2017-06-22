@@ -11,7 +11,7 @@
 
 int buttonState[GLUT_RIGHT_BUTTON];
 float pins[28][4]; // PINS
-float w = (RATIO * H);
+float w = 1;
 float l = 50;
 float t = 200;
 int ww = VP_X;
@@ -287,6 +287,10 @@ void setupInterface( int argc, char **argv ) {
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(VP_X,VP_Y);
 	glutCreateWindow("GSimAvr a Simple Graphical wrapper over SimAVR");
+
+	// Calculate the width of the chip
+        float ratio = ( (PINS - 8) * 0.125 ) + 1;
+	w = (ratio * H);
 
 	// register callbacks
 	glutDisplayFunc(renderScene);
