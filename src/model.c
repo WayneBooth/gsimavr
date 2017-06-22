@@ -13,6 +13,8 @@ void *lib;
 typedef void (*ConfigureDevice)(void);
 typedef int(*Core_reg_pin_to_location)(char *, int);
 
+Core_reg_pin_to_location core_reg_pin_to_location;
+
 uint32_t noConnection= 0b1111111111111111111111111111;
 uint32_t powerPins  =  0b0000000000000000000000000000;
 uint32_t powerState =  0b0000000000000000000000000000;
@@ -22,7 +24,6 @@ uint32_t outputState = 0b0000000000000000000000000000;
 uint32_t inputState =  0b0000000000000000000000000000;
 
 int reg_pin_to_location ( char * reg, int pin ) {
-	Core_reg_pin_to_location core_reg_pin_to_location = dlsym(lib, "core_reg_pin_to_location");
 	return core_reg_pin_to_location( reg, pin );
 }
 
@@ -127,11 +128,28 @@ int loadGsimavrCore( char *coreName ) {
   outputState =  voidPtr_to_int( dlsym (lib, "core_outputState") );
   inputState =   voidPtr_to_int( dlsym (lib, "core_inputState") );
 
+  core_reg_pin_to_location = dlsym(lib, "core_reg_pin_to_location");
+
   printf("We have %d PINS\n", PINS );
-//  dlclose(lib);
   return 0;
 }
 
+void unloadCore() {
+
+  dlclose(lib);
+
+  core_reg_pin_to_location = NULL;
+
+  PINS = 2;
+
+  noConnection= 0b1111111111111111111111111111;
+  powerPins  =  0b0000000000000000000000000000;
+  powerState =  0b0000000000000000000000000000;
+
+  ddrPins =     0b0000000000000000000000000000; // 1=output 0=input
+  outputState = 0b0000000000000000000000000000;
+  inputState =  0b0000000000000000000000000000;
+}
 
 void setupGdb( int waitForGdb ) {
 
