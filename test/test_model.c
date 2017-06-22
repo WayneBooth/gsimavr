@@ -7,6 +7,7 @@ int voidPtr_to_int( void * );
 void createAvr( char *, char *);
 void setupGdb( int );
 int loadGsimavrCore( char * );
+void unloadCore( void );
 
 uint32_t expected;
 
@@ -107,6 +108,42 @@ MU_TEST( voidPtr_to_int___int ) {
 	mu_assert( output == 12345, "Output incorrectly is not 12345" );
 }
 
+MU_TEST( get_positive_power___correct ) {
+	expected = 0b0000000000100000000;
+	uint32_t actual = get_positive_power();
+	mu_assert_uint32_eq( expected, actual );
+}
+
+MU_TEST( get_negative_power___correct ) {
+	expected = 0b0000000001000000000;
+	uint32_t actual = get_negative_power();
+	mu_assert_uint32_eq( expected, actual );
+}
+
+MU_TEST( get_positive_outputs___correct ) {
+	expected = 0b0000000000011000000;
+	uint32_t actual = get_positive_outputs();
+	mu_assert_uint32_eq( expected, actual );
+}
+
+MU_TEST( get_negative_outputs___correct ) {
+	expected = 0b0000000000000110000;
+	uint32_t actual = get_negative_outputs();
+	mu_assert_uint32_eq( expected, actual );
+}
+
+MU_TEST( get_positive_inputs___correct ) {
+	expected = 0b0000000000000001010;
+	uint32_t actual = get_positive_inputs();
+	mu_assert_uint32_eq( expected, actual );
+}
+
+MU_TEST( get_negative_inputs___correct ) {
+	expected = 0b11111111111110000000000000000101;
+	uint32_t actual = get_negative_inputs();
+	mu_assert_uint32_eq( expected, actual );
+}
+
 MU_TEST( setupSimulator___fails ) {
 	int ret = setupSimulator( 1 );
 	mu_assert( ret == 1, "setupSimulator expected to fail with '1'" );
@@ -169,6 +206,8 @@ MU_TEST( reg_pin_to_location___port_B ) {
 	mu_assert( pin == 9, "Incorrect pin reference" );
 	pin = reg_pin_to_location( "B", 7 );
 	mu_assert( pin == 10, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 8 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___port_C ) {
@@ -207,6 +246,8 @@ MU_TEST( reg_pin_to_location___port_D ) {
 	mu_assert( pin == 12, "Incorrect pin reference" );
 	pin = reg_pin_to_location( "D", 7 );
 	mu_assert( pin == 13, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "D", 8 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___port_E ) {
@@ -249,6 +290,19 @@ MU_TEST_SUITE( test_model ) {
 	MU_RUN_TEST( voidPtr_to_int___undef );
 	MU_RUN_TEST( voidPtr_to_int___string );
 	MU_RUN_TEST( voidPtr_to_int___int );
+
+	noConnection = 0b1111111110000000000;
+	powerPins    = 0b1100000001100000000;
+	powerState   = 0b1000000000100000000;
+	ddrPins      = 0b0001111000011110000;
+	outputState  = 0b0001100100011001100;
+	inputState   = 0b0001010010010101010;
+	MU_RUN_TEST( get_positive_power___correct );
+	MU_RUN_TEST( get_negative_power___correct );
+	MU_RUN_TEST( get_positive_outputs___correct );
+	MU_RUN_TEST( get_negative_outputs___correct );
+	MU_RUN_TEST( get_positive_inputs___correct );
+	MU_RUN_TEST( get_negative_inputs___correct );
 
 	MU_RUN_TEST( setupSimulator___fails );
 	MU_RUN_TEST( createAvr___completes );

@@ -58,11 +58,11 @@ void set_ioState( int pin, int ddr ) {
 }
 
 uint32_t get_positive_power() {
-	return powerPins & powerState;
+	return ~noConnection & powerPins & powerState;
 }
 
 uint32_t get_negative_power() {
-	return powerPins & ~powerState;
+	return ~noConnection & powerPins & ~powerState;
 }
 
 uint32_t get_positive_outputs() {
