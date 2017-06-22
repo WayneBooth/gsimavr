@@ -86,18 +86,36 @@ uint32_t voidPtr_to_int( void * ptr ) {
   return *ptr_ptr;
 }
 
+void gsimavr_avr_logger(avr_t* avr, const int level, const char * format, va_list ap) {
+	if (!avr || avr->log >= level) {
+		int len = snprintf(NULL, 0, "AVRLOG: %s", format );
+		char *st = (char *)malloc(len+1);
+		snprintf(st, len+1, "AVRLOG: %s", format );
+		vprintf( st, ap );
+		free(st);
+	}
+}
 
 void createAvr( char *firmwareName, char *firmwareMcu ) {
 
   int len = snprintf(NULL, 0, "../%s.elf", firmwareName );
   char *st = (char *)malloc(len+1);
   snprintf(st, len+1, "../%s.elf", firmwareName );
+  printf("Loading firmware: %s\n", st);
   elf_firmware_t f;
   elf_read_firmware ( st, &f );
   free(st);
 
+  avr_logger_p logger = gsimavr_avr_logger;
+  avr_global_logger_set( logger );
+
+  printf("Generating AVR of type %s\n", firmwareMcu );
   avr = avr_make_mcu_by_name ( firmwareMcu );
+  avr->log = LOG_TRACE;
+
   avr_init ( avr );
+  avr->log = LOG_TRACE;
+  avr_global_logger_set( logger );
   avr_load_firmware ( avr, &f );
   avr->frequency = 8000000UL;
 }
