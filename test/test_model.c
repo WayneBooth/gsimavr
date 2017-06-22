@@ -371,6 +371,60 @@ MU_TEST( unloadCore___attiny2313___completes ) {
 	mu_assert( PINS == 2, "Device does not report 2 pins" );
 }
 
+MU_TEST( loadGsimavrCore___attiny13___completes ) {
+	int ret = loadGsimavrCore( "attiny13" );
+	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
+	mu_assert_string_eq( "ATtiny13", CHIPNAME() );
+	mu_assert( PINS == 8, "Device does not report 20 pins" );
+}
+
+MU_TEST( reg_pin_to_location___attiny13___port_A ) {
+	int pin = reg_pin_to_location( "A", 0 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 1 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 2 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 3 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 4 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 5 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 6 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 7 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "A", 8 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+}
+
+MU_TEST( reg_pin_to_location___attiny13___port_B ) {
+	int pin = reg_pin_to_location( "B", 0 );
+	mu_assert( pin == 5, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 1 );
+	mu_assert( pin == 6, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 2 );
+	mu_assert( pin == 7, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 3 );
+	mu_assert( pin == 2, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 4 );
+	mu_assert( pin == 3, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 5 );
+	mu_assert( pin == 1, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 6 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 7 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+	pin = reg_pin_to_location( "B", 8 );
+	mu_assert( pin == 0, "Incorrect pin reference" );
+}
+
+MU_TEST( unloadCore___attiny13___completes ) {
+	unloadCore();
+	mu_assert( PINS == 2, "Device does not report 2 pins" );
+}
+
 MU_TEST_SUITE( test_model ) {
 
 	MU_RUN_TEST( set_state___setOfftoOn );
@@ -421,4 +475,9 @@ MU_TEST_SUITE( test_model ) {
 	MU_RUN_TEST( reg_pin_to_location___attiny2313___port_C );
 	MU_RUN_TEST( reg_pin_to_location___attiny2313___port_D );
 	MU_RUN_TEST( unloadCore___attiny2313___completes );
+
+	MU_RUN_TEST( loadGsimavrCore___attiny13___completes );
+	MU_RUN_TEST( reg_pin_to_location___attiny13___port_A );
+	MU_RUN_TEST( reg_pin_to_location___attiny13___port_B );
+	MU_RUN_TEST( unloadCore___attiny13___completes );
 }

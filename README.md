@@ -31,7 +31,7 @@ Users should simply git clone this repo and copy the 'src' directory into a sub 
   * Right click on an input to turn it off,
   * Middle click on an input to connect it to a clock signal
 * If you started the gui app with the ```-d``` parameter, it will wait for a gdb connection to localhost:1234
-* it currently only supports the layout of an ATmega328P and ATtiny2313, but it's super easy to add more MCUs.
+* it currently only supports the layout of an ATmega328P, ATtiny2313 and ATtiny13, but it's super easy to add more MCUs.
 
 ## TODO
 

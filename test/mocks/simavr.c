@@ -51,3 +51,7 @@ int avr_gdb_init(avr_t * avr) {
 	printf("Simulating 'avr_gdb_init'\n");
 	return 0;
 }
+
+void avr_global_logger_set( avr_logger_p logger ) {
+	printf("Simulating 'avr_global_logger_set'\n");
+}
