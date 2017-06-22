@@ -1,5 +1,5 @@
 
-PRJSRC=atmega328p.c 
+PRJSRC=$(wildcard *.c)
 
 #######################################
 

@@ -205,14 +205,14 @@ void drawChip(void) {
 		}
 	glEnd();
 
-	char* st = "ATmega328P";
-	int len = strlen( st );
+	char *chipname = CHIPNAME();
+	int len = strlen( chipname );
         glColor3f(0.6f,0.6f,0.6f);
 	glPushMatrix();
 	glTranslatef( l + (w / 4) , t + (H / 1.8), 0 );
 	glScalef(0.15, -0.15, 0.15);
 	for( i = 0; i < len; i++ ) {
-		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, st[i]); // Print a character on the screen
+		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, chipname[i]); // Print a character on the screen
 	}
 	glPopMatrix();
 
@@ -286,7 +286,7 @@ void setupInterface( int argc, char **argv ) {
 	glutInit(&argc, argv);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(VP_X,VP_Y);
-	glutCreateWindow("AVR Simulator");
+	glutCreateWindow("GSimAvr a Simple Graphical wrapper over SimAVR");
 
 	// register callbacks
 	glutDisplayFunc(renderScene);

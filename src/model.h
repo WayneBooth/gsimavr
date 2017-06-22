@@ -14,6 +14,7 @@
 
 avr_t * avr;
 
+char *(*CHIPNAME)();
 int PINS;
 
 int reg_pin_to_location ( char *, int );

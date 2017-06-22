@@ -118,6 +118,7 @@ int loadGsimavrCore( char *coreName ) {
   ConfigureDevice configureDevice = dlsym(lib, "configureDevice");
   configureDevice();
 
+  CHIPNAME = dlsym (lib, "get_chipname");
   PINS =    (int)voidPtr_to_int( dlsym (lib, "core_pins") );
 
   noConnection = voidPtr_to_int( dlsym (lib, "core_noConnection") );
@@ -130,7 +131,7 @@ int loadGsimavrCore( char *coreName ) {
 
   core_reg_pin_to_location = dlsym(lib, "core_reg_pin_to_location");
 
-  printf("We have %d PINS\n", PINS );
+  printf("We have a %d pin %s\n", PINS, CHIPNAME() );
   return 0;
 }
 
