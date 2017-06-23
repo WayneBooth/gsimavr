@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 
+#include "logger.h"
 #include "sim_avr.h"
 #include "sim_time.h"
 #include "ac_input.h"
@@ -32,7 +33,7 @@
 static avr_cycle_count_t switch_auto( struct avr_t * avr, avr_cycle_count_t when, void * param) {
 	ac_input_t * b = (ac_input_t *) param;
 	b->value = !b->value;
-//printf("New CLK value : %d\n", b->value );
+	LOG( LOGGER_DEBUG, printf("New CLK value : %d\n", b->value ) );
 	avr_raise_irq(b->irq + IRQ_AC_OUT, b->value);
 	return when + avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ);
 }
@@ -44,7 +45,7 @@ void ac_input_init(avr_t *avr, ac_input_t *b) {
 	b->avr = avr;
 	b->value = 0;
 	avr_cycle_timer_register_usec(avr, USECS_PER_SECOND / HZ, switch_auto, b);
-	printf("ac_input_init period %fuS or %d cycles\n",
+	LOG( LOGGER_WARNING, "ac_input_init period %fuS or %d cycles\n",
 			USECS_PER_SECOND / HZ,
 			(int)avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ));
 }

@@ -9,6 +9,7 @@
 
 #include <avr_ioport.h>
 
+#include "logger.h"
 #include "ac_input.h"
 #include "view.h"
 #include "model.h"
@@ -51,7 +52,7 @@ void changeInput( int pin, int newState ) {
 		for( e = 0 ; e < 8 ; e++ ) {
 			element = e;
 			if( reg_pin_to_location( port, element ) == pin ) {
-				printf( "You clicked %s%d\n", port, element);
+				LOG( LOGGER_DEBUG, "You clicked %s%d\n", port, element);
 				goto end;
 			}
 		}
@@ -59,7 +60,7 @@ void changeInput( int pin, int newState ) {
 
 end:
 
-	printf( "state = %d\n", newState );
+	LOG( LOGGER_DEBUG, "state = %d\n", newState );
 //	avr_unconnect_irq(
 //        	ac_input.irq + IRQ_AC_OUT,
 //		avr_io_getirq(
