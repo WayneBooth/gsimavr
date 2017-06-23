@@ -1,6 +1,6 @@
 
 PROJECTNAME=app
-PRJSRC=${PROJECTNAME}.c ac_input.c controller.c model.c view.c
+PRJSRC=$(wildcard *.c)
 LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lpthread -ldl
 
 #######################################

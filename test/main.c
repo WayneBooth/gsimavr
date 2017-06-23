@@ -1,4 +1,5 @@
 #include "minunit.h"
+#include "../src/logger.h"
 
 void test_view();
 void test_model();
@@ -8,6 +9,8 @@ void test_ac_input();
 MU_INIT();
 
 int main(int argc, char *argv[]) {
+
+	app_verbosity = LOGGER_DEBUG;
 
 	MU_RUN_SUITE( test_view );
 	MU_RUN_SUITE( test_model );

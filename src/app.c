@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "logger.h"
 #include "view.h"
 #include "model.h"
 #include "controller.h"
@@ -22,6 +23,8 @@ int main(int argc, char **argv) {
 	            exit(EXIT_FAILURE);
 	   }
 	}
+
+	app_verbosity = LOGGER_WARNING;
 
 	if( setupSimulator( useGdb ) ) { // Model
 		return 1;

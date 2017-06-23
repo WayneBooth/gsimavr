@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <dlfcn.h> 
 
+#include "logger.h"
 #include "model.h"
 #include "sim_elf.h"
 #include "sim_gdb.h"
@@ -109,13 +110,14 @@ void createAvr( char *firmwareName, char *firmwareMcu ) {
   avr_logger_p logger = gsimavr_avr_logger;
   avr_global_logger_set( logger );
 
-  printf("Generating AVR of type %s\n", firmwareMcu );
+  LOG( LOGGER_WARNING, "Generating AVR of type %s\n", firmwareMcu );
   avr = avr_make_mcu_by_name ( firmwareMcu );
-  avr->log = LOG_TRACE;
 
   avr_init ( avr );
+
   avr->log = LOG_TRACE;
   avr_global_logger_set( logger );
+
   avr_load_firmware ( avr, &f );
   avr->frequency = 8000000UL;
 }
