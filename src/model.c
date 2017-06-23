@@ -151,7 +151,7 @@ int loadGsimavrCore( char *coreName ) {
 
   core_reg_pin_to_location = dlsym(lib, "core_reg_pin_to_location");
 
-  LOG( LOG_DEBUG, "We have a %d pin %s\n", PINS, CHIPNAME() );
+  LOG( LOGGER_DEBUG, "We have a %d pin %s\n", PINS, CHIPNAME() );
   return 0;
 }
 
