@@ -22,7 +22,7 @@ test: build
 	$(RUN)
 
 build: mock ${OBJ} ${MAIN}.o
-	$(CC) -o $@ ${OBJ} ${OBJECT_UNDER_TEST} ../src/logger.o ${LIBS} ${CLIBSBUILD}
+	$(CC) -o $@ ${OBJ} ${OBJECT_UNDER_TEST} ${LIBS} ${CLIBSBUILD}
 
 %.o: %.c
 	$(CC) ${CFLAGS} -o $@ $<

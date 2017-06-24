@@ -87,16 +87,6 @@ uint32_t voidPtr_to_int( void * ptr ) {
   return *ptr_ptr;
 }
 
-void gsimavr_avr_logger(avr_t* avr, const int level, const char * format, va_list ap) {
-	if (!avr || avr->log >= level) {
-		int len = snprintf(NULL, 0, "AVRLOG: %s", format );
-		char *st = (char *)malloc(len+1);
-		snprintf(st, len+1, "AVRLOG: %s", format );
-		LOG( level, st, ap );
-		free(st);
-	}
-}
-
 void createAvr( char *firmwareName, char *firmwareMcu ) {
 
   int len = snprintf(NULL, 0, "../%s.elf", firmwareName );
