@@ -59,7 +59,7 @@ MU_TEST( logger___AVRLOG___no_object___avr_logs_and_gsimavr_logs ) {
 MU_TEST( logger___AVRLOG___avr_set_low___no_logs ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOG_ERROR;
+	avr.log = LOGGER_ERROR;
 	// AVR logging is LOGGER_ERROR, so wont pass on LOGGER_DEBUG - no LOG
 	AVR_LOG( &avr, LOG_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
@@ -70,7 +70,7 @@ MU_TEST( logger___AVRLOG___avr_set_low___no_logs ) {
 MU_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOG_DEBUG;
+	avr.log = LOGGER_DEBUG;
 	AVR_LOG( &avr, LOG_WARNING, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
@@ -80,7 +80,7 @@ MU_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs ) {
 MU_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_anything_log ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOG_DEBUG;
+	avr.log = LOGGER_DEBUG;
 	AVR_LOG( &avr, LOG_TRACE, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
