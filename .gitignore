@@ -10,6 +10,7 @@ src/cores/*.gcno
 src/cores/*.so
 test/build
 test/cores
+test/test.log
 test/*.gcda
 test/*.gcno
 test/*.o

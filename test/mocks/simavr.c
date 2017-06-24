@@ -1,6 +1,7 @@
 #include <sim_avr.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 
 avr_t * avr_make_mcu_by_name( const char *name) {
 	printf("Simulating 'avr_make_mcu_by_name'\n");
@@ -54,4 +55,13 @@ int avr_gdb_init(avr_t * avr) {
 
 void avr_global_logger_set( avr_logger_p logger ) {
 	printf("Simulating 'avr_global_logger_set'\n");
+}
+
+void gsimavr_avr_logger( avr_t*, const int, const char *, va_list );
+
+void avr_global_logger( struct avr_t* avr, const int level, const char * format, ... ) {
+	va_list args;
+	va_start(args, format);
+	gsimavr_avr_logger(avr, level, format, args);
+	va_end(args);
 }

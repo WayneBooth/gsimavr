@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "logger.h"
 
@@ -19,16 +20,17 @@ void set_logger( logger_p logger ) {
 	_logger_routine = logger ? logger : std_logger;
 }
 
-static void std_logger( const char * format, va_list ap) {
+static void std_logger( const char * format, va_list ap ) {
 	vprintf( format, ap);
 }
 
-void gsimavr_avr_logger(avr_t* avr, const int level, const char * format, va_list ap) {
+void gsimavr_avr_logger( avr_t* avr, const int level, const char * format, va_list ap ) {
         if (!avr || avr->log >= level) {
                 int len = snprintf(NULL, 0, "AVRLOG: %s", format );
                 char *st = (char *)malloc(len+1);
                 snprintf(st, len+1, "AVRLOG: %s", format );
-                LOG( level, st, ap );
+//vprintf( st, ap);
+                _logger_routine( st, ap );
                 free(st);
         }
 }

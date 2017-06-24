@@ -25,7 +25,7 @@ void set_logger( logger_p );
 
 void logger_routine( const int level, const char *, ... );
 
-void gsimavr_avr_logger(avr_t* , const int, const char *, va_list );
+void gsimavr_avr_logger( avr_t* , const int, const char *, va_list );
 
 int app_verbosity;
 

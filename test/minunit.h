@@ -278,7 +278,7 @@ static void (*minunit_teardown)(void) = NULL;
         __MU_ASSERT(\
                 "mu_assert_string_eq",\
                 !strcmp(minunit_tmp_e, minunit_tmp_r), \
-                "%s expected but was %s", \
+                "'%s' expected but was '%s'", \
                 (minunit_tmp_e), (minunit_tmp_r) \
         );\
 )
