@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <unistd.h>
+#include <sim_avr.h>
 
 #include "minunit.h"
 #include "../src/logger.h"
@@ -44,29 +45,43 @@ MU_TEST( logger___LOG___no_logs ) {
 	free(log);
 }
 
-MU_TEST( logger___AVRLOG___logs ) {
+MU_TEST( logger___AVRLOG___no_object___avr_logs_and_gsimavr_logs ) {
+	// 
 	unlink( "test.log" );
+	// No AVR, so AVR_LOG will always log
+	// LOGGER_OUTPUT is lower than app_verbosity - so LOG
 	AVR_LOG( NULL, LOGGER_OUTPUT, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
 	free(log);
 }
 
-MU_TEST( logger___AVRLOG___no_logs ) {
+MU_TEST( logger___AVRLOG___avr_set_low___no_logs ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOGGER_ERROR;
-	AVR_LOG( &avr, LOGGER_DEBUG, "Hello %s", "there" );
+	avr.log = LOG_ERROR;
+	// AVR logging is LOGGER_ERROR, so wont pass on LOGGER_DEBUG - no LOG
+	AVR_LOG( &avr, LOG_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
 	free(log);
 }
 
-MU_TEST( logger___AVRLOG___no_logs_but_avr_says_yes ) {
+MU_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOGGER_DEBUG;
-	AVR_LOG( &avr, LOGGER_DEBUG, "Hello %s", "there" );
+	avr.log = LOG_DEBUG;
+	AVR_LOG( &avr, LOG_WARNING, "Hello %s", "there" );
+	char *log = get_log_contents();
+	mu_assert_string_eq( "AVRLOG: Hello there", log );
+	free(log);
+}
+
+MU_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_anything_log ) {
+	unlink( "test.log" );
+	avr_t avr;
+	avr.log = LOG_DEBUG;
+	AVR_LOG( &avr, LOG_TRACE, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
 	free(log);
@@ -74,14 +89,16 @@ MU_TEST( logger___AVRLOG___no_logs_but_avr_says_yes ) {
 
 MU_TEST_SUITE( test_logger ) {
 
+	app_verbosity = LOGGER_WARNING;
 	set_logger( (logger_p)log_capture );
 
 	MU_RUN_TEST( logger___LOG___logs );
 	MU_RUN_TEST( logger___LOG___no_logs );
 
-	MU_RUN_TEST( logger___AVRLOG___logs );
-	MU_RUN_TEST( logger___AVRLOG___no_logs );
-	MU_RUN_TEST( logger___AVRLOG___no_logs_but_avr_says_yes );
+	MU_RUN_TEST( logger___AVRLOG___no_object___avr_logs_and_gsimavr_logs );
+	MU_RUN_TEST( logger___AVRLOG___avr_set_low___no_logs );
+	MU_RUN_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs );
+	MU_RUN_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_anything_log );
 
 	set_logger( NULL );
 }

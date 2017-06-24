@@ -29,7 +29,6 @@ void gsimavr_avr_logger( avr_t* avr, const int level, const char * format, va_li
                 int len = snprintf(NULL, 0, "AVRLOG: %s", format );
                 char *st = (char *)malloc(len+1);
                 snprintf(st, len+1, "AVRLOG: %s", format );
-//vprintf( st, ap);
                 _logger_routine( st, ap );
                 free(st);
         }
