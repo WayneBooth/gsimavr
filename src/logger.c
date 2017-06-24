@@ -25,7 +25,7 @@ static void std_logger( const char * format, va_list ap ) {
 }
 
 void gsimavr_avr_logger( avr_t* avr, const int level, const char * format, va_list ap ) {
-printf("In 'gsimavr_avr_logger'\n");
+if(avr) { printf("In 'gsimavr_avr_logger': is %d >= %d\n", avr->log, level); }
         if (!avr || avr->log >= level) {
 printf("Lets log while were here\n");
                 int len = snprintf(NULL, 0, "AVRLOG: %s", format );
