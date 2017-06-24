@@ -70,7 +70,7 @@ MU_TEST( logger___AVRLOG___avr_set_low___no_logs ) {
 
 MU_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs ) {
 	unlink( "test.log" );
-	avr_t avr;
+	struct avr_t avr;
 	avr.log = LOGGER_DEBUG;
 	AVR_LOG( &avr, LOGGER_WARNING, "Hello %s", "there" );
 	char *log = get_log_contents();
@@ -80,8 +80,9 @@ MU_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs ) {
 
 MU_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_anything_log ) {
 	unlink( "test.log" );
-	avr_t avr;
+	struct avr_t avr;
 	avr.log = LOGGER_DEBUG;
+printf("LOG LEVELS: LOGGER_ERROR=%d, LOGGER_WARNING=%d, LOGGER_TRACE=%d, LOGGER_DEBUG=%d, current avr (LOGGER_DEBUG) = %d\n", LOGGER_ERROR, LOGGER_WARNING, LOGGER_TRACE, LOGGER_DEBUG, avr.log);
 	AVR_LOG( &avr, LOGGER_ERROR, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
