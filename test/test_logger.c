@@ -55,7 +55,7 @@ MU_TEST( logger___AVRLOG___logs ) {
 MU_TEST( logger___AVRLOG___no_logs ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOG_ERROR;
+	avr.log = LOGGER_ERROR;
 	AVR_LOG( &avr, LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
@@ -65,7 +65,7 @@ MU_TEST( logger___AVRLOG___no_logs ) {
 MU_TEST( logger___AVRLOG___no_logs_but_avr_says_yes ) {
 	unlink( "test.log" );
 	avr_t avr;
-	avr.log = LOG_DEBUG;
+	avr.log = LOGGER_DEBUG;
 	AVR_LOG( &avr, LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
