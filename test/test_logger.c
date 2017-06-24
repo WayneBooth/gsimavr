@@ -6,6 +6,7 @@
 #include "../src/logger.h"
 
 void log_capture( const char * format, va_list ap) {
+printf("In 'log_capture'\n");
 	FILE *fp = fopen("test.log", "a");
 	vfprintf( fp, format, ap );
 	fclose( fp );
@@ -81,7 +82,7 @@ MU_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_
 	unlink( "test.log" );
 	avr_t avr;
 	avr.log = LOGGER_DEBUG;
-	AVR_LOG( &avr, LOGGER_TRACE, "Hello %s", "there" );
+	AVR_LOG( &avr, LOGGER_ERROR, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
 	free(log);
