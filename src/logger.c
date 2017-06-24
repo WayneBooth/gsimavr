@@ -24,7 +24,7 @@ static void std_logger( const char * format, va_list ap ) {
 	vprintf( format, ap);
 }
 
-void gsimavr_avr_logger( avr_t* avr, const int level, const char * format, va_list ap ) {
+void gsimavr_avr_logger( struct avr_t* avr, const int level, const char * format, va_list ap ) {
 if(avr) { printf("In 'gsimavr_avr_logger': is %d >= %d\n", avr->log, level); }
         if (!avr || avr->log >= level) {
 printf("Lets log while were here\n");
