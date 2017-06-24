@@ -57,11 +57,11 @@ void avr_global_logger_set( avr_logger_p logger ) {
 	printf("Simulating 'avr_global_logger_set'\n");
 }
 
-void gsimavr_avr_logger( avr_t*, const int, const char *, va_list );
+void gsimavr_avr_logger( const int, const char *, va_list );
 
-void avr_global_logger( struct avr_t* avr, const int level, const char * format, ... ) {
+void avr_global_logger( struct avr_t *avr, const int level, const char * format, ... ) {
 	va_list args;
 	va_start(args, format);
-	gsimavr_avr_logger(avr, level, format, args);
+	gsimavr_avr_logger( level, format, args );
 	va_end(args);
 }

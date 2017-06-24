@@ -6,7 +6,6 @@
 #include "../src/logger.h"
 
 void log_capture( const char * format, va_list ap) {
-printf("In 'log_capture'\n");
 	FILE *fp = fopen("test.log", "a");
 	vfprintf( fp, format, ap );
 	fclose( fp );
@@ -46,49 +45,20 @@ MU_TEST( logger___LOG___no_logs ) {
 	free(log);
 }
 
-MU_TEST( logger___AVRLOG___no_object___avr_logs_and_gsimavr_logs ) {
-	// 
+MU_TEST( logger___AVRLOG___app_set_high___logs ) {
 	unlink( "test.log" );
-	// No AVR, so AVR_LOG will always log
-	// LOGGER_OUTPUT is lower than app_verbosity - so LOG
-	AVR_LOG( NULL, LOGGER_OUTPUT, "Hello %s", "there" );
+	AVR_LOG( NULL, LOGGER_ERROR, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
 	free(log);
 }
 
-MU_TEST( logger___AVRLOG___avr_set_low___no_logs ) {
+MU_TEST( logger___AVRLOG___app_set_low___no_logs ) {
 	unlink( "test.log" );
-	avr_t avr;
-	avr.log = LOGGER_ERROR;
-	// AVR logging is LOGGER_ERROR, so wont pass on LOGGER_DEBUG - no LOG
-	AVR_LOG( &avr, LOGGER_DEBUG, "Hello %s", "there" );
+	AVR_LOG( NULL, LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
 	free(log);
-}
-
-MU_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs ) {
-	unlink( "test.log" );
-	struct avr_t avr;
-	avr.log = LOGGER_DEBUG;
-	AVR_LOG( &avr, LOGGER_WARNING, "Hello %s", "there" );
-	char *log = get_log_contents();
-	mu_assert_string_eq( "AVRLOG: Hello there", log );
-	free(log);
-}
-
-MU_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_anything_log ) {
-	unlink( "test.log" );
-	struct avr_t * gavr = malloc( sizeof( avr_t ) );
-	gavr->log = LOGGER_DEBUG;
-	gavr->log = 5;
-printf("LOG LEVELS aaa: LOGGER_ERROR=%d, LOGGER_WARNING=%d, LOGGER_TRACE=%d, LOGGER_DEBUG=%d, current avr (LOGGER_DEBUG) = %d\n", LOGGER_ERROR, LOGGER_WARNING, LOGGER_TRACE, LOGGER_DEBUG, gavr->log);
-	AVR_LOG( gavr, LOGGER_ERROR, "Hello %s", "there" );
-	char *log = get_log_contents();
-	mu_assert_string_eq( "AVRLOG: Hello there", log );
-	free(log);
-	free(gavr);
 }
 
 MU_TEST_SUITE( test_logger ) {
@@ -99,10 +69,8 @@ MU_TEST_SUITE( test_logger ) {
 	MU_RUN_TEST( logger___LOG___logs );
 	MU_RUN_TEST( logger___LOG___no_logs );
 
-	MU_RUN_TEST( logger___AVRLOG___no_object___avr_logs_and_gsimavr_logs );
-	MU_RUN_TEST( logger___AVRLOG___avr_set_low___no_logs );
-	MU_RUN_TEST( logger___AVRLOG___avr_set_high___avr_logs_and_gsimavr_logs );
-	MU_RUN_TEST( logger___AVRLOG___avr_set_high_app_set_low___avr_logs_and_gsimavr_lets_anything_log );
+	MU_RUN_TEST( logger___AVRLOG___app_set_high___logs );
+	MU_RUN_TEST( logger___AVRLOG___app_set_low___no_logs );
 
 	set_logger( NULL );
 }
