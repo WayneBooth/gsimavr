@@ -1,4 +1,5 @@
 coverage.info
+bw-output
 src/*.d
 src/*.gcda
 src/*.gcno
