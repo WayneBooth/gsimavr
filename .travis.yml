@@ -20,7 +20,7 @@ before-script:
 - lcov --directory . --zerocounters
 
 addons:
-  sonarcloud:
+  sonarqube:
     organization: "waynebooth-github"
     token: $SONAR_TOKEN
 
