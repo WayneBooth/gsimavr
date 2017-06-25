@@ -1,5 +1,8 @@
 language: c
 
+jdk:
+- oraclejdk8
+
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq libelf-dev gcc-avr avr-libc freeglut3-dev lcov
@@ -21,7 +24,7 @@ addons:
 script: 
 - build-wrapper-linux-x86-64 --out-dir bw-output make clean coverage
 - cd test ; ./build && cd ../
-- sonar-scanner
+- $SONAR_SCANNER_HOME/sonar-scanner -Dsonar.login=$SONAR_TOKEN
 
 cache:
   directories:
