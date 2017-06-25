@@ -24,7 +24,7 @@ addons:
 script: 
 - build-wrapper-linux-x86-64 --out-dir bw-output make clean coverage
 - cd test ; ./build && cd ../
-- $SONAR_SCANNER_HOME/sonar-scanner -Dsonar.login=$SONAR_TOKEN
+- sonar-scanner -Dsonar.login=$SONAR_TOKEN
 
 cache:
   directories:
