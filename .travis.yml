@@ -27,7 +27,7 @@ addons:
 script: 
 - build-wrapper-linux-x86-64 --out-dir bw-output make clean coverage
 - cd test ; ./build && cd ../
-- find ./src -name *.c | xargs -I {} sh -c 'export T_DIR=$(dirname {}) && export T_FILE=${basename {}) && cd $T_DIR && gcov -cbf $T_FILE -o . '
+- find ./src -name *.c | xargs -I {} sh -c 'export T_DIR=$(dirname {}) && export T_FILE=$(basename {}) && cd $T_DIR && gcov -cbf $T_FILE -o . '
 - sonar-scanner
 
 cache:
