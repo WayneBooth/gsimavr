@@ -17,7 +17,7 @@ void logger_routine( const int level, const char * format, ... ) {
 }
 
 void set_logger( logger_p logger ) {
-	_logger_routine = logger ? logger : std_logger;
+	_logger_routine = logger ? logger : &std_logger;
 }
 
 static void std_logger( const char * format, va_list ap ) {
