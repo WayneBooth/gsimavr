@@ -194,14 +194,18 @@ void drawChip(void) {
 
         glColor3f(0.4f,0.4f,0.4f);
 	glBegin(GL_POLYGON);
-		for( r = 0 ; r <= PI ; r += PI/10 ) {
+		r = 0;
+		while( r <= PI ) {
 			glVertex2f( l + ( 14 * sin( r ) ), (t + (0.5 * H) + ( 14 * cos( r ) ) ) );
+			r += PI/10;
 		}
 	glEnd();
         glColor3f(0.35f,0.35f,0.35f);
 	glBegin(GL_POLYGON);
-		for( r = 0 ; r <= 2*PI ; r += PI/10 ) {
+		r = 0;
+		while( r <= PI ) {
 			glVertex2f( l + (H * 0.15) + ( 6 * sin( r ) ), (t + (0.85 * H) + ( 6 * cos( r ) ) ) );
+			r += PI/10;
 		}
 	glEnd();
 
