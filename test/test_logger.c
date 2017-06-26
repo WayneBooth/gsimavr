@@ -29,7 +29,23 @@ char *get_log_contents() {
 	return strdup("");
 }
 
-MU_TEST( logger___LOG___logs ) {
+MU_TEST( logger___LOG___no_logger_high___logs ) {
+	unlink( "test.log" );
+	LOG( LOGGER_OUTPUT, "Hello %s", "there" );
+	char *log = get_log_contents();
+	mu_assert_string_eq( "", log );
+	free(log);
+}
+
+MU_TEST( logger___LOG___no_logger_low___no_logs ) {
+	unlink( "test.log" );
+	LOG( LOGGER_DEBUG, "Hello %s", "there" );
+	char *log = get_log_contents();
+	mu_assert_string_eq( "", log );
+	free(log);
+}
+
+MU_TEST( logger___LOG___app_set_high___logs ) {
 	unlink( "test.log" );
 	LOG( LOGGER_OUTPUT, "Hello %s", "there" );
 	char *log = get_log_contents();
@@ -37,7 +53,7 @@ MU_TEST( logger___LOG___logs ) {
 	free(log);
 }
 
-MU_TEST( logger___LOG___no_logs ) {
+MU_TEST( logger___LOG___app_set_low___no_logs ) {
 	unlink( "test.log" );
 	LOG( LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
@@ -64,10 +80,15 @@ MU_TEST( logger___AVRLOG___app_set_low___no_logs ) {
 MU_TEST_SUITE( test_logger ) {
 
 	app_verbosity = LOGGER_WARNING;
+	set_logger( NULL );
+
+	MU_RUN_TEST( logger___LOG___no_logger_high___logs );
+	MU_RUN_TEST( logger___LOG___no_logger_low___no_logs );
+
 	set_logger( (logger_p)log_capture );
 
-	MU_RUN_TEST( logger___LOG___logs );
-	MU_RUN_TEST( logger___LOG___no_logs );
+	MU_RUN_TEST( logger___LOG___app_set_high___logs );
+	MU_RUN_TEST( logger___LOG___app_set_low___no_logs );
 
 	MU_RUN_TEST( logger___AVRLOG___app_set_high___logs );
 	MU_RUN_TEST( logger___AVRLOG___app_set_low___no_logs );

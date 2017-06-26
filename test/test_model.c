@@ -154,8 +154,13 @@ MU_TEST( createAvr___completes ) {
 	mu_assert( 1 == 1, "createAvr did not complete" );
 }
 
-MU_TEST( setupGdb___completes ) {
+MU_TEST( setupGdb___waitForGdb___completes ) {
 	setupGdb( 1 );
+	mu_assert( 1 == 1, "setupGdn did not complete" );
+}
+
+MU_TEST( setupGdb___noGdb___completes ) {
+	setupGdb( 0 );
 	mu_assert( 1 == 1, "setupGdn did not complete" );
 }
 
@@ -457,7 +462,8 @@ MU_TEST_SUITE( test_model ) {
 
 	MU_RUN_TEST( setupSimulator___fails );
 	MU_RUN_TEST( createAvr___completes );
-	MU_RUN_TEST( setupGdb___completes );
+	MU_RUN_TEST( setupGdb___waitForGdb___completes );
+	MU_RUN_TEST( setupGdb___noGdb___completes );
 
 	MU_RUN_TEST( loadGsimavrCore___unknown___fails );
 
