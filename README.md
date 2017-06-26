@@ -3,6 +3,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b39eba961f9a474e97eefa2741aef92d)](https://www.codacy.com/app/WayneBooth/gsimavr?utm_source=github.com&utm_medium=referral&utm_content=WayneBooth/gsimavr&utm_campaign=badger)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=gsimavr)](https://sonarcloud.io/dashboard/index/gsimavr)
+[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=gsimavr&metric=coverage)](https://sonarcloud.io/dashboard/index/gsimavr)
 
 # gsimavr - A glut based simavr generic frontend
 
