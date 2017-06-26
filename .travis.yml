@@ -27,7 +27,7 @@ addons:
 script: 
 - build-wrapper-linux-x86-64 --out-dir bw-output make clean coverage
 - cd test ; ./build && cd ../
-- mkdir gcov-out && cd gcov-out && gcov ../src/*.c ../src/cores/*.c && cd ../
+- find ./src -name *.c | xargs -I {} gcov -cbf {} -o .
 - sonar-scanner
 
 cache:
