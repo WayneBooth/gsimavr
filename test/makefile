@@ -1,7 +1,7 @@
 
 MAIN=main
 PRJSRC=$(wildcard test_*.c)
-LIBS=-lrt -lm -lGL -lGLU -lglut mocks/elf.a mocks/simavr.a -lpthread -ldl
+LIBS=-lrt -lm mocks/glut.a mocks/elf.a mocks/simavr.a -lpthread -ldl
 CC=gcc
 CLIBSBUILD?=
 CFLAGSBUILD?=-O2 
