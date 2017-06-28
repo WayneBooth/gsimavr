@@ -97,7 +97,7 @@ void createAvr( char *firmwareName, char *firmwareMcu ) {
   elf_read_firmware ( st, &f );
   free(st);
 
-  avr_logger_p logger = gsimavr_avr_logger;
+  avr_logger_p logger = (avr_logger_p)gsimavr_avr_logger;
   avr_global_logger_set( logger );
 
   LOG( LOGGER_DEBUG, "Generating AVR of type %s\n", firmwareMcu );
