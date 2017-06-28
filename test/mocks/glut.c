@@ -62,6 +62,7 @@ void glLineWidth( float w ) {
 void test_font() {
   LOG( LOGGER_WARNING, "Simulating 'test_font'\n" );
 }
+
 void *glutStrokeMonoRoman=(void *)test_font;
 
 void glClearColor( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha ) {

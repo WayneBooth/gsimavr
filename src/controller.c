@@ -44,7 +44,7 @@ void changeInput( int pin, int newState ) {
 	int element;
 	port[1] = '\0';
 
-	char *ports = "BCD";
+	char *ports = "ABCDE";
 	int p = 0;
 	for( p = 0 ; p < 3 ; p++ ) {
 		memcpy( port, &ports[p], 1);
@@ -70,7 +70,7 @@ end:
 //		);
 
 	if( newState == BUTTON_ON ) {
-		printf( "Pin %d Port %c%d ON\n", pin, port[0], element );
+		LOG( LOGGER_WARNING, "Pin %d Port %c%d ON\n", pin, port[0], element );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
@@ -80,7 +80,7 @@ end:
 	}
 
 	else if( newState == BUTTON_OFF ) {
-		printf( "Pin %d OFF\n", pin );
+		LOG( LOGGER_WARNING, "Pin %d OFF\n", pin );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
@@ -90,7 +90,7 @@ end:
 	}
 
 	else if( newState == BUTTON_AC ) {
-		printf( "Pin %d AC\n", pin );
+		LOG( LOGGER_WARNING, "Pin %d AC\n", pin );
 		avr_connect_irq(
         		ac_input.irq + IRQ_AC_OUT,
 		        avr_io_getirq(
@@ -132,6 +132,9 @@ void setupConnectivity() {
 
   // Check for DDR changes
   avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'A' ), IOPORT_IRQ_DIRECTION_ALL ),
+		watcher_ddr, "A" );
+  avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_DIRECTION_ALL ),
 		watcher_ddr, "B" );
   avr_irq_register_notify( 
@@ -140,8 +143,14 @@ void setupConnectivity() {
   avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_DIRECTION_ALL ),
 		watcher_ddr, "D" );
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'E' ), IOPORT_IRQ_DIRECTION_ALL ),
+		watcher_ddr, "E" );
 
   // Check for State changes on (input)
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'A' ), IOPORT_IRQ_REG_PIN ),
+		watcher_state, "A" );
   avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_REG_PIN ),
 		watcher_state, "B" );
@@ -151,8 +160,14 @@ void setupConnectivity() {
   avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_REG_PIN ),
 		watcher_state, "D" );
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'E' ), IOPORT_IRQ_REG_PIN ),
+		watcher_state, "E" );
 
   // Check for State changes on (output)
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'A' ), IOPORT_IRQ_REG_PORT ),
+		watcher_state, "A" );
   avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_REG_PORT ),
 		watcher_state, "B" );
@@ -162,13 +177,11 @@ void setupConnectivity() {
   avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_REG_PORT ),
 		watcher_state, "D" );
+  avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'E' ), IOPORT_IRQ_REG_PORT ),
+		watcher_state, "E" );
 
 
-  // Watch output
-//  avr_irq_register_notify(
-//        avr_io_getirq(avr, AVR_IOCTL_IOPORT_GETIRQ('B'), 0),
-//        watcher, "B");
-//
   // Setup Clock
   ac_input_init(avr, &ac_input);
 
