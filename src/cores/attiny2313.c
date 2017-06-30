@@ -4,6 +4,7 @@
 
 char * core_chipname;
 int core_pins;
+char * core_registers;
 
 uint32_t core_noConnection;
 uint32_t core_powerPins;
@@ -17,6 +18,7 @@ void configureDevice() {
 
   core_chipname = "ATtiny2313";
   core_pins = 20;
+  core_registers = "ABD";
 
   core_noConnection = 0b0000000000000000000000000001;
   core_powerPins  =   0b0000000010000000001000000000;
@@ -25,6 +27,10 @@ void configureDevice() {
   core_ddrPins =      0b0000000001111111110111111110; // 1=output 0=input
   core_outputState =  0b0000000000000000000000000000;
   core_inputState =   0b0000000000000000000000000000;
+}
+
+char *get_registers() {
+  return core_registers;
 }
 
 char *get_chipname() {
