@@ -13,6 +13,13 @@ MU_TEST( controller___setupConnectivity___no_core_fails ) {
 	mu_assert_uint32_eq( ret, 1 );
 }
 
+MU_TEST( controller___setupConnectivity___emptry_registers_fails ) {
+	regs = NULL;
+	REGISTERS = giveRegs;
+	int ret = setupConnectivity();
+	mu_assert_uint32_eq( ret, 1 );
+}
+
 MU_TEST( controller___setupConnectivity___with_core ) {
 	regs = "DFG";
 	REGISTERS = giveRegs;
@@ -24,5 +31,6 @@ MU_TEST( controller___setupConnectivity___with_core ) {
 MU_TEST_SUITE( test_controller ) {
 
 	MU_RUN_TEST( controller___setupConnectivity___no_core_fails );
+	MU_RUN_TEST( controller___setupConnectivity___emptry_registers_fails );
 	MU_RUN_TEST( controller___setupConnectivity___with_core );
 }
