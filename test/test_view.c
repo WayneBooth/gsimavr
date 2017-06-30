@@ -31,6 +31,16 @@ MU_TEST( view___renderScene ) {
 	mu_assert_uint32_eq( 1, 1 );
 }
 
+MU_TEST( view___changeSize ) {
+	changeSize();
+	mu_assert_uint32_eq( 1, 1 );
+}
+
+MU_TEST( view___mouseFunc ) {
+	mouseFunc();
+	mu_assert_uint32_eq( 1, 1 );
+}
+
 
 MU_TEST( view___draw_wire ) {
 	drawWire( 1, 0.2F, 0.2F, 1 );
@@ -61,9 +71,12 @@ MU_TEST_SUITE( test_view ) {
 	MU_RUN_TEST( view___mainLoop );
 
 	MU_RUN_TEST( view___renderScene );
+	MU_RUN_TEST( view___changeSize );
+	MU_RUN_TEST( view___mouseFunc );
 
 	MU_RUN_TEST( view___draw_wire );
 	MU_RUN_TEST( view___draw_chip );
 	MU_RUN_TEST( view___draw_outputs );
 	MU_RUN_TEST( view___draw_inputs );
+
 }
