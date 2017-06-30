@@ -4,6 +4,7 @@
 
 extern float w;
 void drawChip(void);
+void drawWire( int, float, float, int );
 void drawOutput( int, float, float, int );
 void drawInputs( int, float, float, int );
 
