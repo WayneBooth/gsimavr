@@ -41,12 +41,13 @@ void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
 void changeInput( int pin, int newState ) {
 
 	char port[2];
-	int element;
+	int element = 0;
 	port[1] = '\0';
 
 	char *ports = REGISTERS();
 	int p = 0;
-	for( p = 0 ; p < strlen(ports) ; p++ ) {
+	int l = strlen(ports);
+	for( p = 0 ; p < l ; p++ ) {
 		memcpy( port, &ports[p], 1);
 		int e = 0;
 		for( e = 0 ; e < 8 ; e++ ) {
@@ -142,7 +143,8 @@ int setupConnectivity() {
   }
 
   int p = 0;
-  for( p = 0 ; p < strlen(ports) ; p++ ) {
+  int l = strlen(ports);
+  for( p = 0 ; p < l ; p++ ) {
     memcpy( port, &ports[p], 1);
 
     // Check for DDR changes
