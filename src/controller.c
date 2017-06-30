@@ -44,9 +44,9 @@ void changeInput( int pin, int newState ) {
 	int element;
 	port[1] = '\0';
 
-	char *ports = "ABCDE";
+	char *ports = REGISTERS();
 	int p = 0;
-	for( p = 0 ; p < 3 ; p++ ) {
+	for( p = 0 ; p < strlen(ports) ; p++ ) {
 		memcpy( port, &ports[p], 1);
 		int e = 0;
 		for( e = 0 ; e < 8 ; e++ ) {
@@ -127,60 +127,39 @@ static void * avr_run_thread( void * ignore) {
         return NULL;
 }
 
-void setupConnectivity() {
+int setupConnectivity() {
 
+  char port[2];
+  port[1] = '\0';
+  if( REGISTERS == NULL ) {
+    LOG( LOGGER_ERROR, "Looks like we've not loaded a core yet\n" );
+    return 1;
+  }
+  char *ports = REGISTERS();
+  if( ports == NULL ) {
+    LOG( LOGGER_ERROR, "No record of which registers\n" );
+    return 1;
+  }
 
-  // Check for DDR changes
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'A' ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, "A" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, "B" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'C' ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, "C" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, "D" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'E' ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, "E" );
+  int p = 0;
+  for( p = 0 ; p < strlen(ports) ; p++ ) {
+    memcpy( port, &ports[p], 1);
 
-  // Check for State changes on (input)
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'A' ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, "A" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, "B" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'C' ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, "C" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, "D" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'E' ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, "E" );
+    // Check for DDR changes
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( port[0] ), IOPORT_IRQ_DIRECTION_ALL ),
+		watcher_ddr, port );
 
-  // Check for State changes on (output)
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'A' ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, "A" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'B' ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, "B" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'C' ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, "C" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'D' ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, "D" );
-  avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( 'E' ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, "E" );
+    // Check for State changes on (input)
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( port[0] ), IOPORT_IRQ_REG_PIN ),
+		watcher_state, port );
 
+    // Check for State changes on (output)
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( port[0] ), IOPORT_IRQ_REG_PORT ),
+		watcher_state, port );
+  }
 
   // Setup Clock
   ac_input_init(avr, &ac_input);
@@ -188,7 +167,6 @@ void setupConnectivity() {
   pthread_t run;
   pthread_create(&run, NULL, avr_run_thread, NULL);
 
-
-  
-  }
+  return 0;
+}
 

@@ -32,7 +32,9 @@ int main(int argc, char **argv) {
 
 	setupInterface( argc, argv ); // View
 
-	setupConnectivity(); // Controller
+	if( setupConnectivity() ) { // Controller
+		return 1;
+	}
 
 	mainLoop(); // View
 

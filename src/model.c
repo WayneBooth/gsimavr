@@ -128,8 +128,9 @@ int loadGsimavrCore( char *coreName ) {
   ConfigureDevice configureDevice = dlsym(lib, "configureDevice");
   configureDevice();
 
-  CHIPNAME = dlsym (lib, "get_chipname");
-  PINS =    (int)voidPtr_to_int( dlsym (lib, "core_pins") );
+  CHIPNAME  = dlsym (lib, "get_chipname");
+  PINS =     (int)voidPtr_to_int( dlsym (lib, "core_pins") );
+  REGISTERS = dlsym (lib, "get_registers");
 
   noConnection = voidPtr_to_int( dlsym (lib, "core_noConnection") );
   powerPins  =   voidPtr_to_int( dlsym (lib, "core_powerPins") );

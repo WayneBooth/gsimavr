@@ -174,6 +174,7 @@ MU_TEST( loadGsimavrCore___atmega328p___completes ) {
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATmega328P", CHIPNAME() );
 	mu_assert( PINS == 28, "Device does not report 28 pins" );
+	//mu_assert( REGISTERS == "BCD", "Device does not report the expected registers [BCD]" );
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_A ) {
