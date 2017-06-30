@@ -14,8 +14,8 @@ int avr_init( avr_t * avr ) {
 }
 
 struct avr_irq_t * avr_io_getirq( avr_t * avr, uint32_t ctl, int index) {
-	printf("Simulating 'avr_make_mcu_by_name'\n");
-	return NULL;
+	printf("Simulating 'avr_io_getirq' with port '%c'\n", ctl);
+	return 0;
 }
 
 void avr_connect_irq( avr_irq_t * src, avr_irq_t * dst) {
@@ -27,7 +27,7 @@ void avr_unconnect_irq( avr_irq_t * src, avr_irq_t * dst) {
 }
 
 void avr_irq_register_notify( avr_irq_t * irq, avr_irq_notify_t notify, void * param) {
-	printf("Simulating 'avr_irq_register_notify'\n");
+	printf("Simulating 'avr_irq_register_notify' with port '%s'\n", (char *)param);
 }
 
 void avr_raise_irq( avr_irq_t * irq, uint32_t value) {
