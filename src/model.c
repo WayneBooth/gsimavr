@@ -124,6 +124,7 @@ int loadGsimavrCore( char *coreName ) {
     return 1;
   }
   free(st);
+  LOG( LOGGER_ERROR, "Loaded core '%s'\n", coreName );
 
   ConfigureDevice configureDevice = dlsym(lib, "configureDevice");
   configureDevice();
@@ -142,7 +143,7 @@ int loadGsimavrCore( char *coreName ) {
 
   core_reg_pin_to_location = dlsym(lib, "core_reg_pin_to_location");
 
-  LOG( LOGGER_DEBUG, "We have a %d pin %s\n", PINS, CHIPNAME() );
+  LOG( LOGGER_DEBUG, "We have a %d pin %s, containing registers(%s)\n", PINS, CHIPNAME(), REGISTERS() );
   return 0;
 }
 

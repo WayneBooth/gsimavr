@@ -33,7 +33,7 @@ void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
 			), 
 	( value & ( 1 << x ) ) >= 1 
 	);
-	//printf("PIN%s%d = %d\n", (char *)closure, x, ( value & ( 1 << x ) ) >= 1 );
+	LOG( LOGGER_DEBUG, "PIN%s%d = %d\n", (char *)closure, x, ( value & ( 1 << x ) ) >= 1 );
   }
   renderScene();
 }
@@ -103,6 +103,7 @@ end:
 }
 
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
+LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port=%s-%d\n", (char *)closure, value);
   int x = 0;
   for ( x = 0; x < 8 ; x++ ) {
     set_ddr( 
@@ -117,7 +118,7 @@ void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
 }
 
 
-static void * avr_run_thread( void * ignore) {
+static void * avr_run_thread( void * ignore ) {
 
 	int state = cpu_Running;
 	while ( ( state != cpu_Done ) && ( state != cpu_Crashed ) ) {
@@ -130,8 +131,6 @@ static void * avr_run_thread( void * ignore) {
 
 int setupConnectivity() {
 
-  char port[2];
-  port[1] = '\0';
   if( REGISTERS == NULL ) {
     LOG( LOGGER_ERROR, "Looks like we've not loaded a core yet\n" );
     return 1;
@@ -145,7 +144,11 @@ int setupConnectivity() {
   int p = 0;
   int l = strlen(ports);
   for( p = 0 ; p < l ; p++ ) {
+    char *port = malloc( sizeof( char ) * 2 );
     memcpy( port, &ports[p], 1);
+    port[1] = '\0';
+
+    LOG( LOGGER_DEBUG, "Registering the avr registers '%s'\n", port );
 
     // Check for DDR changes
     avr_irq_register_notify( 

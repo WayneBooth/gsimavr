@@ -5,6 +5,7 @@
 #include <string.h>
 #include <GL/glut.h>
 
+#include "logger.h"
 #include "view.h"
 #include "model.h"
 #include "controller.h"
