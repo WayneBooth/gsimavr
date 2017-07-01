@@ -9,6 +9,7 @@ char *giveRegs() {
 }
 
 MU_TEST( controller___setupConnectivity___no_core_fails ) {
+	REGISTERS = NULL;
 	int ret = setupConnectivity();
 	mu_assert_uint32_eq( ret, 1 );
 }

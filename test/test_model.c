@@ -174,7 +174,7 @@ MU_TEST( loadGsimavrCore___atmega328p___completes ) {
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATmega328P", CHIPNAME() );
 	mu_assert( PINS == 28, "Device does not report 28 pins" );
-	//mu_assert( REGISTERS == "BCD", "Device does not report the expected registers [BCD]" );
+	mu_assert_string_eq( "BCD", REGISTERS() );
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_A ) {
@@ -286,6 +286,7 @@ MU_TEST( loadGsimavrCore___attiny2313___completes ) {
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATtiny2313", CHIPNAME() );
 	mu_assert( PINS == 20, "Device does not report 20 pins" );
+	mu_assert_string_eq( "ABD", REGISTERS() );
 }
 
 MU_TEST( reg_pin_to_location___attiny2313___port_A ) {
@@ -382,6 +383,7 @@ MU_TEST( loadGsimavrCore___attiny13___completes ) {
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATtiny13", CHIPNAME() );
 	mu_assert( PINS == 8, "Device does not report 20 pins" );
+	mu_assert_string_eq( "B", REGISTERS() );
 }
 
 MU_TEST( reg_pin_to_location___attiny13___port_A ) {
