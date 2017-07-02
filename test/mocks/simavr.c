@@ -46,6 +46,7 @@ avr_irq_t * avr_alloc_irq( avr_irq_pool_t * pool, uint32_t base, uint32_t count,
 
 void avr_cycle_timer_register_usec( struct avr_t * avr, uint32_t when, avr_cycle_timer_t timer, void * param) {
 	printf("Simulating 'avr_cycle_timer_register_usec'\n");
+	timer( avr, when, param );
 }
 
 int avr_gdb_init(avr_t * avr) {

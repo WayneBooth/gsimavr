@@ -41,9 +41,6 @@ typedef struct ac_input_t {
     uint8_t value;
 } ac_input_t;
 
-void
-ac_input_init(
-			struct avr_t * avr,
-			ac_input_t * b);
+void ac_input_init( struct avr_t *, ac_input_t * );
 
 #endif
