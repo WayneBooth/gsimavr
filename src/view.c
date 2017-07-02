@@ -78,12 +78,12 @@ void drawWire( int pin, float x, float y, int colour ) {
 		y -= 60;
 	}
 	x += 8;
-	glLineWidth(5.f);
+	glLineWidth(5.0F);
 	glBegin(GL_LINES);
         	glVertex2f( x, y );
         	glVertex2f( x, y + 55 );
 	glEnd();
-	glLineWidth(1.f);
+	glLineWidth(1.0F);
 }
 
 void drawArrow( float x, float y, int pointUp ) {
