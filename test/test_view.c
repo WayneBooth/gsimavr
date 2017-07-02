@@ -1,16 +1,26 @@
 #include "minunit.h"
+#include <GL/glut.h>
 #include "../src/view.h"
 #include "../src/model.h"
 
 extern float w;
+extern float pins[28][4];
 void drawChip(void);
 void drawWire( int, float, float, int );
 void drawOutput( int, float, float, int );
 void drawInputs( int, float, float, int );
-
+void mouseFunc( int, int, int, int );
+void changeSize(int, int);
 
 char *getChipName() {
 	return "test chip name";
+}
+
+extern char *(*REGISTERS)();
+int gotHere = 0;
+char *dummyRegs() {
+  gotHere = 1;
+  return "";
 }
 
 MU_TEST( view___setupInterface ) {
@@ -32,13 +42,20 @@ MU_TEST( view___renderScene ) {
 }
 
 MU_TEST( view___changeSize ) {
-	changeSize();
+	changeSize( 5, 5 );
 	mu_assert_uint32_eq( 1, 1 );
 }
 
 MU_TEST( view___mouseFunc ) {
-	mouseFunc();
-	mu_assert_uint32_eq( 1, 1 );
+	gotHere = 0;
+	REGISTERS = dummyRegs;
+	pins[1][0] = 4;
+	pins[1][1] = 4;
+	pins[1][2] = 6;
+	pins[1][3] = 6;
+	mouseFunc( 0, GLUT_DOWN, 5, 5);
+	mouseFunc( 0, GLUT_UP, 5, 5);
+	mu_assert_uint32_eq( 1, gotHere );
 }
 
 
