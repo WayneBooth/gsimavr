@@ -45,7 +45,7 @@ void ac_input_init(avr_t *avr, ac_input_t *b) {
 	b->avr = avr;
 	b->value = 0;
 	avr_cycle_timer_register_usec(avr, USECS_PER_SECOND / HZ, switch_auto, b);
-	LOG( LOGGER_WARNING, "ac_input_init period %fuS or %d cycles\n",
+	LOG( LOGGER_TRACE, "ac_input_init period %fuS or %d cycles\n",
 			USECS_PER_SECOND / HZ,
 			(int)avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ));
 }

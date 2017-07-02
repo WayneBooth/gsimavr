@@ -25,6 +25,7 @@ enum {
 };
 
 void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
+  LOG( LOGGER_DEBUG, "Entering 'watcher_state', port=%s-%d\n", (char *)closure, value);
   int x = 0;
   for ( x = 0; x < 8 ; x++ ) {
     set_ioState( 
@@ -54,7 +55,7 @@ void changeInput( int pin, int newState ) {
 		for( e = 0 ; e < 8 ; e++ ) {
 			element = e;
 			if( reg_pin_to_location( port, element ) == pin ) {
-				LOG( LOGGER_DEBUG, "You clicked %s%d\n", port, element);
+				LOG( LOGGER_TRACE, "You clicked %s%d\n", port, element);
 				goto end;
 			}
 		}
@@ -72,7 +73,7 @@ end:
 //		);
 
 	if( newState == BUTTON_ON ) {
-		LOG( LOGGER_WARNING, "Pin %d Port %c%d ON\n", pin, port[0], element );
+		LOG( LOGGER_TRACE, "Pin %d Port %c%d ON\n", pin, port[0], element );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
@@ -82,7 +83,7 @@ end:
 	}
 
 	else if( newState == BUTTON_OFF ) {
-		LOG( LOGGER_WARNING, "Pin %d OFF\n", pin );
+		LOG( LOGGER_TRACE, "Pin %d OFF\n", pin );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
@@ -92,7 +93,7 @@ end:
 	}
 
 	else if( newState == BUTTON_AC ) {
-		LOG( LOGGER_WARNING, "Pin %d AC\n", pin );
+		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
 		avr_connect_irq(
         		ac_input.irq + IRQ_AC_OUT,
 		        avr_io_getirq(
@@ -104,7 +105,7 @@ end:
 }
 
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
-LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port=%s-%d\n", (char *)closure, value);
+  LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port=%s-%d\n", (char *)closure, value);
   int x = 0;
   for ( x = 0; x < 8 ; x++ ) {
     set_ddr( 
@@ -114,6 +115,7 @@ LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port=%s-%d\n", (char *)closure, valu
 			), 
 	( value & ( 1 << x ) ) >= 1 
 	);
+    LOG( LOGGER_DEBUG, "PIN%s%d = ddr is %d\n", (char *)closure, x, ( value & ( 1 << x ) ) >= 1 );
   }
   renderScene();
 }
@@ -149,7 +151,7 @@ int setupConnectivity() {
     memcpy( port, &ports[p], 1);
     port[1] = '\0';
 
-    LOG( LOGGER_DEBUG, "Registering the avr registers '%s'\n", port );
+    LOG( LOGGER_TRACE, "Registering the avr registers '%s'\n", port );
 
     // Check for DDR changes
     avr_irq_register_notify( 

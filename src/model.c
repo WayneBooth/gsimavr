@@ -92,7 +92,7 @@ void createAvr( char *firmwareName, char *firmwareMcu ) {
   int len = snprintf(NULL, 0, "../%s.elf", firmwareName );
   char *st = (char *)malloc(len+1);
   snprintf(st, len+1, "../%s.elf", firmwareName );
-  LOG( LOGGER_DEBUG, "Loading firmware: %s\n", st);
+  LOG( LOGGER_WARNING, "Loading firmware: %s\n", st);
   elf_firmware_t f;
   elf_read_firmware ( st, &f );
   free(st);
@@ -100,7 +100,7 @@ void createAvr( char *firmwareName, char *firmwareMcu ) {
   avr_logger_p logger = (avr_logger_p)gsimavr_avr_logger;
   avr_global_logger_set( logger );
 
-  LOG( LOGGER_DEBUG, "Generating AVR of type %s\n", firmwareMcu );
+  LOG( LOGGER_WARNING, "Generating AVR of type %s\n", firmwareMcu );
   avr = avr_make_mcu_by_name ( firmwareMcu );
 
   avr_init ( avr );
@@ -119,12 +119,12 @@ int loadGsimavrCore( char *coreName ) {
   snprintf(st, len+1, "./cores/%s.so", coreName );
   lib = dlopen( st, RTLD_NOW );
   if(lib == NULL) {
-    LOG( LOGGER_ERROR, "ERROR: The core '%s' is not supported : %s\n", coreName, dlerror() );
+    LOG( LOGGER_ERROR, "The core '%s' is not supported : %s\n", coreName, dlerror() );
     free(st);
     return 1;
   }
   free(st);
-  LOG( LOGGER_ERROR, "Loaded core '%s'\n", coreName );
+  LOG( LOGGER_WARNING, "Loaded core '%s'\n", coreName );
 
   ConfigureDevice configureDevice = dlsym(lib, "configureDevice");
   configureDevice();
@@ -143,7 +143,7 @@ int loadGsimavrCore( char *coreName ) {
 
   core_reg_pin_to_location = dlsym(lib, "core_reg_pin_to_location");
 
-  LOG( LOGGER_DEBUG, "We have a %d pin %s, containing registers(%s)\n", PINS, CHIPNAME(), REGISTERS() );
+  LOG( LOGGER_TRACE, "We have a %d pin %s, containing registers(%s)\n", PINS, CHIPNAME(), REGISTERS() );
   return 0;
 }
 

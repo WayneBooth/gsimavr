@@ -21,10 +21,11 @@ run-coverage: coverage
 	cd test ; ./build ; cd ./
 	lcov --directory . --capture --output-file coverage.info
 	lcov --remove coverage.info 'test/*' '/usr/*' --output-file coverage.info
+	mkdir -p cov
 	genhtml -o cov coverage.info
 
 clean:
-
 	rm -f coverage.info
+	rm -rf cov
 	make -C src clean
 	make -C test clean
