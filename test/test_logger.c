@@ -31,17 +31,17 @@ char *get_log_contents() {
 
 MU_TEST( logger___LOG___no_logger_high___logs ) {
 	unlink( "test.log" );
-	LOG( LOGGER_OUTPUT, "Hello %s", "there" );
+	LOG( LOGGER_OUTPUT, "Hello %s", "there\n" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log );
+	mu_assert_string_eq( "", log ); // Gets directed to STDOUT (how would I assert this?)
 	free(log);
 }
 
 MU_TEST( logger___LOG___no_logger_low___no_logs ) {
 	unlink( "test.log" );
-	LOG( LOGGER_DEBUG, "Hello %s", "there" );
+	LOG( LOGGER_DEBUG, "Hello %s", "there\n" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log );
+	mu_assert_string_eq( "", log ); // Again, how would I assert this hasn't appeard on STDOUT?
 	free(log);
 }
 
