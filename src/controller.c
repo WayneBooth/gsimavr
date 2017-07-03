@@ -24,6 +24,8 @@ enum {
 	BUTTON_OFF
 };
 
+char *reg[7] = { "A", "B", "C", "D", "E", "F", NULL };
+
 void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
   LOG( LOGGER_DEBUG, "Entering 'watcher_state', port=%s-%d\n", (char *)closure, value);
   int x = 0;
@@ -147,26 +149,23 @@ int setupConnectivity() {
   int p = 0;
   int l = strlen(ports);
   for( p = 0 ; p < l ; p++ ) {
-    char *port = malloc( sizeof( char ) * 2 );
-    memcpy( port, &ports[p], 1);
-    port[1] = '\0';
 
-    LOG( LOGGER_TRACE, "Registering the avr registers '%s'\n", port );
+    LOG( LOGGER_TRACE, "Registering the avr registers '%s'\n", reg[ports[p]-65] );
 
     // Check for DDR changes
     avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( port[0] ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, port );
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_DIRECTION_ALL ),
+		watcher_ddr, reg[ports[p]-65] );
 
     // Check for State changes on (input)
     avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( port[0] ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, port );
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_REG_PIN ),
+		watcher_state, reg[ports[p]-65] );
 
     // Check for State changes on (output)
     avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( port[0] ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, port );
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_REG_PORT ),
+		watcher_state, reg[ports[p]-65] );
   }
 
   // Setup Clock

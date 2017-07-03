@@ -24,7 +24,7 @@ MU_TEST( controller___setupConnectivity___emptry_registers_fails ) {
 }
 
 MU_TEST( controller___setupConnectivity___with_core ) {
-	regs = "DFG";
+	regs = "DFA";
 	REGISTERS = giveRegs;
 	int ret = setupConnectivity();
 	mu_assert_uint32_eq( ret, 0 );
