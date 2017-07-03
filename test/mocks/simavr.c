@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+static int runCounter = 0;
+
 avr_t * avr_make_mcu_by_name( const char *name) {
 	printf("Simulating 'avr_make_mcu_by_name'\n");
 	return (avr_t *)malloc(sizeof(avr_t));
@@ -36,7 +38,11 @@ void avr_raise_irq( avr_irq_t * irq, uint32_t value) {
 
 int avr_run( avr_t * avr) {
 	printf("Simulating 'avr_run'\n");
-	return 0;	
+	if( runCounter++ > 5 ) {
+		runCounter = 0;
+		return cpu_Done;
+	}
+	return cpu_Running;
 }
 
 avr_irq_t * avr_alloc_irq( avr_irq_pool_t * pool, uint32_t base, uint32_t count, const char ** names /* optional */) {

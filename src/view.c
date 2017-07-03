@@ -275,7 +275,6 @@ void mouseFunc( int button, int state, int x, int y ) {
 
 			if( state == GLUT_UP ) {
 				if( buttonState[button] == i ) {
-					LOG( LOGGER_ERROR, "%d  -  %d\n", i, button );
 					changeInput( i, button );
 				}
 				buttonState[button] = 0;

@@ -121,7 +121,7 @@ void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
 }
 
 
-static void * avr_run_thread( void * ignore ) {
+void * avr_run_thread( void * ignore ) {
 
 	int state = cpu_Running;
 	while ( ( state != cpu_Done ) && ( state != cpu_Crashed ) ) {
