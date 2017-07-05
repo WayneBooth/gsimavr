@@ -35,6 +35,8 @@
 #include <string.h>
 #include "minunit_config.h"
 
+#include "../src/logger.h"
+
 /*  Misc. counters */
 extern int minunit_run;
 extern int minunit_assert;
@@ -112,7 +114,7 @@ static void (*minunit_teardown)(void) = NULL;
  * @brief      Run a function as test
  * @param      test  The test function (should be void f(void))
  */
-#define MU_RUN_TEST(test) MU__SAFE_BLOCK(\
+#define MU_RUN_TEST_MUTE(test) MU__SAFE_BLOCK(\
 	if (minunit_setup) {(*minunit_setup)();}\
 	minunit_status = 0;\
 	MU_PRINTF("\n");\
@@ -121,6 +123,11 @@ static void (*minunit_teardown)(void) = NULL;
 	minunit_run++;\
 	if (!minunit_status) { MU_PRINTF("\e[92mpass = true\e[0m\n"); }\
 	if (minunit_teardown) { (*minunit_teardown)(); }\
+)
+
+#define MU_RUN_TEST(test) MU__SAFE_BLOCK(\
+	LOG( LOGGER_WARNING, "\n\n---------------------------------\n%s.%s\n" , __func__, #test );\
+	MU_RUN_TEST_MUTE(test); \
 )
 
 /**

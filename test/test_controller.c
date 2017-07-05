@@ -3,6 +3,8 @@
 
 extern char *(*REGISTERS)();
 
+extern char *array[10];
+
 void * avr_run_thread( void * );
 
 char *regs = "BCD";
@@ -28,6 +30,16 @@ MU_TEST( controller___setupConnectivity___with_core ) {
 	REGISTERS = giveRegs;
 	int ret = setupConnectivity();
 	mu_assert_uint32_eq( ret, 0 );
+	mu_assert_string_eq( array[0], "D" );
+	mu_assert_string_eq( array[1], "D" );
+	mu_assert_string_eq( array[2], "D" );
+	mu_assert_string_eq( array[3], "F" );
+	mu_assert_string_eq( array[4], "F" );
+	mu_assert_string_eq( array[5], "F" );
+	mu_assert_string_eq( array[6], "A" );
+	mu_assert_string_eq( array[7], "A" );
+	mu_assert_string_eq( array[8], "A" );
+	mu_assert_string_eq( array[9], NULL );
 }
 
 

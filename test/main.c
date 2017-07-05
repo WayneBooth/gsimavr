@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include "minunit.h"
 #include "../src/logger.h"
 
@@ -9,11 +11,21 @@ void test_ac_input();
 
 MU_INIT();
 
+void logtofile( const char * format, va_list ap) {
+	FILE *fp = fopen("testing.log", "a");
+	vfprintf( fp, format, ap );
+	fclose( fp );
+}
+
 int main(int argc, char *argv[]) {
 
-	app_verbosity = LOGGER_TRACE;
+        unlink( "testing.log" );
 
 	MU_RUN_SUITE( test_logger );
+
+	app_verbosity = LOGGER_TRACE;
+	set_logger( (logger_p)logtofile );
+
 	MU_RUN_SUITE( test_view );
 	MU_RUN_SUITE( test_model );
 	MU_RUN_SUITE( test_controller );

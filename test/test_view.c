@@ -46,7 +46,7 @@ MU_TEST( view___changeSize ) {
 	mu_assert_uint32_eq( 1, 1 );
 }
 
-MU_TEST( view___mouseFunc ) {
+MU_TEST( view___mouseFunc___on_off ) {
 	gotHere = 0;
 	REGISTERS = dummyRegs;
 	pins[1][0] = 4;
@@ -58,6 +58,29 @@ MU_TEST( view___mouseFunc ) {
 	mu_assert_uint32_eq( 1, gotHere );
 }
 
+MU_TEST( view___mouseFunc___on_out_off ) {
+	gotHere = 0;
+	REGISTERS = dummyRegs;
+	pins[1][0] = 4;
+	pins[1][1] = 4;
+	pins[1][2] = 6;
+	pins[1][3] = 6;
+	mouseFunc( 0, GLUT_DOWN, 5, 5);
+	mouseFunc( 0, GLUT_UP, 3, 3);
+	mu_assert_uint32_eq( 0, gotHere );
+}
+
+MU_TEST( view___mouseFunc___out_on_in_off ) {
+	gotHere = 0;
+	REGISTERS = dummyRegs;
+	pins[1][0] = 4;
+	pins[1][1] = 4;
+	pins[1][2] = 6;
+	pins[1][3] = 6;
+	mouseFunc( 0, GLUT_DOWN, 3, 3);
+	mouseFunc( 0, GLUT_UP, 5, 5);
+	mu_assert_uint32_eq( 0, gotHere );
+}
 
 MU_TEST( view___draw_wire_on ) {
 	drawWire( 1, 0.2F, 0.2F, 1 );
@@ -104,7 +127,10 @@ MU_TEST_SUITE( test_view ) {
 
 	MU_RUN_TEST( view___renderScene );
 	MU_RUN_TEST( view___changeSize );
-	MU_RUN_TEST( view___mouseFunc );
+
+	MU_RUN_TEST( view___mouseFunc___on_off );
+	MU_RUN_TEST( view___mouseFunc___on_out_off );
+	MU_RUN_TEST( view___mouseFunc___out_on_in_off );
 
 	MU_RUN_TEST( view___draw_wire_on );
 	MU_RUN_TEST( view___draw_wire_off );

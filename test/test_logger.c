@@ -82,8 +82,8 @@ MU_TEST_SUITE( test_logger ) {
 	app_verbosity = LOGGER_WARNING;
 	set_logger( NULL );
 
-	MU_RUN_TEST( logger___LOG___no_logger_high___logs );
-	MU_RUN_TEST( logger___LOG___no_logger_low___no_logs );
+	MU_RUN_TEST_MUTE( logger___LOG___no_logger_high___logs );
+	MU_RUN_TEST_MUTE( logger___LOG___no_logger_low___no_logs );
 
 	set_logger( (logger_p)log_capture );
 
@@ -93,5 +93,6 @@ MU_TEST_SUITE( test_logger ) {
 	MU_RUN_TEST( logger___AVRLOG___app_set_high___logs );
 	MU_RUN_TEST( logger___AVRLOG___app_set_low___no_logs );
 
+	unlink( "test.log" );
 	set_logger( NULL );
 }
