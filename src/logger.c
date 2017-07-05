@@ -10,8 +10,10 @@ static logger_p _logger_routine = std_logger;
 void logger_routine( const int level, const char * format, ... ) {
 	va_list args;
 	va_start(args, format);
-	if ( _logger_routine && app_verbosity >= level ) {
-		_logger_routine( format, args);
+	if ( _logger_routine ) {
+		if ( app_verbosity >= level ) {
+			_logger_routine( format, args);
+		}
 	}
 	va_end(args);
 }
