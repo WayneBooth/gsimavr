@@ -77,8 +77,8 @@ MU_TEST( view___mouseFunc___out_on_in_off ) {
 	pins[1][1] = 4;
 	pins[1][2] = 6;
 	pins[1][3] = 6;
-	mouseFunc( 0, GLUT_DOWN, 3, 3);
-	mouseFunc( 0, GLUT_UP, 5, 5);
+	mouseFunc( 1, GLUT_DOWN, 3, 3);
+	mouseFunc( 1, GLUT_UP, 5, 5);
 	mu_assert_uint32_eq( 0, gotHere );
 }
 

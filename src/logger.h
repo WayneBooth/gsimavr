@@ -20,10 +20,10 @@ void set_logger( logger_p );
 
 #define LOG(level, ...) \
         do { \
-                logger_routine(level, __VA_ARGS__); \
+                logger_routine( __FUNCTION__, __FILE__, __LINE__, level, __VA_ARGS__); \
         } while(0)
 
-void logger_routine( const int level, const char *, ... );
+void logger_routine( const char * func, char * file, int line, int level, const char *, ... );
 
 void gsimavr_avr_logger( const int, const char *, va_list );
 

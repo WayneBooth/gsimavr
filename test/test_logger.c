@@ -49,7 +49,7 @@ MU_TEST( logger___LOG___app_set_high___logs ) {
 	unlink( "test.log" );
 	LOG( LOGGER_OUTPUT, "Hello %s", "there" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "Hello there", log );
+	mu_assert_string_eq( "out:50:test_logger.c:logger___LOG___app_set_high___logs: Hello there", log );
 	free(log);
 }
 
