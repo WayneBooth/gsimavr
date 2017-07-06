@@ -15,29 +15,29 @@ char *giveRegs() {
 
 MU_TEST( controller___changeInput___ping_not_found ) {
 	int ret = loadGsimavrCore( "atmega328p" );
-	mu_assert_uint32_eq( ret, 1 );
+	mu_assert_uint32_eq( 0, ret );
 	ret = changeInput( 100, BUTTON_ON );
-	mu_assert_uint32_eq( ret, 1 );
+	mu_assert_uint32_eq( 1, ret );
 }
 
 MU_TEST( controller___setupConnectivity___no_core_fails ) {
 	REGISTERS = NULL;
 	int ret = setupConnectivity();
-	mu_assert_uint32_eq( ret, 1 );
+	mu_assert_uint32_eq( 1, ret );
 }
 
 MU_TEST( controller___setupConnectivity___emptry_registers_fails ) {
 	regs = NULL;
 	REGISTERS = giveRegs;
 	int ret = setupConnectivity();
-	mu_assert_uint32_eq( ret, 1 );
+	mu_assert_uint32_eq( 1, ret );
 }
 
 MU_TEST( controller___setupConnectivity___with_core ) {
 	regs = "DFA";
 	REGISTERS = giveRegs;
 	int ret = setupConnectivity();
-	mu_assert_uint32_eq( ret, 0 );
+	mu_assert_uint32_eq( 0, ret );
 	mu_assert_string_eq( array[0], "D" );
 	mu_assert_string_eq( array[1], "D" );
 	mu_assert_string_eq( array[2], "D" );
