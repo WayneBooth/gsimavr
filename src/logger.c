@@ -9,8 +9,6 @@ static logger_p _logger_routine = std_logger;
 
 const char *level_human( const int level ) {
 	switch( level ) {
-		case LOGGER_NONE:
-		      return "non";
 		case LOGGER_OUTPUT:
 		      return "out";
 		case LOGGER_ERROR:
@@ -27,16 +25,17 @@ const char *level_human( const int level ) {
 }
 
 void logger_routine( const char * func, char * file, int line, int level, const char * format, ... ) {
+	if ( ! _logger_routine ) {
+		return;
+	}
 	va_list args;
 	va_start(args, format);
-	if ( _logger_routine ) {
-		if ( app_verbosity >= level ) {
-                	int len = snprintf(NULL, 0, "%s:%d:%s:%s: %s", level_human(level), line, file, func, format );
-                	char *st = (char *)malloc(len+1);
-                	snprintf(st, len+1, "%s:%d:%s:%s: %s", level_human(level), line, file, func, format );
-			_logger_routine( st, args );
-			free(st);
-		}
+	if ( app_verbosity >= level ) {
+                int len = snprintf(NULL, 0, "%s:%d:%s:%s: %s", level_human(level), line, file, func, format );
+                char *st = (char *)malloc(len+1);
+                snprintf(st, len+1, "%s:%d:%s:%s: %s", level_human(level), line, file, func, format );
+		_logger_routine( st, args );
+		free(st);
 	}
 	va_end(args);
 }
