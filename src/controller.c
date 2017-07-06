@@ -18,12 +18,6 @@
 
 ac_input_t ac_input;
 
-enum {
-	BUTTON_ON = 0,
-	BUTTON_AC,
-	BUTTON_OFF
-};
-
 char *reg[7] = { "A", "B", "C", "D", "E", "F", NULL };
 
 void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
@@ -42,21 +36,27 @@ void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
   renderScene();
 }
 
-void changeInput( int pin, int newState ) {
+int changeInput( int pin, int newState ) {
 
 	char port[2];
-	int element = 0;
+	int element = -1;
+	port[0] = '\0';
 	port[1] = '\0';
 
 	char *ports = REGISTERS();
 	int p = 0;
 	int l = strlen(ports);
+	if( l == 0 ) {
+		LOG( LOGGER_ERROR, "No device registers have been set.\n" );
+		return 1;
+	}
+
 	for( p = 0 ; p < l ; p++ ) {
 		memcpy( port, &ports[p], 1);
 		int e = 0;
 		for( e = 0 ; e < 8 ; e++ ) {
-			element = e;
 			if( reg_pin_to_location( port, element ) == pin ) {
+				element = e;
 				LOG( LOGGER_TRACE, "You clicked %s%d\n", port, element);
 				goto end;
 			}
@@ -64,6 +64,10 @@ void changeInput( int pin, int newState ) {
 	}
 
 end:
+	if( port[0] == '\0' || element == -1 ) {
+		LOG( LOGGER_ERROR, "Could not find the register/pin for pysical pin no: %d\n", pin );
+		return 1;
+	}
 
 	LOG( LOGGER_DEBUG, "state = %d\n", newState );
 //	avr_unconnect_irq(
@@ -104,6 +108,8 @@ end:
 		                   element)
 	        	);
 	}
+
+	return 0;
 }
 
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {

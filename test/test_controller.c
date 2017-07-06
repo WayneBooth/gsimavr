@@ -6,10 +6,18 @@ extern char *(*REGISTERS)();
 extern char *array[10];
 
 void * avr_run_thread( void * );
+int loadGsimavrCore( char * );
 
 char *regs = "BCD";
 char *giveRegs() {
 	return regs;
+}
+
+MU_TEST( controller___changeInput___ping_not_found ) {
+	int ret = loadGsimavrCore( "atmega328p" );
+	mu_assert_uint32_eq( ret, 1 );
+	ret = changeInput( 100, BUTTON_ON );
+	mu_assert_uint32_eq( ret, 1 );
 }
 
 MU_TEST( controller___setupConnectivity___no_core_fails ) {
@@ -50,6 +58,8 @@ MU_TEST( controller___avr_run_thread ) {
 
 
 MU_TEST_SUITE( test_controller ) {
+
+	MU_RUN_TEST( controller___changeInput___ping_not_found );
 
 	MU_RUN_TEST( controller___setupConnectivity___no_core_fails );
 	MU_RUN_TEST( controller___setupConnectivity___emptry_registers_fails );
