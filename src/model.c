@@ -149,7 +149,10 @@ int loadGsimavrCore( char *coreName ) {
 
 void unloadCore() {
 
-  dlclose(lib);
+  if( lib != NULL ) {
+  	dlclose(lib);
+	lib = NULL;
+  }
 
   core_reg_pin_to_location = NULL;
 
@@ -162,6 +165,9 @@ void unloadCore() {
   ddrPins =     0b0000000000000000000000000000; // 1=output 0=input
   outputState = 0b0000000000000000000000000000;
   inputState =  0b0000000000000000000000000000;
+
+  avr_terminate( avr );
+  avr = NULL;
 }
 
 void setupGdb( int waitForGdb ) {
@@ -179,6 +185,8 @@ void setupGdb( int waitForGdb ) {
 
 int setupSimulator( int waitForGdb ) {
 
+  avr = NULL;
+  lib = NULL;
   createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 
   setupGdb( waitForGdb );

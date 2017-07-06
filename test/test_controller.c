@@ -1,10 +1,12 @@
 #include "minunit.h"
 #include "../src/controller.h"
+#include "../src/model.h"
 
 extern char *(*REGISTERS)();
 
 extern char *array[10];
 
+void createAvr( char *, char * );
 void * avr_run_thread( void * );
 int loadGsimavrCore( char * );
 
@@ -34,6 +36,7 @@ MU_TEST( controller___setupConnectivity___emptry_registers_fails ) {
 }
 
 MU_TEST( controller___setupConnectivity___with_core ) {
+	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	regs = "DFA";
 	REGISTERS = giveRegs;
 	int ret = setupConnectivity();

@@ -146,12 +146,14 @@ MU_TEST( get_negative_inputs___correct ) {
 
 MU_TEST( setupSimulator___fails ) {
 	int ret = setupSimulator( 1 );
+	unloadCore();
 	mu_assert( ret == 1, "setupSimulator expected to fail with '1'" );
 }
 
 MU_TEST( createAvr___completes ) {
 	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
-	mu_assert( 1 == 1, "createAvr did not complete" );
+	int ret = loadGsimavrCore( "atmega328p" );
+	mu_assert( 0 == ret, "createAvr did not complete" );
 }
 
 MU_TEST( setupGdb___waitForGdb___completes ) {
@@ -164,12 +166,18 @@ MU_TEST( setupGdb___noGdb___completes ) {
 	mu_assert( 1 == 1, "setupGdn did not complete" );
 }
 
+MU_TEST( unloadCore___completes ) {
+	unloadCore();
+	mu_assert( 1 == 1, "unloadCore complete" );
+}
+
 MU_TEST( loadGsimavrCore___unknown___fails ) {
 	int ret = loadGsimavrCore( "UNKNOWN" );
 	mu_assert( ret == 1, "loadGsimavrCore did not fail as expected" );
 }
 
 MU_TEST( loadGsimavrCore___atmega328p___completes ) {
+	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATmega328P", CHIPNAME() );
@@ -282,6 +290,7 @@ MU_TEST( unloadCore___atmega328p___completes ) {
 }
 
 MU_TEST( loadGsimavrCore___attiny2313___completes ) {
+	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "attiny2313" );
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATtiny2313", CHIPNAME() );
@@ -379,6 +388,7 @@ MU_TEST( unloadCore___attiny2313___completes ) {
 }
 
 MU_TEST( loadGsimavrCore___attiny13___completes ) {
+	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "attiny13" );
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATtiny13", CHIPNAME() );
@@ -467,6 +477,7 @@ MU_TEST_SUITE( test_model ) {
 	MU_RUN_TEST( createAvr___completes );
 	MU_RUN_TEST( setupGdb___waitForGdb___completes );
 	MU_RUN_TEST( setupGdb___noGdb___completes );
+	MU_RUN_TEST( unloadCore___completes );
 
 	MU_RUN_TEST( loadGsimavrCore___unknown___fails );
 

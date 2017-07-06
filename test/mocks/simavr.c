@@ -14,6 +14,14 @@ avr_t * avr_make_mcu_by_name( const char *name) {
 	return (avr_t *)malloc(sizeof(avr_t));
 }
 
+void avr_terminate( avr_t * avr ) {
+	LOG( LOGGER_WARNING, "Simulating 'avr_terminate' %d\n", avr );
+	if( avr != NULL ) {
+		free( avr );
+	}
+	avr = NULL;
+}
+
 int avr_init( avr_t * avr ) {
 	LOG( LOGGER_WARNING, "Simulating 'avr_init'\n");
 	return 0;	
