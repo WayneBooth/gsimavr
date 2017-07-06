@@ -4,8 +4,8 @@
 
 #include "logger.h"
 
-static void std_logger( const char * format, va_list ap);
-static logger_p _logger_routine = std_logger;
+void std_logger( const char * format, va_list ap);
+logger_p _logger_routine = std_logger;
 
 const char *level_human( const int level ) {
 	switch( level ) {
@@ -44,7 +44,7 @@ void set_logger( logger_p logger ) {
 	_logger_routine = logger ? logger : &std_logger;
 }
 
-static void std_logger( const char * format, va_list ap ) {
+void std_logger( const char * format, va_list ap ) {
 	vprintf( format, ap);
 }
 
