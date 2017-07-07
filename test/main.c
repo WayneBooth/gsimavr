@@ -12,14 +12,14 @@ void test_ac_input();
 MU_INIT();
 
 void logtofile( const char * format, va_list ap) {
-	FILE *fp = fopen("testing.log", "a");
+	FILE *fp = fopen("output.log", "a");
 	vfprintf( fp, format, ap );
 	fclose( fp );
 }
 
 int main(int argc, char *argv[]) {
 
-        unlink( "testing.log" );
+        unlink( "output.log" );
 
 	MU_RUN_SUITE( test_logger );
 

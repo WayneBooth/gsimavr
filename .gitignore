@@ -17,5 +17,5 @@ test/mocks/*.a
 test/mocks/*.gcda
 test/mocks/*.gcno
 test/*.o
-test/testing.log
+test/ouotput.log
 test/test.log
