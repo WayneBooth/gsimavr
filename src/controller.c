@@ -55,7 +55,7 @@ int changeInput( int pin, int newState ) {
 		memcpy( port, &ports[p], 1);
 		int e = 0;
 		for( e = 0 ; e < 8 ; e++ ) {
-			if( reg_pin_to_location( port, element ) == pin ) {
+			if( reg_pin_to_location( port, e ) == pin ) {
 				element = e;
 				LOG( LOGGER_TRACE, "You clicked %s%d\n", port, element);
 				goto end;

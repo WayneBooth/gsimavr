@@ -4,7 +4,8 @@
 #include <stdarg.h>
 #include "../../src/logger.h"
 
-static int runCounter = 0;
+int runCounter = 0;
+int avr_io_getirq_counter = 0;
 
 char *array[10];
 static int c = 0;
@@ -29,6 +30,7 @@ int avr_init( avr_t * avr ) {
 
 struct avr_irq_t * avr_io_getirq( avr_t * avr, uint32_t ctl, int index) {
 	LOG( LOGGER_WARNING, "Simulating 'avr_io_getirq' with port '%c'\n", ctl);
+	avr_io_getirq_counter++;
 	return 0;
 }
 

@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 
 	MU_RUN_SUITE( test_logger );
 
-	app_verbosity = LOGGER_TRACE;
+	app_verbosity = LOGGER_DEBUG;
 	set_logger( (logger_p)logtofile );
 
 	MU_RUN_SUITE( test_view );

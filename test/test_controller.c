@@ -5,6 +5,7 @@
 extern char *(*REGISTERS)();
 
 extern char *array[10];
+extern int avr_io_getirq_counter;
 
 void createAvr( char *, char * );
 void * avr_run_thread( void * );
@@ -15,11 +16,38 @@ char *giveRegs() {
 	return regs;
 }
 
-MU_TEST( controller___changeInput___ping_not_found ) {
+MU_TEST( controller___changeInput___pin_not_found ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
 	ret = changeInput( 100, BUTTON_ON );
 	mu_assert_uint32_eq( 1, ret );
+}
+
+MU_TEST( controller___changeInput___pin_button_on ) {
+	int ret = loadGsimavrCore( "atmega328p" );
+	mu_assert_uint32_eq( 0, ret );
+	avr_io_getirq_counter = 0;
+	ret = changeInput( 2, BUTTON_ON );
+	mu_assert_uint32_eq( 0, ret );
+	mu_assert_uint32_eq( 1, avr_io_getirq_counter );
+}
+
+MU_TEST( controller___changeInput___pin_button_off ) {
+	int ret = loadGsimavrCore( "atmega328p" );
+	mu_assert_uint32_eq( 0, ret );
+	avr_io_getirq_counter = 0;
+	ret = changeInput( 2, BUTTON_OFF );
+	mu_assert_uint32_eq( 0, ret );
+	mu_assert_uint32_eq( 1, avr_io_getirq_counter );
+}
+
+MU_TEST( controller___changeInput___pin_button_ac ) {
+	int ret = loadGsimavrCore( "atmega328p" );
+	mu_assert_uint32_eq( 0, ret );
+	avr_io_getirq_counter = 0;
+	ret = changeInput( 2, BUTTON_AC );
+	mu_assert_uint32_eq( 0, ret );
+	mu_assert_uint32_eq( 1, avr_io_getirq_counter );
 }
 
 MU_TEST( controller___setupConnectivity___no_core_fails ) {
@@ -62,7 +90,10 @@ MU_TEST( controller___avr_run_thread ) {
 
 MU_TEST_SUITE( test_controller ) {
 
-	MU_RUN_TEST( controller___changeInput___ping_not_found );
+	MU_RUN_TEST( controller___changeInput___pin_not_found );
+	MU_RUN_TEST( controller___changeInput___pin_button_on );
+	MU_RUN_TEST( controller___changeInput___pin_button_off );
+	MU_RUN_TEST( controller___changeInput___pin_button_ac );
 
 	MU_RUN_TEST( controller___setupConnectivity___no_core_fails );
 	MU_RUN_TEST( controller___setupConnectivity___emptry_registers_fails );

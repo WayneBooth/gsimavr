@@ -17,10 +17,8 @@ const char *level_human( const int level ) {
 		      return "wrn";
 		case LOGGER_TRACE:
 		      return "trc";
-		case LOGGER_DEBUG:
-		      return "dbg";
 		default:
-		      return "";
+		      return "dbg";
 	}
 }
 
