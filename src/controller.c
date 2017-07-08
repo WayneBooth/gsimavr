@@ -21,6 +21,7 @@ ac_input_t ac_input;
 char *reg[7] = { "A", "B", "C", "D", "E", "F", NULL };
 
 void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
+  UNUSED(irq);
   LOG( LOGGER_DEBUG, "Entering 'watcher_state', port=%s-%d\n", (char *)closure, value);
   int x = 0;
   for ( x = 0; x < 8 ; x++ ) {
@@ -113,6 +114,7 @@ end:
 }
 
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
+  UNUSED(irq);
   LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port=%s-%d\n", (char *)closure, value);
   int x = 0;
   for ( x = 0; x < 8 ; x++ ) {
@@ -130,11 +132,10 @@ void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
 
 
 void * avr_run_thread( void * ignore ) {
-
+	UNUSED(ignore);
 	int state = cpu_Running;
 	while ( ( state != cpu_Done ) && ( state != cpu_Crashed ) ) {
 		state = avr_run ( avr );
-//		usleep( 50000 );
         }
 	pthread_detach(pthread_self());
         return NULL;

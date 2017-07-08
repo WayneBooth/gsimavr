@@ -7,6 +7,8 @@
 #define VP_Y 600
 #define	H 150
 
+#define UNUSED(x) (void)(x)
+
 void renderScene(void);
 void setupInterface( int, char **);
 void mainLoop(void);

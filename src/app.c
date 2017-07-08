@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
         	case 'd': 
 		    useGdb = 1; 
 		    break;
-        	case 'h':
+        	default:
 	            printf("Usage: %s [-dh] [glut params]\n", argv[0]);
 	            exit(EXIT_FAILURE);
 	   }

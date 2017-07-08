@@ -26,6 +26,7 @@ int hh = VP_Y;
 //############################################
 
 void drawPin( int pin, float x, float y, int colour ) {
+	UNUSED(colour);
 	if( y > t ) {
 		y -= 2;
 	}
@@ -65,6 +66,7 @@ void drawPin( int pin, float x, float y, int colour ) {
 }
 
 void drawWire( int pin, float x, float y, int colour ) {
+	UNUSED(pin);
 	if( colour ) {
         	glColor3f(1.0F,0.2F,0.2F);
 	}
@@ -119,7 +121,7 @@ void drawArrow( float x, float y, int pointUp ) {
 }
 
 void drawOutput( int pin, float x, float y, int colour ) {
-
+	UNUSED(pin);
 	if( colour ) {
         	glColor3f(1.0F,0.3F,0.3F);
 	}
@@ -128,7 +130,6 @@ void drawOutput( int pin, float x, float y, int colour ) {
 	}
 	
 	drawArrow( x, y, 0 );
-
 }
 
 
