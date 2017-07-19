@@ -10,8 +10,8 @@ enum {
         LOGGER_OUTPUT,	//	<-|
         LOGGER_ERROR,	//	<-|
         LOGGER_WARNING,	//	<-| <- set app verbosotry hear to get everything lower
-        LOGGER_TRACE,	//
         LOGGER_DEBUG,	//
+        LOGGER_TRACE,	//
 };
 
 typedef void (*logger_p)( const char * format, va_list ap );

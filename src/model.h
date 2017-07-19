@@ -18,7 +18,7 @@ char *(*CHIPNAME)();
 int PINS;
 char *(*REGISTERS)();
 
-int reg_pin_to_location ( char *, int );
+int reg_pin_to_location ( char, int );
 void set_ddr( int , int );
 void set_ioState( int , int );
 uint32_t get_positive_power();

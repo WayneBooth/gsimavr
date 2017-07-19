@@ -18,33 +18,67 @@
 
 ac_input_t ac_input;
 
-char *reg[7] = { "A", "B", "C", "D", "E", "F", NULL };
+char *ports = "";
 
-void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure) {
+void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
   UNUSED(irq);
-  LOG( LOGGER_DEBUG, "Entering 'watcher_state', port=%s-%d\n", (char *)closure, value);
+
   int x = 0;
+  char p = (char)*(char *)closure;
+  LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port%c = %d\n", p, value);
+
   for ( x = 0; x < 8 ; x++ ) {
-    set_ioState( 
-	reg_pin_to_location( 
-			(char *)closure, 
-			x 
-			), 
+    set_ddr( 
+	reg_pin_to_location( p, x ), 
 	( value & ( 1 << x ) ) >= 1 
 	);
-	LOG( LOGGER_DEBUG, "PIN%s%d = %d\n", (char *)closure, x, ( value & ( 1 << x ) ) >= 1 );
+    LOG( LOGGER_DEBUG, "PIN%c%d = ddr is %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
   }
+  renderScene();
+}
+
+void watcher_state_out(struct avr_irq_t* irq, uint32_t value, void* closure) {
+  UNUSED(irq);
+
+  int x = 0;
+  char p = (char)*(char *)closure;
+  LOG( LOGGER_DEBUG, "Out pin change: port%c = %d\n", p, value);
+
+  for ( x = 0; x < 8 ; x++ ) {
+    set_ioState( 
+	reg_pin_to_location( p, x ), 
+	( value & ( 1 << x ) ) >= 1 
+	);
+	LOG( LOGGER_TRACE, "PIN%c%d = %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
+  }
+  renderScene();
+}
+
+void watcher_state_in(struct avr_irq_t* irq, uint32_t value, void* closure ) {
+  UNUSED(irq);
+
+  char p = (char)*(char *)closure;
+  int state = 0;
+
+  if( value >= 10 ) {
+    state = 1;
+    value -= 10;
+  }
+   
+  LOG( LOGGER_DEBUG, "In pin change: port%c%d = %d\n", p, value, state);
+
+  set_ioState( 
+	reg_pin_to_location( p, value ), 
+	state 
+	);
+
   renderScene();
 }
 
 int changeInput( int pin, int newState ) {
 
-	char port[2];
 	int element = -1;
-	port[0] = '\0';
-	port[1] = '\0';
 
-	char *ports = REGISTERS();
 	int p = 0;
 	int l = strlen(ports);
 	if( l == 0 ) {
@@ -53,19 +87,18 @@ int changeInput( int pin, int newState ) {
 	}
 
 	for( p = 0 ; p < l ; p++ ) {
-		memcpy( port, &ports[p], 1);
 		int e = 0;
 		for( e = 0 ; e < 8 ; e++ ) {
-			if( reg_pin_to_location( port, e ) == pin ) {
+			if( reg_pin_to_location( ports[p], e ) == pin ) {
 				element = e;
-				LOG( LOGGER_TRACE, "You clicked %s%d\n", port, element);
+				LOG( LOGGER_DEBUG, "You clicked port%c%d\n", ports[p], element);
 				goto end;
 			}
 		}
 	}
 
 end:
-	if( port[0] == '\0' || element == -1 ) {
+	if( element == -1 ) {
 		LOG( LOGGER_ERROR, "Could not find the register/pin for pysical pin no: %d\n", pin );
 		return 1;
 	}
@@ -80,54 +113,37 @@ end:
 //		);
 
 	if( newState == BUTTON_ON ) {
-		LOG( LOGGER_TRACE, "Pin %d Port %c%d ON\n", pin, port[0], element );
+		LOG( LOGGER_TRACE, "Raising IRQ on physical pin %d = port%c%d, to ON\n", pin, ports[p], element );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
-	                        AVR_IOCTL_IOPORT_GETIRQ(port[0]), 
+	                        AVR_IOCTL_IOPORT_GETIRQ(ports[p]), 
          	                element ),
-                	1 );
+                	10 + element );
 	}
 
 	else if( newState == BUTTON_OFF ) {
-		LOG( LOGGER_TRACE, "Pin %d OFF\n", pin );
+		LOG( LOGGER_TRACE, "Raising IRQ on physical pin %d = port%c%d, to OFF\n", pin, ports[p], element );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
-	                        AVR_IOCTL_IOPORT_GETIRQ(port[0]), 
+	                        AVR_IOCTL_IOPORT_GETIRQ(ports[p]), 
          	                element ),
-                	0 );
+                	element );
 	}
 
-	else if( newState == BUTTON_AC ) {
-		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
-		avr_connect_irq(
-        		ac_input.irq + IRQ_AC_OUT,
-		        avr_io_getirq(
-        	        	   avr,
-                		   AVR_IOCTL_IOPORT_GETIRQ(port[0]),
-		                   element)
-	        	);
-	}
+//	else if( newState == BUTTON_AC ) {
+//		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
+//		avr_connect_irq(
+//        		ac_input.irq + IRQ_AC_OUT,
+//		        avr_io_getirq(
+//        	        	   avr,
+//                		   AVR_IOCTL_IOPORT_GETIRQ(port[0]),
+//		                   element)
+//	        	);
+//	}
 
 	return 0;
-}
-
-void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
-  UNUSED(irq);
-  LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port=%s-%d\n", (char *)closure, value);
-  int x = 0;
-  for ( x = 0; x < 8 ; x++ ) {
-    set_ddr( 
-	reg_pin_to_location( 
-			(char *)closure, 
-			x 
-			), 
-	( value & ( 1 << x ) ) >= 1 
-	);
-    LOG( LOGGER_DEBUG, "PIN%s%d = ddr is %d\n", (char *)closure, x, ( value & ( 1 << x ) ) >= 1 );
-  }
-  renderScene();
 }
 
 
@@ -147,7 +163,7 @@ int setupConnectivity() {
     LOG( LOGGER_ERROR, "Looks like we've not loaded a core yet\n" );
     return 1;
   }
-  char *ports = REGISTERS();
+  ports = REGISTERS();
   if( ports == NULL ) {
     LOG( LOGGER_ERROR, "No record of which registers\n" );
     return 1;
@@ -157,23 +173,50 @@ int setupConnectivity() {
   int l = strlen(ports);
   for( p = 0 ; p < l ; p++ ) {
 
-    LOG( LOGGER_TRACE, "Registering the avr registers '%s'\n", reg[ports[p]-65] );
+    LOG( LOGGER_ERROR, "Registering the avr registers '%c'\n", ports[p] );
 
     // Check for DDR changes
     avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_DIRECTION_ALL ),
-		watcher_ddr, reg[ports[p]-65] );
+		watcher_ddr, &(ports[p]) );
 
-    // Check for State changes on (input)
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_REG_PIN ),
-		watcher_state, reg[ports[p]-65] );
+
 
     // Check for State changes on (output)
     avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, reg[ports[p]-65] );
+		watcher_state, &(ports[p]) );
+
+
+
+    // Check for State changes on (input)
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN0 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN1 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN2 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN3 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN4 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN5 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN6 ),
+		watcher_state_in, &(ports[p]) );
+    avr_irq_register_notify( 
+  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN7 ),
+		watcher_state_in, &(ports[p]) );
+
   }
+
 
   // Setup Clock
   ac_input_init(avr, &ac_input);

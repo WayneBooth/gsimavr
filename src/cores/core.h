@@ -18,6 +18,6 @@ uint32_t core_inputState;
 void configureDevice();
 char *get_registers();
 char *get_chipname();
-int core_reg_pin_to_location ( char *, int );
+int core_reg_pin_to_location ( char, int );
 
 #endif

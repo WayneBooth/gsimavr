@@ -10,8 +10,8 @@
 #include "model.h"
 #include "controller.h"
 
-int buttonState[GLUT_RIGHT_BUTTON];
-float pins[28][4]; // PINS
+int mouseButState[] = {0, 0, 0};
+float pins[30][4];
 float w = 1;
 float l = 50;
 float t = 200;
@@ -232,6 +232,7 @@ void drawChip(void) {
 
 
 void updateCamera(void) {
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, ww, 0, hh, -1, 1);
@@ -266,19 +267,22 @@ void renderScene(void) {
 }
 
 void mouseFunc( int button, int state, int x, int y ) {
+
+	LOG( LOGGER_DEBUG, "Mouse Button %d, is in state %d\n", button, state);
+
 	int i;
 	for( i = 1 ; i < PINS ; i++ ) {
 		if( pins[i][0] < x && pins[i][1] < y && pins[i][2] > x && pins[i][3] > y ) {
 
 			if( state == GLUT_DOWN ) {
-				buttonState[button] = i;
+				mouseButState[button] = i;
 			}
 
 			if( state == GLUT_UP ) {
-				if( buttonState[button] == i ) {
+				if( mouseButState[button] == i ) {
 					changeInput( i, button );
 				}
-				buttonState[button] = 0;
+				mouseButState[button] = 0;
 			}
 		}
 	}

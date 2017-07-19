@@ -26,8 +26,8 @@ char *get_chipname() {
   return core_chipname;
 }
 
-int core_reg_pin_to_location ( char * reg, int pin ) {
-  if( strcmp( "A", reg ) == 0 ) {
+int core_reg_pin_to_location ( char reg, int pin ) {
+  if( 'A' == reg ) {
     switch(pin) {
       case 0:
         return 5;
@@ -47,7 +47,7 @@ int core_reg_pin_to_location ( char * reg, int pin ) {
         return 0;
     }
   }
-  if( strcmp( "B", reg ) == 0 ) {
+  if( 'B' == reg ) {
     switch(pin) {
       case 0:
         return 12;
@@ -69,7 +69,7 @@ int core_reg_pin_to_location ( char * reg, int pin ) {
         return 0;
     }
   }
-  if( strcmp( "D", reg ) == 0 ) {
+  if( 'D' == reg ) {
     switch(pin) {
       case 0:
         return 2;

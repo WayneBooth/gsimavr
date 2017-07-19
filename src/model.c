@@ -12,7 +12,7 @@
 
 void *lib;
 typedef void (*ConfigureDevice)(void);
-typedef int(*Core_reg_pin_to_location)(char *, int);
+typedef int(*Core_reg_pin_to_location)(char, int);
 
 Core_reg_pin_to_location core_reg_pin_to_location;
 
@@ -24,17 +24,24 @@ uint32_t ddrPins =     0b0000000000000000000000000000; // 1=output 0=input
 uint32_t outputState = 0b0000000000000000000000000000;
 uint32_t inputState =  0b0000000000000000000000000000;
 
-int reg_pin_to_location ( char * reg, int pin ) {
+int reg_pin_to_location ( char reg, int pin ) {
 	return core_reg_pin_to_location( reg, pin );
 }
 
+char *binToStr( uint32_t val ) {
+	return "";	
+}
+
 void set_state( uint32_t *reg, int pin, int isOn ) {
+	LOG( LOGGER_DEBUG, "Setting state on pin %d, to %d\n", pin, isOn );
+	LOG( LOGGER_TRACE, " - register before: %d\n", *reg );
 	if( isOn ) {
 		*reg |= ( 1 << (pin-1) );
 	}
 	else {
 		*reg &= ~( 1 << (pin-1) );
 	}
+	LOG( LOGGER_TRACE, " - register after: %d\n", *reg );
 }
 
 void set_ddr( int pin, int ddr ) {

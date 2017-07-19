@@ -41,11 +41,11 @@ static avr_cycle_count_t switch_auto( struct avr_t * avr, avr_cycle_count_t when
 static const char * name = ">ac_input";
 
 void ac_input_init(avr_t *avr, ac_input_t *b) {
-	b->irq = avr_alloc_irq(&avr->irq_pool, 0, IRQ_AC_COUNT, &name);
-	b->avr = avr;
-	b->value = 0;
-	avr_cycle_timer_register_usec(avr, USECS_PER_SECOND / HZ, switch_auto, b);
-	LOG( LOGGER_TRACE, "ac_input_init period %fuS or %d cycles\n",
-			USECS_PER_SECOND / HZ,
-			(int)avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ));
+//	b->irq = avr_alloc_irq(&avr->irq_pool, 0, IRQ_AC_COUNT, &name);
+//	b->avr = avr;
+//	b->value = 0;
+//	avr_cycle_timer_register_usec(avr, USECS_PER_SECOND / HZ, switch_auto, b);
+//	LOG( LOGGER_TRACE, "ac_input_init period %fuS or %d cycles\n",
+//			USECS_PER_SECOND / HZ,
+//			(int)avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ));
 }
