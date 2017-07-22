@@ -10,10 +10,11 @@
 
 void logtofile( const char * format, va_list ap) {
 	printf ( "format = '%s'\n", format );
-	FILE *fp = fopen("output.log", "a");
-	if( fp != NULL ) {
-		vfprintf( fp, format, ap );
-		fclose( fp );
+	FILE *fpo = fopen("outputlog.log", "a");
+	if( fpo != NULL ) {
+		vprintf( format, ap );
+		vfprintf( fpo, format, ap );
+		fclose( fpo );
 	}
 	else {
 		printf( "Error %s\n", strerror(errno) );
@@ -21,9 +22,9 @@ void logtofile( const char * format, va_list ap) {
 }
 
 void log_capture( const char * format, va_list ap) {
-	FILE *fp = fopen("test.log", "a");
-	vfprintf( fp, format, ap );
-	fclose( fp );
+	FILE *fpt = fopen("test.log", "a");
+	vfprintf( fpt, format, ap );
+	fclose( fpt );
 	logtofile( format, ap );
 }
 
@@ -42,18 +43,18 @@ void stop_capturing_log() {
 }
 
 char *get_log_contents() {
-	FILE *fp = fopen("test.log", "r");
-	if( fp ) {
-		fseek(fp, 0, SEEK_END);
-		int string_size = ftell(fp);
-		rewind(fp);
+	FILE *fpg = fopen("test.log", "r");
+	if( fpg ) {
+		fseek(fpg, 0, SEEK_END);
+		int string_size = ftell(fpg);
+		rewind(fpg);
 		char* buff = (char *)malloc( sizeof(char) * (string_size + 1) );
-		int read_size = fread( buff, sizeof(char), string_size, fp );
+		int read_size = fread( buff, sizeof(char), string_size, fpg );
 		buff[string_size] = '\0';
 		if( string_size != read_size ) {
 			buff[0] = '\0';
 		}
-		fclose( fp );
+		fclose( fpg );
 		return buff;
 	}
 	return NULL;
