@@ -20,7 +20,7 @@ void logtofile( const char * format, va_list ap) {
 }
 
 void log_capture( const char * format, va_list ap) {
-	va_list ap2
+	va_list ap2;
 	va_copy( ap2, ap );
 	FILE *fpt = fopen("test.log", "a");
 	vfprintf( fpt, format, ap );
