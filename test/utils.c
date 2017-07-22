@@ -2,13 +2,21 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <errno.h>
+#include <string.h>
+
 #include "utils.h"
 #include "../src/logger.h"
 
 void logtofile( const char * format, va_list ap) {
 	FILE *fp = fopen("output.log", "a");
-	vfprintf( fp, format, ap );
-	fclose( fp );
+	if( fp ) {
+		vfprintf( fp, format, ap );
+		fclose( fp );
+	}
+	else {
+		printf( "Error %s\n", strerror(errno) );
+	}
 }
 
 void log_capture( const char * format, va_list ap) {
