@@ -9,8 +9,10 @@
 #include "../src/logger.h"
 
 void logtofile( const char * format, va_list ap) {
+	printf ( "format = '%s'\n", format );
 	FILE *fp = fopen("output.log", "a");
-	if( fp ) {
+	if( fp != NULL ) {
+		printf ( "va_list = '%x'\n", ap );
 		vfprintf( fp, format, ap );
 		fclose( fp );
 	}
