@@ -9,10 +9,8 @@
 #include "../src/logger.h"
 
 void logtofile( const char * format, va_list ap) {
-	printf ( "format = '%s'\n", format );
-	FILE *fpo = fopen("outputlog.log", "a");
+	FILE *fpo = fopen("output.log", "a");
 	if( fpo != NULL ) {
-		vprintf( format, ap );
 		vfprintf( fpo, format, ap );
 		fclose( fpo );
 	}
@@ -22,10 +20,13 @@ void logtofile( const char * format, va_list ap) {
 }
 
 void log_capture( const char * format, va_list ap) {
+	va_list ap2
+	va_copy( ap2, ap );
 	FILE *fpt = fopen("test.log", "a");
 	vfprintf( fpt, format, ap );
 	fclose( fpt );
-	logtofile( format, ap );
+	logtofile( format, ap2 );
+	va_end( ap2 );
 }
 
 void start_capturing_log( logger_p logger ) {
