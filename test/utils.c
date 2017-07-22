@@ -47,6 +47,6 @@ char *get_log_contents() {
 		fclose( fp );
 		return buff;
 	}
-	return strdup("");
+	return NULL;
 }
 

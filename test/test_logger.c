@@ -11,7 +11,7 @@ MU_TEST( logger___LOG___null_logger_high___no_logs ) {
 	_logger_routine = NULL;
 	LOG( LOGGER_OUTPUT, "Hello %s", "there\n" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log );
+	mu_assert_string_eq( NULL, log );
 	free(log);
 	stop_capturing_log();
 }
@@ -20,7 +20,7 @@ MU_TEST( logger___LOG___no_logger_high___logs ) {
 	start_capturing_log( NULL );
 	LOG( LOGGER_OUTPUT, "Hello %s", "there\n" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log ); // Gets directed to STDOUT (how would I assert this?)
+	mu_assert_string_eq( NULL, log ); // Gets directed to STDOUT (how would I assert this?)
 	free(log);
 	stop_capturing_log();
 }
@@ -29,7 +29,7 @@ MU_TEST( logger___LOG___no_logger_low___no_logs ) {
 	start_capturing_log( NULL );
 	LOG( LOGGER_DEBUG, "Hello %s", "there\n" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log ); // Again, how would I assert this hasn't appeard on STDOUT?
+	mu_assert_string_eq( NULL, log ); // Again, how would I assert this hasn't appeard on STDOUT?
 	free(log);
 	stop_capturing_log();
 }
@@ -47,7 +47,7 @@ MU_TEST( logger___LOG___app_set_low___no_logs ) {
 	start_capturing_log_std();
 	LOG( LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log );
+	mu_assert_string_eq( NULL, log );
 	free(log);
 	stop_capturing_log();
 }
@@ -56,7 +56,7 @@ MU_TEST( logger___LOG___no_log_level___no_logs ) {
 	start_capturing_log_std();
 	LOG( 100, "Hello %s", "there" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log );
+	mu_assert_string_eq( NULL, log );
 	free(log);
 	stop_capturing_log();
 }
@@ -74,7 +74,7 @@ MU_TEST( logger___AVRLOG___app_set_low___no_logs ) {
 	start_capturing_log_std();
 	AVR_LOG( NULL, LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "", log );
+	mu_assert_string_eq( NULL, log );
 	free(log);
 	stop_capturing_log();
 }
