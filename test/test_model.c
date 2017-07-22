@@ -186,101 +186,101 @@ MU_TEST( loadGsimavrCore___atmega328p___completes ) {
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_A ) {
-	int pin = reg_pin_to_location( "A", 0 );
+	int pin = reg_pin_to_location( 'A', 0 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 1 );
+	pin = reg_pin_to_location( 'A', 1 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 2 );
+	pin = reg_pin_to_location( 'A', 2 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 3 );
+	pin = reg_pin_to_location( 'A', 3 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 4 );
+	pin = reg_pin_to_location( 'A', 4 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 5 );
+	pin = reg_pin_to_location( 'A', 5 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "a", 6 );
+	pin = reg_pin_to_location( 'a', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "a", 7 );
+	pin = reg_pin_to_location( 'a', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_B ) {
-	int pin = reg_pin_to_location( "B", 0 );
+	int pin = reg_pin_to_location( 'B', 0 );
 	mu_assert( pin == 14, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 1 );
+	pin = reg_pin_to_location( 'B', 1 );
 	mu_assert( pin == 15, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 2 );
+	pin = reg_pin_to_location( 'B', 2 );
 	mu_assert( pin == 16, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 3 );
+	pin = reg_pin_to_location( 'B', 3 );
 	mu_assert( pin == 17, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 4 );
+	pin = reg_pin_to_location( 'B', 4 );
 	mu_assert( pin == 18, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 5 );
+	pin = reg_pin_to_location( 'B', 5 );
 	mu_assert( pin == 19, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 6 );
+	pin = reg_pin_to_location( 'B', 6 );
 	mu_assert( pin == 9, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 7 );
+	pin = reg_pin_to_location( 'B', 7 );
 	mu_assert( pin == 10, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 8 );
+	pin = reg_pin_to_location( 'B', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_C ) {
-	int pin = reg_pin_to_location( "C", 0 );
+	int pin = reg_pin_to_location( 'C', 0 );
 	mu_assert( pin == 23, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 1 );
+	pin = reg_pin_to_location( 'C', 1 );
 	mu_assert( pin == 24, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 2 );
+	pin = reg_pin_to_location( 'C', 2 );
 	mu_assert( pin == 25, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 3 );
+	pin = reg_pin_to_location( 'C', 3 );
 	mu_assert( pin == 26, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 4 );
+	pin = reg_pin_to_location( 'C', 4 );
 	mu_assert( pin == 27, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 5 );
+	pin = reg_pin_to_location( 'C', 5 );
 	mu_assert( pin == 28, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 6 );
+	pin = reg_pin_to_location( 'C', 6 );
 	mu_assert( pin == 1, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 7 );
+	pin = reg_pin_to_location( 'C', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_D ) {
-	int pin = reg_pin_to_location( "D", 0 );
+	int pin = reg_pin_to_location( 'D', 0 );
 	mu_assert( pin == 2, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 1 );
+	pin = reg_pin_to_location( 'D', 1 );
 	mu_assert( pin == 3, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 2 );
+	pin = reg_pin_to_location( 'D', 2 );
 	mu_assert( pin == 4, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 3 );
+	pin = reg_pin_to_location( 'D', 3 );
 	mu_assert( pin == 5, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 4 );
+	pin = reg_pin_to_location( 'D', 4 );
 	mu_assert( pin == 6, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 5 );
+	pin = reg_pin_to_location( 'D', 5 );
 	mu_assert( pin == 11, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 6 );
+	pin = reg_pin_to_location( 'D', 6 );
 	mu_assert( pin == 12, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 7 );
+	pin = reg_pin_to_location( 'D', 7 );
 	mu_assert( pin == 13, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 8 );
+	pin = reg_pin_to_location( 'D', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___atmega328p___port_E ) {
-	int pin = reg_pin_to_location( "E", 0 );
+	int pin = reg_pin_to_location( 'E', 0 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 1 );
+	pin = reg_pin_to_location( 'E', 1 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 2 );
+	pin = reg_pin_to_location( 'E', 2 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 3 );
+	pin = reg_pin_to_location( 'E', 3 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 4 );
+	pin = reg_pin_to_location( 'E', 4 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 5 );
+	pin = reg_pin_to_location( 'E', 5 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 6 );
+	pin = reg_pin_to_location( 'E', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "E", 7 );
+	pin = reg_pin_to_location( 'E', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
@@ -299,86 +299,86 @@ MU_TEST( loadGsimavrCore___attiny2313___completes ) {
 }
 
 MU_TEST( reg_pin_to_location___attiny2313___port_A ) {
-	int pin = reg_pin_to_location( "A", 0 );
+	int pin = reg_pin_to_location( 'A', 0 );
 	mu_assert( pin == 5, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 1 );
+	pin = reg_pin_to_location( 'A', 1 );
 	mu_assert( pin == 4, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 2 );
+	pin = reg_pin_to_location( 'A', 2 );
 	mu_assert( pin == 1, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 3 );
+	pin = reg_pin_to_location( 'A', 3 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 4 );
+	pin = reg_pin_to_location( 'A', 4 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 5 );
+	pin = reg_pin_to_location( 'A', 5 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 6 );
+	pin = reg_pin_to_location( 'A', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 7 );
+	pin = reg_pin_to_location( 'A', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 8 );
+	pin = reg_pin_to_location( 'A', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___attiny2313___port_B ) {
-	int pin = reg_pin_to_location( "B", 0 );
+	int pin = reg_pin_to_location( 'B', 0 );
 	mu_assert( pin == 12, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 1 );
+	pin = reg_pin_to_location( 'B', 1 );
 	mu_assert( pin == 13, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 2 );
+	pin = reg_pin_to_location( 'B', 2 );
 	mu_assert( pin == 14, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 3 );
+	pin = reg_pin_to_location( 'B', 3 );
 	mu_assert( pin == 15, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 4 );
+	pin = reg_pin_to_location( 'B', 4 );
 	mu_assert( pin == 16, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 5 );
+	pin = reg_pin_to_location( 'B', 5 );
 	mu_assert( pin == 17, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 6 );
+	pin = reg_pin_to_location( 'B', 6 );
 	mu_assert( pin == 18, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 7 );
+	pin = reg_pin_to_location( 'B', 7 );
 	mu_assert( pin == 19, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 8 );
+	pin = reg_pin_to_location( 'B', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___attiny2313___port_C ) {
-	int pin = reg_pin_to_location( "C", 0 );
+	int pin = reg_pin_to_location( 'C', 0 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 1 );
+	pin = reg_pin_to_location( 'C', 1 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 2 );
+	pin = reg_pin_to_location( 'C', 2 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 3 );
+	pin = reg_pin_to_location( 'C', 3 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 4 );
+	pin = reg_pin_to_location( 'C', 4 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 5 );
+	pin = reg_pin_to_location( 'C', 5 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 6 );
+	pin = reg_pin_to_location( 'C', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 7 );
+	pin = reg_pin_to_location( 'C', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "C", 8 );
+	pin = reg_pin_to_location( 'C', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___attiny2313___port_D ) {
-	int pin = reg_pin_to_location( "D", 0 );
+	int pin = reg_pin_to_location( 'D', 0 );
 	mu_assert( pin == 2, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 1 );
+	pin = reg_pin_to_location( 'D', 1 );
 	mu_assert( pin == 3, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 2 );
+	pin = reg_pin_to_location( 'D', 2 );
 	mu_assert( pin == 6, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 3 );
+	pin = reg_pin_to_location( 'D', 3 );
 	mu_assert( pin == 7, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 4 );
+	pin = reg_pin_to_location( 'D', 4 );
 	mu_assert( pin == 8, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 5 );
+	pin = reg_pin_to_location( 'D', 5 );
 	mu_assert( pin == 9, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 6 );
+	pin = reg_pin_to_location( 'D', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 7 );
+	pin = reg_pin_to_location( 'D', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "D", 8 );
+	pin = reg_pin_to_location( 'D', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
@@ -397,44 +397,44 @@ MU_TEST( loadGsimavrCore___attiny13___completes ) {
 }
 
 MU_TEST( reg_pin_to_location___attiny13___port_A ) {
-	int pin = reg_pin_to_location( "A", 0 );
+	int pin = reg_pin_to_location( 'A', 0 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 1 );
+	pin = reg_pin_to_location( 'A', 1 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 2 );
+	pin = reg_pin_to_location( 'A', 2 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 3 );
+	pin = reg_pin_to_location( 'A', 3 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 4 );
+	pin = reg_pin_to_location( 'A', 4 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 5 );
+	pin = reg_pin_to_location( 'A', 5 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 6 );
+	pin = reg_pin_to_location( 'A', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 7 );
+	pin = reg_pin_to_location( 'A', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "A", 8 );
+	pin = reg_pin_to_location( 'A', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 
 MU_TEST( reg_pin_to_location___attiny13___port_B ) {
-	int pin = reg_pin_to_location( "B", 0 );
+	int pin = reg_pin_to_location( 'B', 0 );
 	mu_assert( pin == 5, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 1 );
+	pin = reg_pin_to_location( 'B', 1 );
 	mu_assert( pin == 6, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 2 );
+	pin = reg_pin_to_location( 'B', 2 );
 	mu_assert( pin == 7, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 3 );
+	pin = reg_pin_to_location( 'B', 3 );
 	mu_assert( pin == 2, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 4 );
+	pin = reg_pin_to_location( 'B', 4 );
 	mu_assert( pin == 3, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 5 );
+	pin = reg_pin_to_location( 'B', 5 );
 	mu_assert( pin == 1, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 6 );
+	pin = reg_pin_to_location( 'B', 6 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 7 );
+	pin = reg_pin_to_location( 'B', 7 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
-	pin = reg_pin_to_location( "B", 8 );
+	pin = reg_pin_to_location( 'B', 8 );
 	mu_assert( pin == 0, "Incorrect pin reference" );
 }
 

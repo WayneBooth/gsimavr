@@ -104,12 +104,13 @@ end:
 	}
 
 	LOG( LOGGER_DEBUG, "state = %d\n", newState );
+
 //	avr_unconnect_irq(
 //        	ac_input.irq + IRQ_AC_OUT,
 //		avr_io_getirq(
 //        	        	avr,
-//                		AVR_IOCTL_IOPORT_GETIRQ(port[0]),
-//		                element)
+//                		AVR_IOCTL_IOPORT_GETIRQ(ports[p]),
+//	                element)
 //		);
 
 	if( newState == BUTTON_ON ) {
@@ -132,16 +133,16 @@ end:
                 	element );
 	}
 
-//	else if( newState == BUTTON_AC ) {
-//		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
-//		avr_connect_irq(
-//        		ac_input.irq + IRQ_AC_OUT,
-//		        avr_io_getirq(
-//        	        	   avr,
-//                		   AVR_IOCTL_IOPORT_GETIRQ(port[0]),
-//		                   element)
-//	        	);
-//	}
+	else if( newState == BUTTON_AC ) {
+		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
+		avr_connect_irq(
+        		ac_input.irq + IRQ_AC_OUT,
+		        avr_io_getirq(
+        	        	   avr,
+                		   AVR_IOCTL_IOPORT_GETIRQ(ports[p]),
+		                   element)
+	        	);
+	}
 
 	return 0;
 }
@@ -185,7 +186,7 @@ int setupConnectivity() {
     // Check for State changes on (output)
     avr_irq_register_notify( 
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_REG_PORT ),
-		watcher_state, &(ports[p]) );
+		watcher_state_out, &(ports[p]) );
 
 
 

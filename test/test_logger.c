@@ -3,97 +3,80 @@
 #include <sim_avr.h>
 
 #include "minunit.h"
+#include "utils.h"
 #include "../src/logger.h"
 
-extern logger_p _logger_routine;
-
-void log_capture( const char * format, va_list ap) {
-	FILE *fp = fopen("test.log", "a");
-	vfprintf( fp, format, ap );
-	fclose( fp );
-}
-
-char *get_log_contents() {
-	FILE *fp = fopen("test.log", "r");
-	if( fp ) {
-		fseek(fp, 0, SEEK_END);
-		int string_size = ftell(fp);
-		rewind(fp);
-		char* buff = (char *)malloc( sizeof(char) * (string_size + 1) );
-		int read_size = fread( buff, sizeof(char), string_size, fp );
-		buff[string_size] = '\0';
-		if( string_size != read_size ) {
-			buff[0] = '\0';
-		}
-		fclose( fp );
-		return buff;
-	}
-	return strdup("");
-}
-
 MU_TEST( logger___LOG___null_logger_high___no_logs ) {
-	unlink( "test.log" );
+	start_capturing_log( NULL );
 	_logger_routine = NULL;
 	LOG( LOGGER_OUTPUT, "Hello %s", "there\n" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___LOG___no_logger_high___logs ) {
-	unlink( "test.log" );
+	start_capturing_log( NULL );
 	LOG( LOGGER_OUTPUT, "Hello %s", "there\n" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log ); // Gets directed to STDOUT (how would I assert this?)
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___LOG___no_logger_low___no_logs ) {
-	unlink( "test.log" );
+	start_capturing_log( NULL );
 	LOG( LOGGER_DEBUG, "Hello %s", "there\n" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log ); // Again, how would I assert this hasn't appeard on STDOUT?
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___LOG___app_set_high___logs ) {
-	unlink( "test.log" );
+	start_capturing_log_std();
 	LOG( LOGGER_OUTPUT, "Hello %s", "there" );
 	char *log = get_log_contents();
-	mu_assert_string_eq( "out:61:test_logger.c:logger___LOG___app_set_high___logs: Hello there", log );
+	mu_assert_string_eq( "out:39:test_logger.c:logger___LOG___app_set_high___logs: Hello there", log );
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___LOG___app_set_low___no_logs ) {
-	unlink( "test.log" );
+	start_capturing_log_std();
 	LOG( LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___LOG___no_log_level___no_logs ) {
-	unlink( "test.log" );
+	start_capturing_log_std();
 	LOG( 100, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___AVRLOG___app_set_high___logs ) {
-	unlink( "test.log" );
+	start_capturing_log_std();
 	AVR_LOG( NULL, LOGGER_ERROR, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "AVRLOG: Hello there", log );
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST( logger___AVRLOG___app_set_low___no_logs ) {
-	unlink( "test.log" );
+	start_capturing_log_std();
 	AVR_LOG( NULL, LOGGER_DEBUG, "Hello %s", "there" );
 	char *log = get_log_contents();
 	mu_assert_string_eq( "", log );
 	free(log);
+	stop_capturing_log();
 }
 
 MU_TEST_SUITE( test_logger ) {
@@ -102,12 +85,12 @@ MU_TEST_SUITE( test_logger ) {
 
 	MU_RUN_TEST_MUTE( logger___LOG___null_logger_high___no_logs );
 
-	set_logger( NULL );
+	//set_logger( NULL );
 
 	MU_RUN_TEST_MUTE( logger___LOG___no_logger_high___logs );
 	MU_RUN_TEST_MUTE( logger___LOG___no_logger_low___no_logs );
 
-	set_logger( (logger_p)log_capture );
+	//set_logger( (logger_p)log_capture );
 
 	MU_RUN_TEST( logger___LOG___no_log_level___no_logs );
 
@@ -117,6 +100,6 @@ MU_TEST_SUITE( test_logger ) {
 	MU_RUN_TEST( logger___AVRLOG___app_set_high___logs );
 	MU_RUN_TEST( logger___AVRLOG___app_set_low___no_logs );
 
-	unlink( "test.log" );
-	set_logger( NULL );
+	//unlink( "test.log" );
+	//set_logger( NULL );
 }

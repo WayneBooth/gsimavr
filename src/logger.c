@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,10 +14,10 @@ const char *level_human( const int level ) {
 		      return "err";
 		case LOGGER_WARNING:
 		      return "wrn";
-		case LOGGER_TRACE:
-		      return "trc";
-		default:
+		case LOGGER_DEBUG:
 		      return "dbg";
+		default:
+		      return "trc";
 	}
 }
 

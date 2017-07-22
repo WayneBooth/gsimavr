@@ -3,7 +3,6 @@
 #define ___LOGGER_H___
 
 #include <stdarg.h>
-#include <sim_avr.h>
 
 enum {
         LOGGER_NONE = 0,//

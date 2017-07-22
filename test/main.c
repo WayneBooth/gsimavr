@@ -1,5 +1,6 @@
 #include <unistd.h>
 
+#include "utils.h"
 #include "minunit.h"
 #include "../src/logger.h"
 
@@ -11,12 +12,6 @@ void test_ac_input();
 
 MU_INIT();
 
-void logtofile( const char * format, va_list ap) {
-	FILE *fp = fopen("output.log", "a");
-	vfprintf( fp, format, ap );
-	fclose( fp );
-}
-
 int main(int argc, char *argv[]) {
 
         unlink( "output.log" );
@@ -24,7 +19,7 @@ int main(int argc, char *argv[]) {
 	MU_RUN_SUITE( test_logger );
 
 	app_verbosity = LOGGER_DEBUG;
-	set_logger( (logger_p)logtofile );
+	stop_capturing_log();
 
 	MU_RUN_SUITE( test_view );
 	MU_RUN_SUITE( test_model );

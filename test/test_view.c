@@ -1,5 +1,8 @@
 #include "minunit.h"
 #include <GL/glut.h>
+
+#include "utils.h"
+
 #include "../src/view.h"
 #include "../src/model.h"
 
@@ -16,12 +19,7 @@ char *getChipName() {
 	return "test chip name";
 }
 
-extern char *(*REGISTERS)();
-int gotHere = 0;
-char *dummyRegs() {
-  gotHere = 1;
-  return "";
-}
+extern char *ports;
 
 MU_TEST( view___setupInterface ) {
 	w = 0;
@@ -47,39 +45,54 @@ MU_TEST( view___changeSize ) {
 }
 
 MU_TEST( view___mouseFunc___on_off ) {
-	gotHere = 0;
-	REGISTERS = dummyRegs;
+	ports = "";
 	pins[1][0] = 4;
 	pins[1][1] = 4;
 	pins[1][2] = 6;
 	pins[1][3] = 6;
+	start_capturing_log_std();
 	mouseFunc( 0, GLUT_DOWN, 5, 5);
 	mouseFunc( 0, GLUT_UP, 5, 5);
-	mu_assert_uint32_eq( 1, gotHere );
+	char *log = get_log_contents();
+	char *match = strstr( log, "changeInput" ); 
+	mu_assert_string_eq( "changeInput: No device registers have been set.\n", match );
+	free( log );
+	ports = NULL;
+	stop_capturing_log();
 }
 
 MU_TEST( view___mouseFunc___on_out_off ) {
-	gotHere = 0;
-	REGISTERS = dummyRegs;
+	ports = "";
 	pins[1][0] = 4;
 	pins[1][1] = 4;
 	pins[1][2] = 6;
 	pins[1][3] = 6;
+	start_capturing_log_std();
 	mouseFunc( 0, GLUT_DOWN, 5, 5);
 	mouseFunc( 0, GLUT_UP, 3, 3);
-	mu_assert_uint32_eq( 0, gotHere );
+	char *log = get_log_contents();
+	char *match = strstr( log, "changeInput" ); 
+	mu_assert_string_eq( NULL, match );
+	free( log );
+	ports = NULL;
+	stop_capturing_log();
 }
 
 MU_TEST( view___mouseFunc___out_on_in_off ) {
-	gotHere = 0;
-	REGISTERS = dummyRegs;
+	ports = "";
 	pins[1][0] = 4;
 	pins[1][1] = 4;
 	pins[1][2] = 6;
 	pins[1][3] = 6;
+	start_capturing_log_std();
 	mouseFunc( 1, GLUT_DOWN, 3, 3);
 	mouseFunc( 1, GLUT_UP, 5, 5);
-	mu_assert_uint32_eq( 0, gotHere );
+	char *log = get_log_contents();
+	char *match = strstr( log, "changeInput" ); 
+	mu_assert_string_eq( NULL, match );
+	free( log );
+	ports = NULL;
+	stop_capturing_log();
 }
 
 MU_TEST( view___draw_wire_on ) {

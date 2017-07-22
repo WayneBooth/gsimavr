@@ -4,12 +4,13 @@
 
 extern char *(*REGISTERS)();
 
-extern char *array[10];
+extern char *ports;
+extern char array[33];
 extern int avr_io_getirq_counter;
 extern uint32_t outputState;
 extern uint32_t ddrPins;
 
-void watcher_state(struct avr_irq_t* irq, uint32_t value, void* closure);
+void watcher_state_out(struct avr_irq_t* irq, uint32_t value, void* closure);
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure);
 void createAvr( char *, char * );
 void * avr_run_thread( void * );
@@ -20,25 +21,25 @@ char *giveRegs() {
 	return regs;
 }
 
-MU_TEST( controller___watcher_state___zero ) {
+MU_TEST( controller___watcher_state_out___zero ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
-	watcher_state( (avr_irq_t *)1, 0, "B" );
+	watcher_state_out( (avr_irq_t *)1, 0, "B" );
 	mu_assert_uint32_eq( 0, outputState );
 }
 
-MU_TEST( controller___watcher_state___one ) {
+MU_TEST( controller___watcher_state_out___one ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
-	watcher_state( (avr_irq_t *)1, 1, "B" );
+	watcher_state_out( (avr_irq_t *)1, 1, "B" );
 	// B register pin 1 is on phystical pin 14, so 2^13 = 8192
 	mu_assert_uint32_eq( 8192, outputState );
 }
 
-MU_TEST( controller___watcher_state___one_twenty_eight ) {
+MU_TEST( controller___watcher_state_out___one_twenty_eight ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
-	watcher_state( (avr_irq_t *)1, 128, "B" );
+	watcher_state_out( (avr_irq_t *)1, 128, "B" );
 	// B register pin 8 (binary 128) is on phystical pin 10, so 2^9 = 512
 	mu_assert_uint32_eq( 512, outputState );
 }
@@ -67,35 +68,43 @@ MU_TEST( controller___watcher_ddr___one_twenty_eight ) {
 MU_TEST( controller___changeInput___pin_not_found ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
+	ports = "BCD";
 	ret = changeInput( 100, BUTTON_ON );
 	mu_assert_uint32_eq( 1, ret );
+	ports = NULL;
 }
 
 MU_TEST( controller___changeInput___pin_button_on ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
 	avr_io_getirq_counter = 0;
+	ports = "BCD";
 	ret = changeInput( 2, BUTTON_ON );
 	mu_assert_uint32_eq( 0, ret );
 	mu_assert_uint32_eq( 1, avr_io_getirq_counter );
+	ports = NULL;
 }
 
 MU_TEST( controller___changeInput___pin_button_off ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
 	avr_io_getirq_counter = 0;
+	ports = "BCD";
 	ret = changeInput( 2, BUTTON_OFF );
 	mu_assert_uint32_eq( 0, ret );
 	mu_assert_uint32_eq( 1, avr_io_getirq_counter );
+	ports = NULL;
 }
 
 MU_TEST( controller___changeInput___pin_button_ac ) {
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert_uint32_eq( 0, ret );
 	avr_io_getirq_counter = 0;
+	ports = "BCD";
 	ret = changeInput( 2, BUTTON_AC );
 	mu_assert_uint32_eq( 0, ret );
 	mu_assert_uint32_eq( 1, avr_io_getirq_counter );
+	ports = NULL;
 }
 
 MU_TEST( controller___setupConnectivity___no_core_fails ) {
@@ -117,16 +126,37 @@ MU_TEST( controller___setupConnectivity___with_core ) {
 	REGISTERS = giveRegs;
 	int ret = setupConnectivity();
 	mu_assert_uint32_eq( 0, ret );
-	mu_assert_string_eq( array[0], "D" );
-	mu_assert_string_eq( array[1], "D" );
-	mu_assert_string_eq( array[2], "D" );
-	mu_assert_string_eq( array[3], "F" );
-	mu_assert_string_eq( array[4], "F" );
-	mu_assert_string_eq( array[5], "F" );
-	mu_assert_string_eq( array[6], "A" );
-	mu_assert_string_eq( array[7], "A" );
-	mu_assert_string_eq( array[8], "A" );
-	mu_assert_string_eq( array[9], NULL );
+	mu_assert_int8_eq( array[0], 'D' );
+	mu_assert_int8_eq( array[1], 'D' );
+	mu_assert_int8_eq( array[2], 'D' );
+	mu_assert_int8_eq( array[3], 'D' );
+	mu_assert_int8_eq( array[4], 'D' );
+	mu_assert_int8_eq( array[5], 'D' );
+	mu_assert_int8_eq( array[6], 'D' );
+	mu_assert_int8_eq( array[7], 'D' );
+	mu_assert_int8_eq( array[8], 'D' );
+	mu_assert_int8_eq( array[9], 'D' );
+	mu_assert_int8_eq( array[10], 'F' );
+	mu_assert_int8_eq( array[11], 'F' );
+	mu_assert_int8_eq( array[12], 'F' );
+	mu_assert_int8_eq( array[13], 'F' );
+	mu_assert_int8_eq( array[14], 'F' );
+	mu_assert_int8_eq( array[15], 'F' );
+	mu_assert_int8_eq( array[16], 'F' );
+	mu_assert_int8_eq( array[17], 'F' );
+	mu_assert_int8_eq( array[18], 'F' );
+	mu_assert_int8_eq( array[19], 'F' );
+	mu_assert_int8_eq( array[20], 'A' );
+	mu_assert_int8_eq( array[21], 'A' );
+	mu_assert_int8_eq( array[22], 'A' );
+	mu_assert_int8_eq( array[23], 'A' );
+	mu_assert_int8_eq( array[24], 'A' );
+	mu_assert_int8_eq( array[25], 'A' );
+	mu_assert_int8_eq( array[26], 'A' );
+	mu_assert_int8_eq( array[27], 'A' );
+	mu_assert_int8_eq( array[28], 'A' );
+	mu_assert_int8_eq( array[29], 'A' );
+	mu_assert_int8_eq( array[30], '\0' );
 }
 
 
@@ -138,9 +168,9 @@ MU_TEST( controller___avr_run_thread ) {
 
 MU_TEST_SUITE( test_controller ) {
 
-	MU_RUN_TEST( controller___watcher_state___zero );
-	MU_RUN_TEST( controller___watcher_state___one );
-	MU_RUN_TEST( controller___watcher_state___one_twenty_eight );
+	MU_RUN_TEST( controller___watcher_state_out___zero );
+	MU_RUN_TEST( controller___watcher_state_out___one );
+	MU_RUN_TEST( controller___watcher_state_out___one_twenty_eight );
 	MU_RUN_TEST( controller___watcher_ddr___zero );
 	MU_RUN_TEST( controller___watcher_ddr___one );
 	MU_RUN_TEST( controller___watcher_ddr___one_twenty_eight );

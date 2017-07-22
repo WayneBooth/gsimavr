@@ -7,7 +7,7 @@
 int runCounter = 0;
 int avr_io_getirq_counter = 0;
 
-char *array[10];
+char array[33];
 static int c = 0;
 
 avr_t * avr_make_mcu_by_name( const char *name) {
@@ -42,14 +42,17 @@ void avr_unconnect_irq( avr_irq_t * src, avr_irq_t * dst) {
 	LOG( LOGGER_WARNING, "Simulating 'avr_unconnect_irq'\n");
 }
 
-void record( char *pp ) {
-	if( c >= 9 ) c = 0;
+void record( char pp ) {
+	if( c >= 33 ) {
+		c = 0;
+		LOG( LOGGER_ERROR, "Results set larger than expected\n");
+	}
 	array[c++] = pp;
 }
 
 void avr_irq_register_notify( avr_irq_t * irq, avr_irq_notify_t notify, void * param) {
-	LOG( LOGGER_WARNING, "Simulating 'avr_irq_register_notify' with port '%s'\n", (char *)param);
-	record( (char *)param );
+	LOG( LOGGER_WARNING, "Simulating 'avr_irq_register_notify' with port '%c'\n", (char)*(char *)param);
+	record( (char)*(char *)param );
 }
 
 void avr_raise_irq( avr_irq_t * irq, uint32_t value) {
