@@ -94,11 +94,11 @@ uint32_t voidPtr_to_int( void * ptr ) {
   return *ptr_ptr;
 }
 
-void createAvr( char *firmwareName, char *firmwareMcu ) {
+void createAvr( char *firmwareDir, char *firmwareName, char *firmwareMcu ) {
 
-  int len = snprintf(NULL, 0, "../%s.elf", firmwareName );
+  int len = snprintf(NULL, 0, "%s/%s.elf", firmwareDir, firmwareName );
   char *st = (char *)malloc(len+1);
-  snprintf(st, len+1, "../%s.elf", firmwareName );
+  snprintf(st, len+1, "%s/%s.elf", firmwareDir, firmwareName );
   LOG( LOGGER_WARNING, "Loading firmware: %s\n", st);
   elf_firmware_t f;
   elf_read_firmware ( st, &f );
@@ -194,7 +194,7 @@ int setupSimulator( int waitForGdb ) {
 
   avr = NULL;
   lib = NULL;
-  createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+  createAvr( WRAPPEDFIRMWAREDIR, WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 
   setupGdb( waitForGdb );
 

@@ -3,6 +3,8 @@
 # target "all" for building and testing with standard build options
 # target "coverage" for building for "coverage" analysis
 #
+PROJECTNAME=dummy
+MCU=dummy
 
 all: build
 	make -C test
@@ -29,3 +31,4 @@ clean:
 	rm -rf cov
 	make -C src clean
 	make -C test clean
+	make -C example clean
