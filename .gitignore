@@ -17,5 +17,10 @@ test/mocks/*.a
 test/mocks/*.gcda
 test/mocks/*.gcno
 test/*.o
-test/ouotput.log
+test/output.log
 test/test.log
+example/simpleCounter.ee.hex
+example/simpleCounter.elf
+example/simpleCounter.elf.map
+example/simpleCounter.hex
+example/simpleCounter.o

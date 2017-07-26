@@ -22,18 +22,21 @@ Users should simply git clone this repo and copy the 'src' directory into a sub 
 
 ## How to use
 
-* Clone this repository and copy the src directory into a sub directory of your firmware (we're assuming a directory of 'gui').
-* Check your dependencies.
-* run ```make```, to build the avr firmware.
-* enter the 'gui' directory and run ```make```. This will compile and start the gui app.
-  * The app will load the firmware from the parent directory as defined in the makefile *PROJECTNAME* variable.
-  * The app will automatically configure input/output pins as defined by the firmware.
-* How to use the gui:
-  * Left click on an input to turn it on,
-  * Right click on an input to turn it off,
-  * Middle click on an input to connect it to a clock signal
-* If you started the gui app with the ```-d``` parameter, it will wait for a gdb connection to localhost:1234
-* it currently only supports the layout of an ATmega328P, ATtiny2313 and ATtiny13, but it's super easy to add more MCUs.
+* See the "example" directory for an example of using. Just run ```make gui```. The only thing different about the ```example/makefile``` file over a standard AVR makefile is the addition of a new target ```gui: $(TRG)
+        $(MAKE) -C gui FIRMWAREDIR=$(CURDIR)```
+* But, in general:
+  * Clone this repository and copy the src directory into a sub directory of your firmware (we're assuming a directory of 'gui').
+  * Check your dependencies.
+  * run ```make```, to build the avr firmware.
+  * enter the 'gui' directory and run ```make```. This will compile and start the gui app.
+    * The app will load the firmware from the parent directory as defined in the makefile *PROJECTNAME* variable.
+    * The app will automatically configure input/output pins as defined by the firmware.
+  * How to use the gui:
+    * Left click on an input to turn it on,
+    * Right click on an input to turn it off,
+    * Middle click on an input to connect it to a clock signal
+  * If you started the gui app with the ```-d``` parameter, it will wait for a gdb connection to localhost:1234
+  * it currently only supports the layout of an ATmega328P, ATtiny2313 and ATtiny13, but it's super easy to add more MCUs.
 
 ## TODO
 

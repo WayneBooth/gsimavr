@@ -20,40 +20,6 @@ ac_input_t ac_input;
 
 char *ports = "";
 
-void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
-  UNUSED(irq);
-
-  int x = 0;
-  char p = (char)*(char *)closure;
-  LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port%c = %d\n", p, value);
-
-  for ( x = 0; x < 8 ; x++ ) {
-    set_ddr( 
-	reg_pin_to_location( p, x ), 
-	( value & ( 1 << x ) ) >= 1 
-	);
-    LOG( LOGGER_DEBUG, "PIN%c%d = ddr is %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
-  }
-  renderScene();
-}
-
-void watcher_state_out(struct avr_irq_t* irq, uint32_t value, void* closure) {
-  UNUSED(irq);
-
-  int x = 0;
-  char p = (char)*(char *)closure;
-  LOG( LOGGER_DEBUG, "Out pin change: port%c = %d\n", p, value);
-
-  for ( x = 0; x < 8 ; x++ ) {
-    set_ioState( 
-	reg_pin_to_location( p, x ), 
-	( value & ( 1 << x ) ) >= 1 
-	);
-	LOG( LOGGER_TRACE, "PIN%c%d = %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
-  }
-  renderScene();
-}
-
 void watcher_state_in(struct avr_irq_t* irq, uint32_t value, void* closure ) {
   UNUSED(irq);
 
@@ -72,6 +38,46 @@ void watcher_state_in(struct avr_irq_t* irq, uint32_t value, void* closure ) {
 	state 
 	);
 
+  renderScene();
+}
+
+void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
+  UNUSED(irq);
+
+  int x = 0;
+  char p = (char)*(char *)closure;
+  LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port%c = %d\n", p, value);
+
+  for ( x = 0; x < 8 ; x++ ) {
+    set_ddr( 
+	reg_pin_to_location( p, x ), 
+	( value & ( 1 << x ) ) >= 1 
+	);
+    LOG( LOGGER_DEBUG, "PIN%c%d = ddr is %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
+    if( ( value & ( 1 << x ) ) == 0 ) {
+      avr_irq_register_notify(
+                avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( p ), x ),
+                watcher_state_in, closure );
+    }
+
+  }
+  renderScene();
+}
+
+void watcher_state_out(struct avr_irq_t* irq, uint32_t value, void* closure) {
+  UNUSED(irq);
+
+  int x = 0;
+  char p = (char)*(char *)closure;
+  LOG( LOGGER_DEBUG, "Out pin change: port%c = %d\n", p, value);
+
+  for ( x = 0; x < 8 ; x++ ) {
+    set_ioState( 
+	reg_pin_to_location( p, x ), 
+	( value & ( 1 << x ) ) >= 1 
+	);
+	LOG( LOGGER_TRACE, "PIN%c%d = %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
+  }
   renderScene();
 }
 
@@ -188,33 +194,7 @@ int setupConnectivity() {
   		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_REG_PORT ),
 		watcher_state_out, &(ports[p]) );
 
-
-
-    // Check for State changes on (input)
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN0 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN1 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN2 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN3 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN4 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN5 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN6 ),
-		watcher_state_in, &(ports[p]) );
-    avr_irq_register_notify( 
-  		avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( ports[p] ), IOPORT_IRQ_PIN7 ),
-		watcher_state_in, &(ports[p]) );
+    // Inputs are set in 'watcher_ddr' when the pin is set as an input
 
   }
 
