@@ -7,7 +7,7 @@ jdk:
 
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install -qq libelf-dev gcc-avr avr-libc freeglut3-dev lcov 
+- sudo apt-get install -qq libelf-dev gcc-avr avr-libc freeglut3-dev lcov coreutils 
 
 install:
 - gem install coveralls-lcov
