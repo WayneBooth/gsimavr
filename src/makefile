@@ -4,7 +4,7 @@ PRJSRC=$(wildcard *.c)
 LIBS=-lm -lGL -lGLU -lglut -lelf -lsimavr -lpthread -ldl
 
 #######################################
-FIRMWAREDIR?=$(shell realpath -s ${CURDIR}/.. )
+FIRMWAREDIR?=$(shell /usr/bin/realpath -s ${CURDIR}/.. )
 FIRMWARENAME:=$(shell grep -i '^PROJECTNAME=' ${FIRMWAREDIR}/makefile | sed -e 's/PROJECTNAME=//')
 FIRMWAREMCU:=$(shell grep -i '^MCU=' ${FIRMWAREDIR}/makefile | sed -e 's/MCU=//')
 
