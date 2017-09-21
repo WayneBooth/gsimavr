@@ -23,6 +23,8 @@ char *ports = "";
 void watcher_state_in(struct avr_irq_t* irq, uint32_t value, void* closure ) {
   UNUSED(irq);
 
+  LOG( LOGGER_ERROR, "IRQ = %d   VALUE = %d\n", irq->irq, value );
+
   char p = (char)*(char *)closure;
   int state = 0;
 
@@ -44,6 +46,8 @@ void watcher_state_in(struct avr_irq_t* irq, uint32_t value, void* closure ) {
 void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
   UNUSED(irq);
 
+  LOG( LOGGER_ERROR, "IRQ = %d   VALUE = %d\n", irq->irq, value );
+
   int x = 0;
   char p = (char)*(char *)closure;
   LOG( LOGGER_DEBUG, "Entering 'watcher_ddr', port%c = %d\n", p, value);
@@ -55,9 +59,9 @@ void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
 	);
     LOG( LOGGER_DEBUG, "PIN%c%d = ddr is %d\n", p, x, ( value & ( 1 << x ) ) >= 1 );
     if( ( value & ( 1 << x ) ) == 0 ) {
-      avr_irq_register_notify(
-                avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( p ), x ),
-                watcher_state_in, closure );
+//      avr_irq_register_notify(
+//                avr_io_getirq( avr, AVR_IOCTL_IOPORT_GETIRQ( p ), x ),
+//                watcher_state_in, closure );
     }
 
   }
@@ -66,6 +70,8 @@ void watcher_ddr(struct avr_irq_t* irq, uint32_t value, void* closure) {
 
 void watcher_state_out(struct avr_irq_t* irq, uint32_t value, void* closure) {
   UNUSED(irq);
+
+  LOG( LOGGER_ERROR, "IRQ = %d   VALUE = %d\n", irq->irq, value );
 
   int x = 0;
   char p = (char)*(char *)closure;
@@ -120,17 +126,7 @@ end:
 //		);
 
 	if( newState == BUTTON_ON ) {
-		LOG( LOGGER_TRACE, "Raising IRQ on physical pin %d = port%c%d, to ON\n", pin, ports[p], element );
-	        avr_raise_irq(
-        	        avr_io_getirq(
-                	        avr, 
-	                        AVR_IOCTL_IOPORT_GETIRQ(ports[p]), 
-         	                element ),
-                	10 + element );
-	}
-
-	else if( newState == BUTTON_OFF ) {
-		LOG( LOGGER_TRACE, "Raising IRQ on physical pin %d = port%c%d, to OFF\n", pin, ports[p], element );
+		LOG( LOGGER_DEBUG, "Raising IRQ on physical pin %d = port%c%d, to ON\n", pin, ports[p], element );
 	        avr_raise_irq(
         	        avr_io_getirq(
                 	        avr, 
@@ -139,16 +135,26 @@ end:
                 	element );
 	}
 
-	else if( newState == BUTTON_AC ) {
-		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
-		avr_connect_irq(
-        		ac_input.irq + IRQ_AC_OUT,
-		        avr_io_getirq(
-        	        	   avr,
-                		   AVR_IOCTL_IOPORT_GETIRQ(ports[p]),
-		                   element)
-	        	);
+	else if( newState == BUTTON_OFF ) {
+		LOG( LOGGER_DEBUG, "Raising IRQ on physical pin %d = port%c%d, to OFF\n", pin, ports[p], element );
+	        avr_raise_irq(
+        	        avr_io_getirq(
+                	        avr, 
+	                        AVR_IOCTL_IOPORT_GETIRQ(ports[p]), 
+         	                element ),
+                	element );
 	}
+
+//	else if( newState == BUTTON_AC ) {
+//		LOG( LOGGER_TRACE, "Pin %d AC\n", pin );
+//		avr_connect_irq(
+//        		ac_input.irq + IRQ_AC_OUT,
+//		        avr_io_getirq(
+//        	        	   avr,
+//                		   AVR_IOCTL_IOPORT_GETIRQ(ports[p]),
+//		                   element)
+//	        	);
+//	}
 
 	return 0;
 }

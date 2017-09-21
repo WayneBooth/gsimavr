@@ -56,7 +56,7 @@ void avr_irq_register_notify( avr_irq_t * irq, avr_irq_notify_t notify, void * p
 }
 
 void avr_raise_irq( avr_irq_t * irq, uint32_t value) {
-	LOG( LOGGER_WARNING, "Simulating 'avr_raise_irq'\n");
+	LOG( LOGGER_WARNING, "Simulating 'avr_raise_irq' with val of '%d'\n", value);
 }
 
 int avr_run( avr_t * avr) {

@@ -1,6 +1,7 @@
 #define F_CPU 8000000
 
 #include <avr/io.h>
+#include <stdio.h>
 #include <util/delay.h>
 
 #ifdef __AVR_ATmega328P__
@@ -38,16 +39,20 @@ void main() {
 
   // Toggle Inputs
   DDR_IN &= ~( 1 << PIN_IN_NO ); // Counter Run Toggle
-//  PORT_IN |= ( 1 << PIN_IN_NO );
+  //PORT_IN |= ( 1 << PIN_IN_NO );
+
+  uint8_t count = 0;
 
   while(1) {
 
     if( PIN_IN & ( 1 << PIN_IN_NO ) ) {
-	PORT_OUT += 1;
-	if( PORT_OUT > MAX_COUNT ) {
-		PORT_OUT = 0;
+	count++;
+	if( count > MAX_COUNT ) {
+		count = 0;
 	}
-	_delay_ms(1000);
+	PORT_OUT &= ~( MAX_COUNT );
+	PORT_OUT += count;
+	_delay_ms(2000);
     }
 
   }

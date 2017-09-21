@@ -4,7 +4,7 @@
 void set_state( uint32_t *, int , int );
 void set_ioState( int, int );
 int voidPtr_to_int( void * );
-void createAvr( char *, char *);
+void createAvr( char *, char *, char *);
 void setupGdb( int );
 int loadGsimavrCore( char * );
 void unloadCore( void );
@@ -151,7 +151,7 @@ MU_TEST( setupSimulator___fails ) {
 }
 
 MU_TEST( createAvr___completes ) {
-	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+	createAvr( WRAPPEDFIRMWAREDIR, WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert( 0 == ret, "createAvr did not complete" );
 }
@@ -177,7 +177,7 @@ MU_TEST( loadGsimavrCore___unknown___fails ) {
 }
 
 MU_TEST( loadGsimavrCore___atmega328p___completes ) {
-	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+	createAvr( WRAPPEDFIRMWAREDIR, WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "atmega328p" );
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATmega328P", CHIPNAME() );
@@ -290,7 +290,7 @@ MU_TEST( unloadCore___atmega328p___completes ) {
 }
 
 MU_TEST( loadGsimavrCore___attiny2313___completes ) {
-	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+	createAvr( WRAPPEDFIRMWAREDIR, WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "attiny2313" );
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATtiny2313", CHIPNAME() );
@@ -388,7 +388,7 @@ MU_TEST( unloadCore___attiny2313___completes ) {
 }
 
 MU_TEST( loadGsimavrCore___attiny13___completes ) {
-	createAvr( WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
+	createAvr( WRAPPEDFIRMWAREDIR, WRAPPEDFIRMWARENAME, WRAPPEDFIRMWAREMCU );
 	int ret = loadGsimavrCore( "attiny13" );
 	mu_assert( ret == 0, "loadGsimavrCore did not complete" );
 	mu_assert_string_eq( "ATtiny13", CHIPNAME() );

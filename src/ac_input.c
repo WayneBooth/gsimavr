@@ -33,8 +33,11 @@
 static avr_cycle_count_t switch_auto( struct avr_t * avr, avr_cycle_count_t when, void * param) {
 	ac_input_t * b = (ac_input_t *) param;
 	b->value = !b->value;
+	int out = b->value;
+	if( out == 1 ) 
+		out += 10;
 	LOG( LOGGER_DEBUG, "New CLK value : %d\n", b->value );
-	avr_raise_irq(b->irq + IRQ_AC_OUT, b->value);
+	avr_raise_irq(b->irq + IRQ_AC_OUT, out);
 	return when + avr_usec_to_cycles(avr, USECS_PER_SECOND / HZ);
 }
 
